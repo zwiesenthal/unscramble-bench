@@ -31,15 +31,6 @@ CONFIGS = {
 }
 
 
-def load_env_file(path=".env"):
-    env = Path(path)
-    if env.exists():
-        for line in env.read_text(encoding="utf-8").splitlines():
-            if line and not line.lstrip().startswith("#") and "=" in line:
-                key, value = line.split("=", 1)
-                os.environ.setdefault(key.strip(), value.strip().strip("'\""))
-
-
 def load_questions(path):
     questions = json.loads(Path(path).read_text(encoding="utf-8"))
     return [
@@ -194,6 +185,14 @@ def resolve_configs(value):
             return None, name
         configs.append(name)
     return list(dict.fromkeys(configs)), None
+
+def load_env_file(path=".env"):
+    env = Path(path)
+    if env.exists():
+        for line in env.read_text(encoding="utf-8").splitlines():
+            if line and not line.lstrip().startswith("#") and "=" in line:
+                key, value = line.split("=", 1)
+                os.environ.setdefault(key.strip(), value.strip().strip("'\""))
 
 
 def main(argv=None):
