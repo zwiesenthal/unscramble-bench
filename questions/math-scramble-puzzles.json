@@ -1,0 +1,77 @@
+{
+  "category": "math-scramble-puzzles",
+  "system_prompt": "Solve two-step math unscrambling puzzles. First unscramble the letters into the intended English phrase. Spaces in the scrambled text are not meaningful and may be moved as needed. Then solve the math question. For counting questions, count alphabetic letters only and do not count spaces. Use every letter exactly once for the unscrambled phrase. Return only JSON like {\"answer\": \"result\"}.",
+  "prompt_template": "Unscramble the following letters into the intended English phrase, then solve the puzzle.\n\nScrambled letters: '{scrambled}'\n\nPuzzle: {task}\n\nReturn exactly JSON with one key, where the value is the answer as a string.",
+  "questions": [
+    {
+      "id": "arithmetic-3",
+      "scrambled": "ene anurqsid",
+      "task": "Evaluate the arithmetic expression in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "81",
+      "phrase": "nine squared"
+    },
+    {
+      "id": "arithmetic-4",
+      "scrambled": "insise txvem se",
+      "task": "Evaluate the arithmetic expression in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "42",
+      "phrase": "six times seven"
+    },
+    {
+      "id": "arithmetic-5",
+      "scrambled": "gzs uthoe irlpe",
+      "task": "Evaluate the arithmetic expression in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "8",
+      "phrase": "eight plus zero"
+    },
+    {
+      "id": "arithmetic-6",
+      "scrambled": "speetlhvus tiertey wnt nen",
+      "task": "Evaluate the arithmetic expression in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "40",
+      "phrase": "twenty seven plus thirteen"
+    },
+    {
+      "id": "arithmetic-7",
+      "scrambled": "eoaee ian tpemt loertctiuohwt neysu olfmg nnf dlm",
+      "task": "Evaluate the mathematical operation in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "72",
+      "phrase": "least common multiple of eighteen and twenty four"
+    },
+    {
+      "id": "geometry-1",
+      "scrambled": "l tnteihirgrag",
+      "task": "What is the longest side of the unscrambled shape called? The answer should be 10 alphabetic characters.",
+      "answer": "hypotenuse",
+      "phrase": "right triangle"
+    },
+    {
+      "id": "geometry-2",
+      "scrambled": "nahexalgr guero",
+      "task": "How many sides does the shape in the unscrambled phrase have? Write the answer using digits, not words.",
+      "answer": "6",
+      "phrase": "regular hexagon"
+    },
+    {
+      "id": "geometry-3",
+      "scrambled": "irlealtlet rangqiaue",
+      "task": "How many equal sides does the shape in the unscrambled phrase have? Write the answer using digits, not words.",
+      "answer": "3",
+      "phrase": "equilateral triangle"
+    },
+    {
+      "id": "geometry-4",
+      "scrambled": "gcnoaad eeldogrru",
+      "task": "How many sides does the shape in the unscrambled phrase have? Write the answer using digits, not words.",
+      "answer": "12",
+      "phrase": "regular dodecagon"
+    },
+    {
+      "id": "geometry-5",
+      "scrambled": "oaencaeho tntcdrisdur",
+      "task": "How many faces does the solid in the unscrambled phrase have? Write the answer using digits, not words.",
+      "answer": "32",
+      "phrase": "truncated icosahedron"
+    }
+  ]
+}
