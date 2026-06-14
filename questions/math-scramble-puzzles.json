@@ -1,7 +1,6 @@
 {
   "category": "math-scramble-puzzles",
-  "system_prompt": "Solve two-step math unscrambling puzzles. First unscramble the letters into the intended English phrase. Spaces in the scrambled text are not meaningful and may be moved as needed. Then solve the math question. For counting questions, count alphabetic letters only and do not count spaces. Use every letter exactly once for the unscrambled phrase. Return only JSON like {\"answer\": \"result\"}.",
-  "prompt_template": "Unscramble the following letters into the intended English phrase, then solve the puzzle.\n\nScrambled letters: '{scrambled}'\n\nPuzzle: {task}\n\nReturn exactly JSON with one key, where the value is the answer as a string.",
+  "prompt_template": "Unscramble the following letters into the intended English phrase, then solve the puzzle. Use every letter exactly once; spaces in the scrambled text are not meaningful.\n\nScrambled letters: '{scrambled}'\n\nPuzzle: {task}\n\nReturn exactly JSON with one key, where the value is the answer as a string.",
   "questions": [
     {
       "id": "arithmetic-3",
@@ -37,6 +36,76 @@
       "task": "Evaluate the mathematical operation in the unscrambled phrase. Write the answer using digits, not words.",
       "answer": "72",
       "phrase": "least common multiple of eighteen and twenty four"
+    },
+    {
+      "id": "arithmetic-8",
+      "scrambled": "gttoymhposo nlneiflee wtotemcof nlduaatemir",
+      "task": "Evaluate the mathematical operation in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "126",
+      "phrase": "least common multiple of eighteen and forty two"
+    },
+    {
+      "id": "arithmetic-9",
+      "scrambled": "tnsaomge idvosxrodyn temyefgas itchotiri",
+      "task": "Evaluate the mathematical operation in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "20",
+      "phrase": "greatest common divisor of eighty and sixty"
+    },
+    {
+      "id": "arithmetic-10",
+      "scrambled": "leufielmt hntpalancge selfidtovn ttoeodm aimefennewe",
+      "task": "Evaluate the mathematical operation in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "180",
+      "phrase": "least common multiple of twelve and fifteen and eighteen"
+    },
+    {
+      "id": "arithmetic-11",
+      "scrambled": "deegeeincny fvtynosariefrv itdtymoftna oisaotndnsm",
+      "task": "Evaluate the mathematical operation in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "10",
+      "phrase": "greatest common divisor of seventy and fifty and ninety"
+    },
+    {
+      "id": "arithmetic-12",
+      "scrambled": "httneu gitfeye liotreo",
+      "task": "Evaluate the mathematical operation in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "32",
+      "phrase": "euler totient of eighty"
+    },
+    {
+      "id": "arithmetic-13",
+      "scrambled": "ugrgogmai naarndebn cesdlaaroo eifonudl",
+      "task": "Evaluate the mathematical operation in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "54",
+      "phrase": "number of diagonals in a regular dodecagon"
+    },
+    {
+      "id": "arithmetic-14",
+      "scrambled": "timfvaerbuie hlsheesewegcp eovtmeneard iregonlcptn",
+      "task": "Evaluate the mathematical operation in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "55",
+      "phrase": "number of edges in a complete graph with eleven vertices"
+    },
+    {
+      "id": "arithmetic-15",
+      "scrambled": "tnsfeiontr edearsemqesin foodeuratu fnnfeahuft",
+      "task": "Evaluate the mathematical operation in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "590",
+      "phrase": "sum of squares of thirteen and fourteen and fifteen"
+    },
+    {
+      "id": "arithmetic-16",
+      "scrambled": "thvptuuea sedpisscnfv morfnrydeet dsccnirrd onifotoete",
+      "task": "Evaluate the mathematical operation in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "770",
+      "phrase": "product of distinct prime factors of seven hundred seventy"
+    },
+    {
+      "id": "arithmetic-17",
+      "scrambled": "nneosvsisu vidiuodr enimheorpie orbftndf",
+      "task": "Evaluate the mathematical operation in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "27",
+      "phrase": "number of positive divisors of nine hundred"
     },
     {
       "id": "geometry-1",

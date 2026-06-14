@@ -4,6 +4,20 @@ All words are scrabble legal.
 
 If an input has multiple words the ordering of the words doesn't matter (ex. lurking lemons == lemons lurking).
 
+## Usage
+
+Run the math benchmark on Opus 4.8 with the high config:
+
+```sh
+python3 main.py --models anthropic/claude-opus-4.8 --configs high
+```
+
+Run the word/phrase unscramble benchmark on GPT-5.5 with the high config:
+
+```sh
+python3 word_unscramble.py --models openai/gpt-5.5 --configs high
+```
+
 ## Benchmark Results
 
 Results using the `high` config.

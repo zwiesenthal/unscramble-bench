@@ -15,9 +15,7 @@ from models import resolve_models
 
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
-DEFAULT_QUESTIONS = "questions/unique-unscrambles.json"
-QUESTION_HELPER_TEXT = "Unscramble the following word or phrase:"
-SYSTEM_PROMPT = "Solve the unscrambling puzzle. Return only JSON like {\"answer\": \"...\"}."
+DEFAULT_QUESTIONS = "questions/math-scramble-puzzles.json"
 
 CONFIGS = {
     "low": {
@@ -32,16 +30,35 @@ CONFIGS = {
 
 
 def load_questions(path):
-    questions = json.loads(Path(path).read_text(encoding="utf-8"))
-    return [
-        {
-            "id": i,
-            "scrambled": scrambled,
-            "prompt": f"{QUESTION_HELPER_TEXT} '{scrambled}'",
-            "answer": answer,
-        }
-        for i, (scrambled, answer) in enumerate(questions.items())
-    ]
+    data = json.loads(Path(path).read_text(encoding="utf-8"))
+    if not isinstance(data, dict) or not isinstance(data.get("questions"), list):
+        raise ValueError(
+            "structured question files must contain a top-level questions list; "
+            "use word_unscramble.py for word-map files"
+        )
+
+    prompt_template = data.get("prompt_template")
+
+    questions = []
+    for i, item in enumerate(data["questions"]):
+        prompt = item.get("prompt")
+        if not prompt:
+            if not prompt_template:
+                raise ValueError("questions need either a prompt or top-level prompt_template")
+            prompt = prompt_template.format(
+                scrambled=item["scrambled"],
+                task=item.get("task", ""),
+            )
+
+        questions.append({
+            "id": item.get("id", i),
+            "scrambled": item["scrambled"],
+            "prompt": prompt,
+            "answer": item["answer"],
+        })
+
+    return questions
+
 
 def is_correct(parsed, expected):
     if not parsed:
@@ -102,7 +119,6 @@ def run_attempt(api_key, model, config, run, question, timeout):
             "reasoning": options["reasoning"],
             "response_format": {"type": "json_object"},
             "messages": [
-                {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": question["prompt"]},
             ],
         }
@@ -113,8 +129,18 @@ def run_attempt(api_key, model, config, run, question, timeout):
 
 
 def score_attempt(model, config, run, question, response, latency, error):
-    raw = response["choices"][0]["message"].get("content", "") if response else None
-    parsed = str(json.loads(raw)["answer"]) if raw else None
+    raw = None
+    parsed = None
+
+    if response:
+        if "error" in response:
+            error = response["error"].get("message", response["error"])
+        else:
+            raw = response["choices"][0]["message"]["content"]
+            try:
+                parsed = str(json.loads(raw)["answer"])
+            except (KeyError, TypeError, json.JSONDecodeError) as exc:
+                error = f"parse error: {exc}"
 
     correct = is_correct(parsed, question["answer"])
 
@@ -156,13 +182,18 @@ def aggregate(rows):
     ]
 
 
-def parse_args(argv):
-    parser = argparse.ArgumentParser(description="Run the unscrambling benchmark.")
-    parser.add_argument("--questions", default=DEFAULT_QUESTIONS)
+def parse_args(
+    argv,
+    description,
+    default_questions,
+    default_out_prefix,
+):
+    parser = argparse.ArgumentParser(description=description)
+    parser.add_argument("--questions", default=default_questions)
     parser.add_argument("--runs", type=int, default=1)
     parser.add_argument(
         "--out",
-        default=f"runs/unscramble-results-{datetime.now(timezone.utc):%Y%m%d-%H%M%S}.json",
+        default=f"runs/{default_out_prefix}-{datetime.now(timezone.utc):%Y%m%d-%H%M%S}.json",
     )
     parser.add_argument("--models", default="all")
     parser.add_argument("--configs", default="all")
@@ -174,7 +205,7 @@ def parse_args(argv):
 
 def resolve_configs(value):
     if value == "all":
-        return list(CONFIGS)
+        return list(CONFIGS), None
 
     configs = []
     for name in value.split(","):
@@ -195,8 +226,7 @@ def load_env_file(path=".env"):
                 os.environ.setdefault(key.strip(), value.strip().strip("'\""))
 
 
-def main(argv=None):
-    args = parse_args(argv or sys.argv[1:])
+def run_benchmark(args, questions):
     if (
         args.runs < 1
         or (args.limit is not None and args.limit < 1)
@@ -217,7 +247,7 @@ def main(argv=None):
         print("Error: OPENROUTER_API_KEY is required in the environment", file=sys.stderr)
         return 1
 
-    questions = load_questions(args.questions)[: args.limit]
+    questions = questions[: args.limit]
     models = resolve_models(args.models)
 
     if not questions or not models or not configs:
@@ -231,7 +261,15 @@ def main(argv=None):
     max_workers = min(args.workers, total_tasks)
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         future_to_index = {
-            executor.submit(run_attempt, api_key, model, config, run, question, args.timeout): index
+            executor.submit(
+                run_attempt,
+                api_key,
+                model,
+                config,
+                run,
+                question,
+                args.timeout,
+            ): index
             for index, (model, config, run, question) in enumerate(tasks)
         }
         completed = 0
@@ -269,6 +307,17 @@ def main(argv=None):
             f"failed API calls={score['failed_api_calls']}"
         )
     return 0
+
+
+def main(argv=None):
+    args = parse_args(
+        argv or sys.argv[1:],
+        description="Run the math scramble benchmark.",
+        default_questions=DEFAULT_QUESTIONS,
+        default_out_prefix="scramble-results",
+    )
+    questions = load_questions(args.questions)
+    return run_benchmark(args, questions)
 
 
 if __name__ == "__main__":
