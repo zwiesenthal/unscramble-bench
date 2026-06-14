@@ -1,6 +1,6 @@
 {
   "category": "math-scramble-puzzles",
-  "prompt_template": "Unscramble the following letters into the intended English phrase, then solve the puzzle. Use every letter exactly once; spaces in the scrambled text are not meaningful.\n\nScrambled letters: '{scrambled}'\n\nPuzzle: {task}\n\nReturn exactly JSON with one key, where the value is the answer as a string.",
+  "prompt_template": "Unscramble the following letters into the intended English phrase, then solve the puzzle. Use every letter exactly once; spaces in the scrambled text are not meaningful. The phrase is a single grammatical English statement: reconstruct that natural word order and evaluate the expression as written, reading left to right; any run of words that names one number (such as a tens word followed by a ones word) refers to that single number.\n\nScrambled letters: '{scrambled}'\n\nPuzzle: {task}\n\nReturn exactly JSON with one key, where the value is the answer as a string.",
   "questions": [
     {
       "id": "arithmetic-3",
@@ -32,17 +32,17 @@
     },
     {
       "id": "arithmetic-7",
-      "scrambled": "eoaee ian tpemt loertctiuohwt neysu olfmg nnf dlm",
+      "scrambled": "cotmwynue dl tnnienilsm txlaatpeemotseof",
       "task": "Evaluate the mathematical operation in the unscrambled phrase. Write the answer using digits, not words.",
-      "answer": "72",
-      "phrase": "least common multiple of eighteen and twenty four"
+      "answer": "80",
+      "phrase": "least common multiple of sixteen and twenty"
     },
     {
       "id": "arithmetic-8",
-      "scrambled": "gttoymhposo nlneiflee wtotemcof nlduaatemir",
+      "scrambled": "ftncnnmft ua itilodmfyl aropeemoletseof",
       "task": "Evaluate the mathematical operation in the unscrambled phrase. Write the answer using digits, not words.",
-      "answer": "126",
-      "phrase": "least common multiple of eighteen and forty two"
+      "answer": "120",
+      "phrase": "least common multiple of fifteen and forty"
     },
     {
       "id": "arithmetic-9",
