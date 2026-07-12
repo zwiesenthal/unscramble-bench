@@ -14,13 +14,17 @@ QUESTION_PROMPT = (
 
 
 def load_questions(path):
-    questions = json.loads(Path(path).read_text(encoding="utf-8"))
+    data = json.loads(Path(path).read_text(encoding="utf-8"))
+    questions = data.get("questions", data) if isinstance(data, dict) else data
+    if not isinstance(questions, dict):
+        raise ValueError("word question files must be a JSON object mapping scrambled text to answer")
+
     return [
         {
             "id": i,
             "scrambled": scrambled,
             "prompt": QUESTION_PROMPT.format(scrambled=scrambled),
-            "answer": answer,
+            "answer": str(answer),
         }
         for i, (scrambled, answer) in enumerate(questions.items())
     ]
@@ -28,7 +32,7 @@ def load_questions(path):
 
 def main(argv=None):
     args = benchmark.parse_args(
-        argv or sys.argv[1:],
+        sys.argv[1:] if argv is None else argv,
         description="Run the word unscramble benchmark.",
         default_questions=DEFAULT_QUESTIONS,
         default_out_prefix="word-unscramble-results",
@@ -38,4 +42,4 @@ def main(argv=None):
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
