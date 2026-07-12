@@ -1,0 +1,310 @@
+{
+  "category": "ops-reconciliation",
+  "description": "Self-contained, multi-step back-office tasks (expense audits, AR reconciliation, payroll, inventory/FIFO, commissions, proration, bank reconciliation, loan amortization, shipping optimization, cohort analytics, SLA penalties, payroll tax) that each funnel to a single deterministic, exactly-checkable number. Ordered easiest to hardest. Every answer is produced by the reference solver in scripts/generate_ops_reconciliation.py; data tables are rendered from the same data the solver consumes, and all rounding/inclusivity/ordering/tie-breaks are pinned in the prompt so exactly one answer is correct. Runs on the existing harness via `python3 main.py --questions questions/ops-reconciliation.json`.",
+  "prompt_template": "{task}\n\nReturn exactly JSON with one key \"answer\", whose value is the answer as a string formatted exactly as specified above.",
+  "questions": [
+    {
+      "id": "expense-audit-1",
+      "title": "Expense report reimbursement audit",
+      "scrambled": "",
+      "task": "You are an operations analyst processing an employee's expense report for reimbursement. Apply the policy to the ledger and compute the requested figure.\n\nPOLICY\n- Reporting currency is USD. Convert each amount to USD by multiplying by the rate (USD 1.0, EUR 1.10, GBP 1.25, JPY 0.0068) and round-half-up to 2 decimals.\n- R1 window: only transactions dated 2026-03-01 through 2026-03-07 inclusive are eligible; exclude anything outside that range entirely.\n- R2 alcohol: 'alcohol' category is never reimbursable.\n- R3 meal cap: 'meal' transactions are reimbursable only up to a combined 75.00 USD per calendar day; any amount above 75.00 on a given day is not reimbursable.\n- R4 receipt: any single transaction whose converted USD amount exceeds 25.00 requires receipt=yes; if its receipt is no, exclude it.\n- R5 duplicates: transactions sharing the same merchant, original amount, original currency, and date are a double-entry; count such a group only once.\n\nLEDGER\nid  | date       | merchant        | category     | amount | currency | receipt\n----+------------+-----------------+--------------+--------+----------+--------\nT1  | 2026-03-02 | Lufthansa       | flight       | 320.00 | EUR      | yes\nT2  | 2026-03-02 | Hotel Berlin    | lodging      | 180.00 | EUR      | yes\nT3  | 2026-03-02 | Bar Mitte       | alcohol      | 40.00  | EUR      | yes\nT4  | 2026-03-02 | Cafe Berlin     | meal         | 30.00  | EUR      | yes\nT5  | 2026-03-02 | Restaurant Zur  | meal         | 60.00  | EUR      | yes\nT6  | 2026-03-03 | City Taxi       | ground       | 22.00  | EUR      | no\nT7  | 2026-03-03 | Conference Fee  | registration | 500.00 | USD      | no\nT8  | 2026-02-27 | Pre-trip Dinner | meal         | 50.00  | USD      | yes\nT9  | 2026-03-05 | Eurostar        | train        | 90.00  | GBP      | yes\nT10 | 2026-03-05 | Eurostar        | train        | 90.00  | GBP      | yes\nT11 | 2026-03-06 | Tokyo Hotel     | lodging      | 20000  | JPY      | yes\nT12 | 2026-03-06 | Izakaya         | meal         | 5000   | JPY      | yes\nT13 | 2026-03-06 | Sake Bar        | alcohol      | 3000   | JPY      | yes\n\nQUESTION\nWhat is the total reimbursable amount in USD? Answer as a plain number with exactly two decimal places, no currency symbol and no thousands separators (for example: 1234.50).",
+      "answer": "931.70",
+      "rules_exercised": [
+        "fx-normalization",
+        "eligibility-window",
+        "category-exclusion",
+        "per-day-meal-cap",
+        "receipt-threshold",
+        "exact-duplicate-dedup"
+      ],
+      "worked_solution": "Kept: T1 352.00, T2 198.00, T6 24.20, T9 112.50 (T10 dup dropped), T11 136.00; meals 03-02 99.00->75.00, 03-06 34.00; excluded T3/T13 alcohol, T7 >25 no receipt, T8 out of window. Total 931.70."
+    },
+    {
+      "id": "invoice-recon-1",
+      "title": "Accounts-receivable early-payment reconciliation",
+      "scrambled": "",
+      "task": "You are in accounts receivable. Apply the customer payments to the open invoices and report how much money customers still owe.\n\nRULES\n- Terms 'X/Y net Z' mean: the customer earns an X% early-payment discount if they pay within Y days of the invoice date. Terms 'net 30' offer no discount.\n- 'Within Y days' means payment_date minus invoice_date is at most Y calendar days.\n- A discount is EARNED only if the payment is within the discount window AND the paid amount is at least the discounted required amount (required = round-half-up(invoice_amount * (1 - X%), 2)). A partial payment inside the window does NOT earn the discount.\n- If the discount is earned, the required amount is the discounted amount; otherwise the required amount is the full invoice amount.\n- Amount still owed on an invoice = max(0, required amount - amount paid). Overpayments are not refunded and do not offset other invoices.\n- There is at most one payment per invoice. A payment that references an invoice id not in the invoice list is misapplied and must be ignored entirely.\n\nINVOICES\ninvoice | date       | amount  | terms\n--------+------------+---------+------------\nINV1    | 2026-05-01 | 1000.00 | 2/10 net 30\nINV2    | 2026-05-03 | 2500.00 | 1/15 net 45\nINV3    | 2026-05-05 | 800.00  | net 30\nINV4    | 2026-05-10 | 1500.00 | 2/10 net 30\nINV5    | 2026-05-12 | 3200.00 | 1/15 net 45\nINV6    | 2026-05-15 | 600.00  | 2/10 net 30\nINV7    | 2026-05-16 | 400.00  | net 30\n\nPAYMENTS\ndate       | invoice | amount\n-----------+---------+--------\n2026-05-08 | INV1    | 980.00\n2026-05-25 | INV2    | 2475.00\n2026-05-20 | INV3    | 800.00\n2026-05-16 | INV4    | 1470.00\n2026-05-14 | INV5    | 3000.00\n2026-05-20 | INV7    | 450.00\n2026-05-22 | INV9    | 500.00\n\nQUESTION\nWhat is the total amount still owed across all invoices? Answer as a plain number with exactly two decimal places, no currency symbol and no thousands separators (for example: 1234.50).",
+      "answer": "825.00",
+      "rules_exercised": [
+        "early-pay-discount-window",
+        "partial-payment-forfeits-discount",
+        "max-zero-overpayment",
+        "ignore-unknown-reference"
+      ],
+      "worked_solution": "INV1 earned->0; INV2 late, owe 25.00; INV3 paid full 0; INV4 earned 0; INV5 partial<discounted so full required, owe 200.00; INV6 unpaid owe 600.00; INV7 overpaid 0; ignored INV9. Total 825.00."
+    },
+    {
+      "id": "payroll-ot-1",
+      "title": "Daily-overtime payroll calculation",
+      "scrambled": "",
+      "task": "You are running payroll. Compute the total gross pay for the pay period using the daily overtime rules below.\n\nRULES (apply per shift, in this order)\n1. Meal break: if a shift is longer than 6.0 hours, subtract 0.5 unpaid hours from that shift's hours before doing anything else.\n2. Daily tiers on the resulting paid hours: the first 8.0 hours pay at 1.0x the employee's rate; hours above 8.0 up to 12.0 pay at 1.5x; hours above 12.0 pay at 2.0x.\n3. A shift's pay = (regular hours * 1.0 + tier-1.5 hours * 1.5 + tier-2.0 hours * 2.0) * hourly rate, round-half-up to 2 decimals.\n4. Gross pay is the sum of all shift pays.\n\nHOURLY RATES\nAlice 30.00, Bob 22.00, Carol 40.00\n\nSHIFTS\nemployee | date       | hours\n---------+------------+------\nAlice    | 2026-06-01 | 10.0\nAlice    | 2026-06-02 | 5.0\nBob      | 2026-06-01 | 13.0\nBob      | 2026-06-03 | 8.5\nCarol    | 2026-06-01 | 7.0\nCarol    | 2026-06-02 | 14.0\n\nQUESTION\nWhat is the total gross pay for the period? Answer as a plain number with exactly two decimal places, no currency symbol and no thousands separators (for example: 1234.50).",
+      "answer": "1903.50",
+      "rules_exercised": [
+        "unpaid-meal-break",
+        "daily-overtime-tiers-1.5x-2x"
+      ],
+      "worked_solution": "Alice 307.50+150.00; Bob 330.00+176.00; Carol 260.00+680.00 = 1903.50."
+    },
+    {
+      "id": "fifo-cogs-1",
+      "title": "FIFO cost-of-goods-sold with freight allocation",
+      "scrambled": "",
+      "task": "You are doing inventory accounting. Compute the cost of goods sold (COGS) for the period using FIFO (first-in, first-out).\n\nRULES\n- Each purchase lot has a freight cost. Allocate freight evenly across the lot's units: per-unit cost = round-half-up(unit cost + freight / quantity, 2). Use this per-unit cost for every unit in that lot.\n- Process sales in date order. Under FIFO each sale consumes the oldest available units first. There is always enough inventory on hand for every sale.\n- COGS = sum over all sold units of the per-unit cost of the lot the unit came from (no intermediate rounding beyond the per-unit cost above).\n\nPURCHASE LOTS\nlot | date       | quantity | unit cost | freight\n----+------------+----------+-----------+--------\nL1  | 2026-04-01 | 100      | 10.00     | 50.00\nL2  | 2026-04-05 | 150      | 12.00     | 90.00\nL3  | 2026-04-10 | 200      | 11.00     | 0.00\n\nSALES\nsale | date       | quantity\n-----+------------+---------\nS1   | 2026-04-06 | 120\nS2   | 2026-04-12 | 180\n\nQUESTION\nWhat is the total COGS for the period? Answer as a plain number with exactly two decimal places, no currency symbol and no thousands separators (for example: 1234.50).",
+      "answer": "3490.00",
+      "rules_exercised": [
+        "per-unit-freight-allocation",
+        "fifo-lot-consumption"
+      ],
+      "worked_solution": "Per-unit: L1 10.50, L2 12.60, L3 11.00. S1=100*10.50+20*12.60=1302.00; S2=130*12.60+50*11.00=2188.00. Total 3490.00."
+    },
+    {
+      "id": "commission-1",
+      "title": "Marginal-tier sales commission",
+      "scrambled": "",
+      "task": "You administer the sales commission plan. Compute the total commission owed across all reps.\n\nRULES\n- Net sales = gross sales - returns.\n- If a rep's net sales are below 2000, that rep earns 0 commission (no tiers, no bonus).\n- Otherwise commission is MARGINAL across these tiers of net sales: the portion from 0 to 10000 earns 5%, the portion from 10000 to 25000 earns 8%, and the portion above 25000 earns 12%.\n- Quota bonus: if net sales are 30000 or more, add a flat 500 bonus to that rep's commission.\n- Round each rep's commission (tiers plus any bonus) to 2 decimals (half-up), then sum across reps.\n\nREPS\nrep | gross sales | returns\n----+-------------+--------\nR1  | 40000       | 5000\nR2  | 12000       | 1000\nR3  | 1500        | 0\nR4  | 26000       | 4000\nR5  | 60000       | 35000\n\nQUESTION\nWhat is the total commission owed? Answer as a plain number with exactly two decimal places, no currency symbol and no thousands separators (for example: 1234.50).",
+      "answer": "7140.00",
+      "rules_exercised": [
+        "net-of-returns",
+        "minimum-floor",
+        "marginal-tiers",
+        "quota-bonus"
+      ],
+      "worked_solution": "R1 net35000=2900+500=3400; R2 net11000=580; R3 net1500<2000=0; R4 net22000=1460; R5 net25000=1700. Total 7140.00."
+    },
+    {
+      "id": "proration-1",
+      "title": "Mid-month subscription proration",
+      "scrambled": "",
+      "task": "You run monthly subscription billing for July 2026, which has 31 days. Compute the total amount billed to all customers.\n\nRULES\n- Monthly plan prices: Basic 30.00, Pro 90.00, Enterprise 300.00.\n- A plan is billed pro-rata: charge = round-half-up(monthly price * active_days / 31, 2), where active_days is the number of calendar days that plan was active during July.\n- On a day a customer changes plans, that day counts toward the NEW plan.\n- 'Cancellation effective on date D' means the plan is NOT active on day D; the last active day is the day before D.\n- A customer's bill is the sum of the charges for each plan segment they had; the month total is the sum over all customers.\n\nCUSTOMERS\ncustomer | activity in July 2026\n---------+------------------------------------------------------\nC1       | Pro for the entire month (Jul 1-31).\nC2       | Basic from Jul 1, upgraded to Pro on Jul 16.\nC3       | Enterprise from Jul 1, downgraded to Basic on Jul 21.\nC4       | Joined Jul 12 on Pro, active through Jul 31.\nC5       | Pro from Jul 1, cancellation effective Jul 26.\n\nQUESTION\nWhat is the total amount billed for July 2026? Answer as a plain number with exactly two decimal places, no currency symbol and no thousands separators (for example: 1234.50).",
+      "answer": "485.81",
+      "rules_exercised": [
+        "calendar-day-proration",
+        "change-day-to-new-plan",
+        "cancellation-day-exclusive",
+        "half-up-rounding"
+      ],
+      "worked_solution": "C1 90.00; C2 14.52+46.45=60.97; C3 193.55+10.65=204.20; C4 58.06; C5 72.58. Total 485.81."
+    },
+    {
+      "id": "bank-recon-1",
+      "title": "Bank-to-book cash reconciliation",
+      "scrambled": "",
+      "task": "You are reconciling the company's cash. Adjust both the bank balance and the book (general-ledger) balance to the same true cash figure, and report that reconciled balance.\n\nSTARTING BALANCES\n- Bank statement ending balance: 14750.00\n- Book (general-ledger) cash balance: 13900.00\n\nBANK-SIDE ADJUSTMENTS (the bank does not yet reflect these)\n- Outstanding checks (issued, not yet cleared the bank): #501 1200.00, #505 850.00, #506 400.00 -- subtract from the bank balance.\n- Deposit in transit: 1500.00 -- add to the bank balance.\n\nBOOK-SIDE ADJUSTMENTS (the books do not yet reflect these)\n- Bank service fee charged: 35.00 -- subtract from the book balance.\n- NSF (bounced) customer check: 600.00 -- subtract from the book balance.\n- Interest credited by the bank: 85.00 -- add to the book balance.\n- Bookkeeping error: a check written for 270.00 was recorded in the books as 720.00. Correct the books by adding the 450.00 difference back to the book balance.\n\nQUESTION\nAfter both sides are adjusted they agree. What is the reconciled cash balance? Answer as a plain number with exactly two decimal places, no currency symbol and no thousands separators (for example: 1234.50).",
+      "answer": "13800.00",
+      "rules_exercised": [
+        "bank-side-adjustments",
+        "book-side-adjustments",
+        "bookkeeping-error-correction",
+        "two-sided-cross-check"
+      ],
+      "worked_solution": "Adjusted bank 14750-2450+1500=13800; adjusted book 13900-35-600+85+450=13800. Reconciled 13800.00."
+    },
+    {
+      "id": "amortization-1",
+      "title": "Loan amortization with extra principal payment",
+      "scrambled": "",
+      "task": "You are servicing a loan. Compute the remaining principal balance after 12 monthly payments.\n\nRULES (repeat each month, in this order)\n- Starting balance: 20000.00. Monthly interest rate: 1.0% (0.01).\n- Each month: interest = round-half-up(current balance * 0.01, 2). The fixed monthly payment is 600.00. Principal paid = 600.00 - interest. New balance = current balance - principal paid.\n- In month 6 ONLY, after the regular payment is applied, an extra principal-only payment of 1000.00 is also applied (subtract 1000.00 from the balance).\n- After each month's steps, round the balance to 2 decimals (half-up) before the next month. The balance never reaches zero within these 12 months.\n\nQUESTION\nWhat is the remaining balance after the 12th payment? Answer as a plain number with exactly two decimal places, no currency symbol and no thousands separators (for example: 1234.50).",
+      "answer": "13865.49",
+      "rules_exercised": [
+        "monthly-interest-rounding",
+        "principal-paydown",
+        "one-time-extra-principal"
+      ],
+      "worked_solution": "Iterate 12 months at 1%/600 payment with a 1000 extra-principal hit in month 6; final balance 13865.49."
+    },
+    {
+      "id": "shipping-opt-1",
+      "title": "Cheapest-eligible-carrier shipping optimization",
+      "scrambled": "",
+      "task": "You are choosing carriers to minimize shipping cost. For each order pick the cheapest carrier that can carry it, and report the total of the chosen costs.\n\nCARRIERS\nSTANDARD (serves all zones; max weight 50 lb):\n  base by weight: <=5 lb -> 8.00, 6-20 lb -> 15.00, 21-50 lb -> 28.00.\n  zone surcharge: zones 1-2 -> 0, zones 3-4 -> 5.00, zone 5 -> 12.00.\n  residential surcharge: +4.00 if residential.\n  then a 12% fuel surcharge on the running subtotal: cost = round-half-up((base + zone + residential) * 1.12, 2).\nEXPRESS (serves zones 1-4 only; max weight 70 lb; no zone/residential/fuel charges):\n  base by weight: <=5 lb -> 16.00, 6-20 lb -> 26.00, 21-70 lb -> 48.00.\n  insurance: + 2% of declared value. cost = round-half-up(base + value * 0.02, 2).\n\nRULES\n- A carrier is eligible for an order only if it serves the order's zone and the order weight is within that carrier's maximum.\n- Choose the eligible carrier with the lower cost. If both eligible carriers cost exactly the same, choose STANDARD.\n- Weight breaks are inclusive of their upper bound; all weights below are whole numbers of pounds.\n\nORDERS\norder | weight_lb | zone | residential | declared_value\n------+-----------+------+-------------+---------------\nO1    | 4         | 2    | no          | 1000\nO2    | 30        | 5    | no          | 5000\nO3    | 10        | 3    | yes         | 800\nO4    | 60        | 1    | no          | 3000\nO5    | 5         | 4    | no          | 2500\nO6    | 20        | 2    | yes         | 0\nO7    | 45        | 4    | no          | 10000\n\nQUESTION\nWhat is the total chosen shipping cost across all orders? Answer as a plain number with exactly two decimal places, no currency symbol and no thousands separators (for example: 1234.50).",
+      "answer": "261.44",
+      "rules_exercised": [
+        "weight-break-tables",
+        "zone-and-service-eligibility",
+        "fuel-surcharge",
+        "value-insurance",
+        "per-order-min-with-tiebreak"
+      ],
+      "worked_solution": "O1 8.96, O2 44.80 (EXPRESS ineligible zone5), O3 26.88, O4 108.00 (STANDARD ineligible >50lb), O5 14.56, O6 21.28, O7 36.96. Total 261.44."
+    },
+    {
+      "id": "cohort-funnel-1",
+      "title": "Week-1 cohort 7-day purchase revenue",
+      "scrambled": "",
+      "task": "You are a revenue analyst. Compute a cohort metric from the event log.\n\nDEFINITIONS\n- The week-1 cohort is every user whose signup date is between 2026-07-01 and 2026-07-07 inclusive. Users who signed up outside that range are excluded entirely.\n- A purchase is 'within 7 days of signup' if purchase_date minus signup_date is at most 7 calendar days (the signup day itself is day 0; day 7 still counts).\n- A cohort user QUALIFIES if they made at least one purchase within 7 days of signup.\n- The metric is the sum of the amounts of ALL purchases made within 7 days of signup, across qualifying users only.\n\nEVENT LOG\nuser | type     | date       | amount\n-----+----------+------------+-------\nU1   | signup   | 2026-07-03 |\nU1   | purchase | 2026-07-05 | 120.00\nU1   | purchase | 2026-07-12 | 80.00\nU2   | signup   | 2026-07-07 |\nU2   | purchase | 2026-07-14 | 200.00\nU3   | signup   | 2026-07-07 |\nU3   | purchase | 2026-07-15 | 90.00\nU4   | signup   | 2026-07-02 |\nU4   | purchase | 2026-07-02 | 60.00\nU4   | purchase | 2026-07-04 | 40.00\nU5   | signup   | 2026-07-10 |\nU5   | purchase | 2026-07-11 | 500.00\nU6   | signup   | 2026-07-01 |\nU7   | signup   | 2026-07-05 |\nU7   | purchase | 2026-07-12 | 300.00\n\nQUESTION\nWhat is the total within-7-day purchase revenue for the week-1 cohort? Answer as a plain number with exactly two decimal places, no currency symbol and no thousands separators (for example: 1234.50).",
+      "answer": "720.00",
+      "rules_exercised": [
+        "cohort-signup-window",
+        "per-user-7-day-window",
+        "qualification-gate",
+        "windowed-sum"
+      ],
+      "worked_solution": "U1 120 (Jul12 out); U2 200 (day7 in); U3 0 (day8 out, disqualified); U4 60+40=100; U5 excluded (signup Jul10); U6 no purchase; U7 300 (day7 in). Total 720.00."
+    },
+    {
+      "id": "sla-penalty-1",
+      "title": "Business-hours SLA penalty",
+      "scrambled": "",
+      "task": "You are tracking support SLAs. Compute the total penalty owed for breached tickets.\n\nRULES\n- Business hours are Monday-Friday 09:00-17:00 (8 hours/day). 2026-09-07 (a Monday) is a holiday with no business hours. Weekends have no business hours.\n- A ticket's handling time is measured ONLY in business minutes between its created and resolved timestamps (minutes outside business hours, on weekends, or on the holiday do not count). Every timestamp below falls on a business day within 09:00-17:00, so you never need to clamp an endpoint.\n- The SLA target is 8 business hours. A ticket breaches if its business-hours handling time exceeds 8 hours.\n- Penalty for a breached ticket = round-half-up(overage_hours * 25.00, 2), where overage_hours = (business minutes over 8 hours) / 60. Non-breached tickets owe 0.\n\nTICKETS\nticket | created          | resolved\n-------+------------------+-----------------\nT1     | 2026-09-08 09:00 | 2026-09-08 14:00\nT2     | 2026-09-08 15:00 | 2026-09-09 11:00\nT3     | 2026-09-04 13:00 | 2026-09-08 16:00\nT4     | 2026-09-09 16:30 | 2026-09-10 09:45\nT5     | 2026-09-08 09:00 | 2026-09-09 17:00\nT6     | 2026-09-09 10:20 | 2026-09-10 12:50\n\nQUESTION\nWhat is the total SLA penalty across all tickets? Answer as a plain number with exactly two decimal places, no currency symbol and no thousands separators (for example: 1234.50).",
+      "answer": "337.50",
+      "rules_exercised": [
+        "business-hours-arithmetic",
+        "weekend-and-holiday-skip",
+        "sla-overage-penalty"
+      ],
+      "worked_solution": "T3 11h ->3h*25=75.00; T5 16h ->8h*25=200.00; T6 10.5h ->2.5h*25=62.50; rest within SLA. Total 337.50."
+    },
+    {
+      "id": "payroll-tax-1",
+      "title": "Payroll tax: marginal brackets, FICA cap, Medicare surtax",
+      "scrambled": "",
+      "task": "You are computing payroll taxes. For the three employees below, compute the TOTAL tax (all four components, all employees).\n\nTAX COMPONENTS (per employee, on annual gross wage)\n1. Federal income tax -- MARGINAL brackets:\n   0-11000 -> 10%; 11000-44725 -> 12%; 44725-95375 -> 22%; 95375-182100 -> 24%; 182100-231250 -> 32%; above 231250 -> 35%.\n2. Social Security -- 6.2% of wages, but only on wages up to the wage base 168600 (wages above 168600 are not taxed for Social Security).\n3. Medicare -- 1.45% of ALL wages, PLUS an additional 0.9% on the portion of wages above 200000.\n4. State income tax -- a flat 5% of all wages.\n\nROUNDING\nCompute each of the four components per employee and round each component to 2 decimals (half-up). Then sum every component across all employees.\n\nEMPLOYEES\nemployee | annual gross wage\n---------+------------------\nE1       | 50000\nE2       | 120000\nE3       | 210000\n\nQUESTION\nWhat is the total tax across all employees? Answer as a plain number with exactly two decimal places, no currency symbol and no thousands separators (for example: 1234.50).",
+      "answer": "120132.70",
+      "rules_exercised": [
+        "marginal-federal-brackets",
+        "social-security-wage-base-cap",
+        "medicare-additional-surtax",
+        "flat-state-tax",
+        "per-component-rounding"
+      ],
+      "worked_solution": "Sum of federal (marginal) + Social Security (capped at 168600) + Medicare (1.45% all + 0.9% over 200000) + 5% state, across E1/E2/E3; total 120132.70."
+    },
+    {
+      "id": "utility-billing-1",
+      "title": "Time-of-use commercial electricity bill",
+      "scrambled": "",
+      "task": "You are billing a commercial electricity account for one monthly cycle. Rate every metered interval, add demand and fixed charges, then apply tax and a franchise fee.\n\nTIME-OF-USE PERIODS (use the weekday given in the table; do not compute it yourself)\n- HOLIDAY OVERRIDE: 2026-06-19 is a holiday. EVERY interval on that date is OFFPEAK regardless of its hour, and holiday intervals never count toward peak demand.\n- PEAK: Monday-Friday (non-holiday) only, for interval-start hours 16, 17, 18, 19, 20 (i.e. 16:00-21:00). Rate 0.2840 per kWh.\n- SHOULDER: Monday-Friday (non-holiday) only, for interval-start hours 7-15 or 21-22. Rate 0.1450 per kWh.\n- OFFPEAK: every interval not classified above. This INCLUDES all Saturday and Sunday intervals regardless of hour, all holiday intervals, and weekday hours 0-6 and 23. Rate 0.0890 per kWh.\n\nCHARGES (apply in this order)\n1. Energy charge: for EACH period, sum that period's kWh and multiply by the period rate, rounding that period's energy charge half-up to 2 decimals. The energy charge is the sum of the three rounded period charges.\n2. Demand charge with ratchet: the measured demand is the single highest kWh value among PEAK intervals only (each 1-hour interval's kWh equals its kW). However, billed demand may not fall below 80% of the contracted demand of 520 kW; that is, billed demand = max(measured peak demand, round-half-up(0.80 * 520, 2)). Demand charge = round-half-up(billed demand * 14.50, 2).\n3. Power-factor penalty: the metered average power factor for the cycle is 0.91. If it is below 0.95, add a penalty = round-half-up(demand charge * (0.95 - power factor), 2); otherwise the penalty is 0.\n4. Customer charge: a flat 32.00.\n5. Subtotal = energy + demand + power-factor penalty + customer.\n6. Utility tax = round-half-up(subtotal * 0.065, 2). It is added to the subtotal.\n7. Franchise fee = round-half-up((total kWh across ALL periods) * 0.00250, 2). It is added AFTER tax and is itself not taxed.\n\nEach interval below is a 1-hour interval beginning at the listed hour.\n\nMETER READINGS\ndate       | weekday | hour_start | kwh\n-----------+---------+------------+----\n2026-06-01 | Mon     | 8          | 120\n2026-06-01 | Mon     | 13         | 205\n2026-06-01 | Mon     | 17         | 340\n2026-06-01 | Mon     | 19         | 410\n2026-06-01 | Mon     | 23         | 90\n2026-06-02 | Tue     | 6          | 70\n2026-06-02 | Tue     | 11         | 185\n2026-06-02 | Tue     | 14         | 260\n2026-06-02 | Tue     | 18         | 395\n2026-06-02 | Tue     | 22         | 140\n2026-06-03 | Wed     | 7          | 95\n2026-06-03 | Wed     | 16         | 380\n2026-06-03 | Wed     | 20         | 425\n2026-06-03 | Wed     | 21         | 150\n2026-06-04 | Thu     | 7          | 110\n2026-06-04 | Thu     | 15         | 240\n2026-06-04 | Thu     | 18         | 405\n2026-06-04 | Thu     | 20         | 300\n2026-06-05 | Fri     | 9          | 160\n2026-06-05 | Fri     | 16         | 390\n2026-06-05 | Fri     | 23         | 80\n2026-06-06 | Sat     | 12         | 200\n2026-06-06 | Sat     | 18         | 220\n2026-06-07 | Sun     | 10         | 130\n2026-06-07 | Sun     | 19         | 180\n2026-06-08 | Mon     | 17         | 415\n2026-06-08 | Mon     | 21         | 145\n2026-06-09 | Tue     | 16         | 360\n2026-06-09 | Tue     | 18         | 385\n2026-06-11 | Thu     | 14         | 250\n2026-06-12 | Fri     | 18         | 300\n2026-06-13 | Sat     | 17         | 210\n2026-06-19 | Fri     | 17         | 360\n2026-06-19 | Fri     | 12         | 150\n2026-06-19 | Fri     | 19         | 430\n\nQUESTION\nWhat is the total bill? Answer as a plain number with exactly two decimal places, no currency symbol and no thousands separators (for example: 1234.50).",
+      "answer": "8763.02",
+      "rules_exercised": [
+        "tou-period-classification",
+        "weekend-overrides-peak-hours",
+        "holiday-all-offpeak",
+        "demand-ratchet",
+        "power-factor-penalty",
+        "ordered-tax-then-untaxed-fee",
+        "per-period-rounding"
+      ],
+      "worked_solution": "Classify all 35 intervals (holiday 06-19 all off-peak incl its 430 kWh, which is therefore NOT a demand candidate; weekend peak-hours off-peak). Energy = sum of three rounded period charges. Billed demand = max(measured peak demand, ratchet floor 0.80*520=416). PF penalty = demand*(0.95-0.91). Subtotal+tax(6.5%)+untaxed franchise (total kWh*0.00250). Solver answer 8763.02."
+    },
+    {
+      "id": "wac-inventory-1",
+      "title": "Perpetual weighted-average-cost COGS",
+      "scrambled": "",
+      "task": "You maintain a perpetual inventory under the moving weighted-average-cost method. Process the transactions strictly in the order listed and report total cost of goods sold.\n\nRULES\n- Beginning inventory is 100 units with a total cost of 2000.00.\n- The weighted-average unit cost (WAC) at any moment = (running total inventory cost) / (running unit quantity), and you must recompute it to 4 decimal places, round-half-up, immediately BEFORE processing each transaction.\n- PURCHASE: the lot's total cost = qty * unit_cost + freight. Add the qty to the running quantity and the lot total cost to the running total cost.\n- PURCHASE_RETURN: goods returned TO the supplier. Remove them at the current WAC: reduce the running quantity by qty and reduce the running total cost by round-half-up(qty * current WAC, 2). This is not a sale and produces no COGS.\n- SALE: cost of goods sold for the sale = round-half-up(qty * current WAC, 2). Add that to total COGS; then subtract the sold qty from the running quantity and subtract the sale's COGS (the rounded figure) from the running total cost.\n- The unit_cost/freight columns apply only to PURCHASE rows; other rows leave them blank.\n\nTRANSACTIONS\nline | type            | qty | unit_cost | freight\n-----+-----------------+-----+-----------+--------\nL1   | PURCHASE        | 50  | 22.00     | 60.00\nL2   | SALE            | 80  |           |\nL3   | PURCHASE        | 120 | 25.00     | 180.00\nL4   | PURCHASE_RETURN | 30  |           |\nL5   | SALE            | 100 |           |\nL6   | PURCHASE        | 40  | 19.50     | 0.00\nL7   | SALE            | 75  |           |\nL8   | PURCHASE        | 90  | 23.40     | 95.00\nL9   | SALE            | 60  |           |\nL10  | PURCHASE        | 65  | 26.10     | 120.00\nL11  | PURCHASE_RETURN | 25  |           |\nL12  | SALE            | 85  |           |\nL13  | PURCHASE        | 110 | 21.75     | 150.00\nL14  | SALE            | 100 |           |\nL15  | PURCHASE        | 35  | 27.80     | 40.00\nL16  | SALE            | 50  |           |\n\nQUESTION\nWhat is the total cost of goods sold across all sales? Answer as a plain number with exactly two decimal places, no currency symbol and no thousands separators (for example: 1234.50).",
+      "answer": "13169.70",
+      "rules_exercised": [
+        "moving-weighted-average",
+        "freight-in-capitalization",
+        "4dp-wac-recompute",
+        "purchase-return-relief",
+        "rounded-cost-relief",
+        "strict-transaction-ordering"
+      ],
+      "worked_solution": "Process all 16 transactions in order, recomputing 4dp WAC before each; sum COGS over the SALE rows only (purchase returns relieve cost at WAC but add no COGS). Rounded WAC and rounded cost relief compound across the sequence. Solver answer 13169.70."
+    },
+    {
+      "id": "royalty-waterfall-1",
+      "title": "Royalty waterfall with cumulative tiers and recoupment",
+      "scrambled": "",
+      "task": "You are preparing a royalty statement. Compute the cash payable to the author after the minimum guarantee, agent commission, an audit fee, a returns reserve, and recoupment of the advance.\n\nRULES (apply in order)\n- For each period, net units = gross units - returned units.\n- Tiered royalty is earned on a CUMULATIVE marginal-tier basis across periods processed in order P1...P10. Tier rates apply to cumulative net units to date: units 1-10000 at 1.50 each; units 10001-25000 at 2.25 each; units 25001-50000 at 3.00 each; units above 50000 at 3.75 each. A single period's units can straddle tier boundaries.\n- Minimum guarantee: the author is guaranteed at least 2.00 per net unit across all periods. The royalty used downstream is the GREATER of the total tiered royalty and this guaranteed minimum (2.00 * total net units).\n- Agent commission = round-half-up(royalty * 0.10, 2), computed on the royalty figure from the previous step.\n- A flat audit fee of 1500.00 is deducted.\n- Returns reserve: 20% of the MOST RECENT period's (P10) tiered royalty earned is held back on this statement (released on a later statement). The reserve = round-half-up(P10 tiered royalty earned * 0.20, 2) and is subtracted.\n- A recoupable advance of 50000.00 was already paid to the author and must be subtracted.\n- Cash payable = royalty - commission - audit fee - returns reserve - advance. If that is negative, the advance is not yet fully recouped and the payable is 0.00.\n\nSALES BY PERIOD\nperiod | gross_units | returned_units\n-------+-------------+---------------\nP1     | 8500        | 500\nP2     | 9300        | 300\nP3     | 12400       | 400\nP4     | 6300        | 300\nP5     | 5300        | 300\nP6     | 7200        | 200\nP7     | 4800        | 300\nP8     | 9100        | 100\nP9     | 6700        | 200\nP10    | 5400        | 400\n\nQUESTION\nWhat is the cash payable to the author? Answer as a plain number with exactly two decimal places, no currency symbol and no thousands separators (for example: 1234.50).",
+      "answer": "130375.00",
+      "rules_exercised": [
+        "net-of-returns",
+        "cumulative-marginal-tiers",
+        "four-tier-schedule",
+        "minimum-guarantee-greater-of",
+        "commission-on-royalty",
+        "audit-fee",
+        "returns-reserve-on-last-period",
+        "advance-recoupment",
+        "floor-at-zero"
+      ],
+      "worked_solution": "Accumulate net units across all 10 periods through the 4-tier cumulative schedule (boundaries 10000/25000/50000); royalty = max(tiered total, 2.00*total net units); then subtract commission (10%), 1500 audit, 20% reserve on P10's earned, and the 50000 advance, flooring at 0. Solver answer 130375.00."
+    },
+    {
+      "id": "intercompany-netting-1",
+      "title": "Multilateral intercompany FX netting",
+      "scrambled": "",
+      "task": "Eight subsidiaries (A, B, C, D, E, F, G, H) owe each other money in several currencies. Run a multilateral netting and report the total cash that changes hands in settlement.\n\nRULES\n- Convert each obligation to USD by multiplying the amount by its rate (USD 1.00, EUR 1.08, GBP 1.27, JPY 0.0067, CHF 1.12, CAD 0.73) and round-half-up to 2 decimals.\n- For each entity compute its net position = (sum of obligations owed TO it) - (sum of obligations it OWES). Entities with a positive net are net receivers; entities with a negative net are net payers.\n- The settlement amount = the sum of all positive net positions (equivalently, the sum of the absolute values of the negative ones).\n- Each net payer is charged a TIERED settlement fee on its net payable: 0.25% on the first 50000.00 of the payable plus 0.15% on the portion above 50000.00, rounded half-up to 2 decimals. Sum the fees across net payers.\n- Total cash that changes hands = settlement amount + total fees.\n\nOBLIGATIONS (payer owes payee)\nid  | payer | payee | amount  | currency\n----+-------+-------+---------+---------\nO1  | A     | B     | 100000  | EUR\nO2  | B     | C     | 50000   | GBP\nO3  | C     | A     | 8000000 | JPY\nO4  | D     | A     | 75000   | USD\nO5  | A     | C     | 40000   | GBP\nO6  | B     | D     | 90000   | EUR\nO7  | C     | D     | 30000   | USD\nO8  | D     | B     | 5000000 | JPY\nO9  | E     | A     | 60000   | CHF\nO10 | A     | E     | 20000   | USD\nO11 | E     | C     | 100000  | CAD\nO12 | D     | E     | 40000   | EUR\nO13 | F     | B     | 80000   | EUR\nO14 | C     | F     | 200000  | CAD\nO15 | F     | D     | 50000   | USD\nO16 | A     | F     | 30000   | GBP\nO17 | G     | A     | 90000   | CHF\nO18 | B     | G     | 120000  | CAD\nO19 | G     | H     | 40000   | USD\nO20 | H     | C     | 60000   | EUR\nO21 | H     | F     | 7000000 | JPY\nO22 | D     | H     | 35000   | GBP\nO23 | E     | G     | 25000   | USD\nO24 | F     | H     | 55000   | CHF\n\nQUESTION\nWhat is the total cash that changes hands? Answer as a plain number with exactly two decimal places, no currency symbol and no thousands separators (for example: 1234.50).",
+      "answer": "169921.88",
+      "rules_exercised": [
+        "fx-normalization",
+        "bilateral-to-net-position",
+        "positive-net-settlement",
+        "tiered-per-payer-fee"
+      ],
+      "worked_solution": "Convert all 24 obligations to USD; compute each of the 8 entities' net positions (receivables - payables); settlement = sum of positive nets; add each net payer's tiered fee (0.25% on first 50000 of payable + 0.15% above). Solver answer 169921.88."
+    },
+    {
+      "id": "progress-billing-1",
+      "title": "Construction progress billing with retainage",
+      "scrambled": "",
+      "task": "You are preparing a construction progress billing (AIA-style) and must compute the current payment due. The billing cutoff date is 2026-06-30.\n\nRULES (apply in order)\n- Start from the original contract value of 800000.00.\n- Adjust the contract ONLY for change orders that are BOTH status 'approved' AND have an approved_date on or before the cutoff 2026-06-30 (add their amount; a negative amount is a deductive change order). Ignore any change order that is not 'approved' (e.g. 'pending' or 'rejected') and any change order approved after the cutoff. Note that on-or-before the cutoff includes a change order approved exactly on 2026-06-30. The result is the revised contract value.\n- Percent complete is measured by cost: percent complete = round-half-up(cost incurred to date / total estimated cost, 4), using cost incurred to date of 438900.00 and total estimated cost of 710000.00.\n- Work completed to date = round-half-up(revised contract * percent complete, 2).\n- Retainage withheld = round-half-up(work completed to date * 0.10, 2).\n- Materials stored on site this period of 12000.00 are billed at 100% and are NOT subject to retainage.\n- Liquidated damages: the project is 3 days behind schedule, assessed at 500.00 per day; deduct the total.\n- Retainage release: the project passed its 50%-complete milestone, so 8000.00 of previously withheld retainage is released back to the contractor this period; add it.\n- Amount earned this billing (net) = (work completed to date) - retainage + stored materials - liquidated damages + retainage release.\n- Less prior payments already received of 380000.00.\n- Current payment due = amount earned this billing (net) - prior payments.\n\nCHANGE ORDERS\nid   | amount    | status   | approved_date\n-----+-----------+----------+--------------\nCO1  | 45000.00  | approved | 2026-05-10\nCO2  | 20000.00  | pending  | 2026-06-01\nCO3  | -15000.00 | approved | 2026-06-20\nCO4  | 30000.00  | approved | 2026-07-05\nCO5  | 18000.00  | rejected | 2026-06-10\nCO6  | 12000.00  | approved | 2026-06-30\nCO7  | 9000.00   | approved | 2026-04-22\nCO8  | -6000.00  | approved | 2026-06-28\nCO9  | 25000.00  | pending  | 2026-06-15\nCO10 | 14000.00  | approved | 2026-07-01\nCO11 | -3500.00  | approved | 2026-06-05\nCO12 | 21000.00  | rejected | 2026-05-30\nCO13 | 7500.00   | approved | 2026-06-12\n\nQUESTION\nWhat is the current payment due? Answer as a plain number with exactly two decimal places, no currency symbol and no thousands separators (for example: 1234.50).",
+      "answer": "110866.62",
+      "rules_exercised": [
+        "approved-and-dated-change-orders",
+        "deductive-change-order",
+        "rejected-co-excluded",
+        "cutoff-boundary-inclusive",
+        "cost-to-cost-percent-complete",
+        "percent-complete-earned",
+        "retainage-withholding",
+        "stored-materials-exempt",
+        "liquidated-damages",
+        "retainage-release",
+        "net-of-prior-billings"
+      ],
+      "worked_solution": "Revised contract = 800000 + sum of change orders that are BOTH approved AND dated on or before 2026-06-30 (CO1,CO3,CO6,CO7,CO8,CO11,CO13; CO2/CO9 pending, CO5/CO12 rejected, CO4/CO10 after cutoff). Pct=round(438900/710000,4)=0.6182. Earned = round(revised*pct,2); then -10% retainage +12000 stored -1500 LD +8000 release -380000 prior. Solver answer 110866.62."
+    },
+    {
+      "id": "accrued-interest-1",
+      "title": "Bond accrued interest across day-count conventions",
+      "scrambled": "",
+      "task": "You are computing accrued interest on a bond portfolio as of each bond's settlement date. Each bond is a sinking-fund bond that may have redeemed principal before settlement; accrue on the CURRENT face.\n\nSTEP 1 -- CURRENT FACE\n- A redemption reduces a bond's face ONLY if its redemption_date is STRICTLY BEFORE that bond's settlement date (a redemption dated exactly on the settlement date does not reduce the face). Current face = original face - sum of qualifying principal redemptions for that bond.\n\nSTEP 2 -- DAY-COUNT CONVENTIONS\n- '30/360' (US): let the last-coupon date be (Y1,M1,D1) and settlement be (Y2,M2,D2). If D1 is 31, set D1 to 30. Then, if D2 is 31 AND D1 is now 30, set D2 to 30. Day count = 360*(Y2-Y1) + 30*(M2-M1) + (D2-D1). Accrued = current_face * annual_rate * daycount / 360.\n- 'ACT/365': day count = the actual number of calendar days from the last-coupon date to the settlement date. Accrued = current_face * annual_rate * daycount / 365.\n- 'ACT/360': day count = the actual number of calendar days from the last-coupon date to the settlement date (same day count as ACT/365), BUT divide by 360. Accrued = current_face * annual_rate * daycount / 360.\n- Compute each bond's accrued interest and round it half-up to 2 decimals, then sum across all bonds.\n\nBONDS\nbond | face   | annual_rate | convention | last_coupon | settlement\n-----+--------+-------------+------------+-------------+-----------\nB1   | 100000 | 0.0500      | 30/360     | 2026-01-31  | 2026-04-30\nB2   | 250000 | 0.0450      | ACT/365    | 2026-02-15  | 2026-06-27\nB3   | 50000  | 0.0600      | 30/360     | 2025-12-31  | 2026-03-31\nB4   | 180000 | 0.0380      | ACT/360    | 2026-03-15  | 2026-06-27\nB5   | 120000 | 0.0440      | 30/360     | 2026-05-31  | 2026-08-31\nB6   | 200000 | 0.0525      | ACT/365    | 2026-01-31  | 2026-04-15\nB7   | 75000  | 0.0610      | 30/360     | 2026-02-28  | 2026-05-31\nB8   | 300000 | 0.0345      | ACT/360    | 2026-04-30  | 2026-07-31\nB9   | 90000  | 0.0480      | 30/360     | 2026-06-30  | 2026-09-30\nB10  | 150000 | 0.0555      | ACT/365    | 2026-03-31  | 2026-06-30\nB11  | 60000  | 0.0420      | ACT/360    | 2026-05-15  | 2026-08-15\n\nREDEMPTIONS (principal repaid)\nbond | redemption_date | principal_paid\n-----+-----------------+---------------\nB1   | 2026-03-31      | 10000\nB1   | 2026-05-31      | 5000\nB2   | 2026-04-15      | 25000\nB4   | 2026-06-01      | 30000\nB5   | 2026-07-31      | 20000\nB5   | 2026-08-31      | 8000\nB6   | 2026-03-01      | 40000\nB7   | 2026-04-15      | 15000\nB8   | 2026-06-15      | 50000\nB8   | 2026-07-31      | 25000\nB10  | 2026-05-31      | 30000\nB10  | 2026-06-30      | 10000\nB11  | 2026-07-01      | 12000\n\nQUESTION\nWhat is the total accrued interest across the portfolio? Answer as a plain number with exactly two decimal places, no currency symbol and no thousands separators (for example: 1234.50).",
+      "answer": "16391.63",
+      "rules_exercised": [
+        "sinking-fund-current-face",
+        "strictly-before-settlement",
+        "30-360-day-count",
+        "actual-365-day-count",
+        "actual-360-day-count",
+        "31st-day-adjustment",
+        "per-bond-rounding"
+      ],
+      "worked_solution": "For each of the 11 bonds: current face = original - principal redeemed strictly before settlement (redemptions on the settlement date do not reduce face); accrue using the stated convention's day count and denominator; round per bond and sum. Solver answer 16391.63."
+    },
+    {
+      "id": "volume-rebate-1",
+      "title": "Volume rebate with marginal brackets on eligible spend",
+      "scrambled": "",
+      "task": "You are computing an annual volume rebate for a customer.\n\nRULES (apply in order)\n- Category semantics: 'clearance' and 'sample' lines are NOT eligible for rebate; all other categories are eligible.\n- Each line's net amount = round-half-up(gross_amount * (1 - line_discount), 2) minus the line's returns_amount.\n- Total eligible net = the sum of the net amounts of the ELIGIBLE lines.\n- The rebate is computed on total eligible net using MARGINAL brackets: the first 100000.00 of eligible net earns 2%; the portion from 100000.01 to 300000.00 earns 4%; the portion above 300000.00 earns 6%.\n- Premium incentive: if the total net amount of the 'premium' category alone is at least 200000.00, add 1 percentage point to EVERY bracket rate (i.e. 3% / 5% / 7%).\n- Rebate = the sum of the marginal-bracket amounts, rounded half-up to 2 decimals, but capped at a maximum of 100000.00.\n\nORDER LINES\nline | category  | gross_amount | line_discount | returns_amount\n-----+-----------+--------------+---------------+---------------\nL1   | standard  | 120000.00    | 0.10          | 0.00\nL2   | standard  | 90000.00     | 0.05          | 4500.00\nL3   | clearance | 40000.00     | 0.20          | 0.00\nL4   | premium   | 250000.00    | 0.00          | 0.00\nL5   | standard  | 70000.00     | 0.00          | 2000.00\nL6   | sample    | 0.00         | 0.00          | 0.00\nL7   | premium   | 180000.00    | 0.05          | 3000.00\nL8   | standard  | 64000.00     | 0.125         | 1500.00\nL9   | clearance | 55000.00     | 0.30          | 0.00\nL10  | standard  | 48000.00     | 0.075         | 0.00\nL11  | sample    | 0.00         | 0.00          | 0.00\nL12  | premium   | 95000.00     | 0.10          | 5000.00\nL13  | standard  | 132000.00    | 0.15          | 8000.00\nL14  | clearance | 27000.00     | 0.40          | 0.00\nL15  | standard  | 58500.00     | 0.04          | 2500.00\nL16  | premium   | 210000.00    | 0.08          | 0.00\n\nQUESTION\nWhat is the rebate owed to the customer? Answer as a plain number with exactly two decimal places, no currency symbol and no thousands separators (for example: 1234.50).",
+      "answer": "76382.20",
+      "rules_exercised": [
+        "clearance-and-sample-excluded",
+        "per-line-net-of-returns",
+        "marginal-spend-brackets",
+        "premium-mix-bonus-on-all-brackets",
+        "rebate-cap"
+      ],
+      "worked_solution": "Net each of the 16 lines (round discount, subtract returns); sum the eligible (non-clearance, non-sample) lines; if premium-category net >= 200000 add 1pp to each bracket (3/5/7); apply marginal brackets (100000/300000) and cap at 100000. Solver answer 76382.20."
+    },
+    {
+      "id": "telecom-rating-1",
+      "title": "Multi-line telecom bill with proration and tiered overage",
+      "scrambled": "",
+      "task": "You are generating a monthly bill for a 5-line shared mobile plan.\n\nPLAN AND RULES (apply in order)\n- Each line has a base charge of 30.00 per 30-day cycle. A line that was active the FULL cycle is billed the full 30.00; a line activated mid-cycle is billed round-half-up(30.00 * active_days / 30, 2). Each mid-cycle line below (the lines marked active_full_cycle = no, namely L3 and L7) was activated on day 16 of the 30-day cycle, so each was active for 15 days (days 16 through 30 inclusive).\n- Multi-line discount: 5.00 off for each line that was active the full cycle. A line activated mid-cycle does NOT receive this discount.\n- Autopay discount: after the multi-line discount, take an additional 10% off the base subtotal: autopay discount = round-half-up(base-after-multi-line-discount * 0.10, 2). This applies ONLY to the base subtotal, not to overage, international, tax, or device charges.\n- Data is pooled across all lines. The plan includes 30 GB; an additional 5 GB rolled over from last month, so the allowance this cycle is 35 GB.\n- Overage is charged on total pooled usage above the allowance, in tiers: the first 8 GB of overage at 8.00 per GB; any overage beyond that at 12.00 per GB. (All usage values are whole GB.)\n- International calling is charged at 0.15 per international minute, summed across all lines: international charge = round-half-up(total international minutes * 0.15, 2).\n- Pre-tax total = (base subtotal after multi-line AND autopay discounts) + overage charge + international charge.\n- Tax = round-half-up(pre-tax total * 0.08, 2), added to the pre-tax total.\n- Device installments are billed AFTER tax and are NOT taxed: add the sum of the device_installment column to the post-tax total.\n\nLINES\nline | data_gb | active_full_cycle | intl_minutes | device_installment\n-----+---------+-------------------+--------------+-------------------\nL1   | 22      | yes               | 40           | 0.00\nL2   | 14      | yes               | 0            | 18.00\nL3   | 9       | no                | 0            | 0.00\nL4   | 7       | yes               | 100          | 0.00\nL5   | 11      | yes               | 0            | 0.00\nL6   | 18      | yes               | 25           | 12.50\nL7   | 6       | no                | 60           | 0.00\nL8   | 13      | yes               | 0            | 9.99\nL9   | 20      | yes               | 15           | 0.00\nL10  | 8       | yes               | 200          | 22.00\n\nQUESTION\nWhat is the total bill? Answer as a plain number with exactly two decimal places, no currency symbol and no thousands separators (for example: 1234.50).",
+      "answer": "1528.05",
+      "rules_exercised": [
+        "midcycle-base-proration",
+        "discount-only-full-cycle-lines",
+        "autopay-discount-on-base",
+        "rollover-allowance",
+        "pooled-tiered-overage",
+        "international-usage",
+        "tax-on-base-plus-overage",
+        "untaxed-device-installment"
+      ],
+      "worked_solution": "Sum base over 10 lines (full lines 30.00; L3 and L7 prorated to 15.00); subtract 5.00 per full-cycle line, then 10% autopay on that base; add pooled tiered overage on (total GB - 35) and international (total intl min * 0.15); tax 8% on the pre-tax total; add untaxed device installments. Solver answer 1528.05."
+    }
+  ]
+}
