@@ -1,6 +1,6 @@
 {
   "category": "math-scramble-puzzles",
-  "prompt_template": "Unscramble the following letters into the intended English phrase, then solve the puzzle. Use every letter exactly once; spaces in the scrambled text are not meaningful. The phrase is a single grammatical English statement: reconstruct that natural word order and evaluate the expression as written, reading left to right; any run of words that names one number (such as a tens word followed by a ones word) refers to that single number.\n\nScrambled letters: '{scrambled}'\n\nPuzzle: {task}\n\nReturn exactly JSON with one key, where the value is the answer as a string.",
+  "prompt_template": "Solve the math puzzle hidden behind these scrambled characters. It's not a cipher or a way to convert characters to numbers. Unscramble the characters into the intended English phrase, using every letter exactly once. Then solve the math phrase as written.\n\n{scrambled}\n\nPuzzle: {task}\n\nReturn exactly JSON with one key \"answer\", where the value is the answer as a string of digits.",
   "questions": [
     {
       "id": "arithmetic-3",
@@ -108,11 +108,46 @@
       "phrase": "number of positive divisors of nine hundred"
     },
     {
-      "id": "geometry-1",
-      "scrambled": "l tnteihirgrag",
-      "task": "What is the longest side of the unscrambled shape called? The answer should be 10 alphabetic characters.",
-      "answer": "hypotenuse",
-      "phrase": "right triangle"
+      "id": "arithmetic-18",
+      "scrambled": "ocmtrutnrle oxftluotdosne hlspattiameny iwfiym",
+      "task": "Evaluate the mathematical operation in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "72",
+      "phrase": "least common multiple of twenty four and thirty six"
+    },
+    {
+      "id": "arithmetic-19",
+      "scrambled": "imvotrrtftesm hvynienno rdroeddehsia oodgiaongfu eectf",
+      "task": "Evaluate the mathematical operation in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "9",
+      "phrase": "greatest common divisor of one hundred eight and forty five"
+    },
+    {
+      "id": "arithmetic-20",
+      "scrambled": "ettetney insuiroexlot fni",
+      "task": "Evaluate the mathematical operation in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "32",
+      "phrase": "euler totient of ninety six"
+    },
+    {
+      "id": "arithmetic-21",
+      "scrambled": "egcpatbuo neaeuaomsf dngrigrdola nanrnilae",
+      "task": "Evaluate the mathematical operation in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "90",
+      "phrase": "number of diagonals in a regular pentadecagon"
+    },
+    {
+      "id": "arithmetic-22",
+      "scrambled": "mtepeetgrirnn inrieduclo scehwatohva tefiebee hgrtpsm",
+      "task": "Evaluate the mathematical operation in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "78",
+      "phrase": "number of edges in a complete graph with thirteen vertices"
+    },
+    {
+      "id": "arithmetic-23",
+      "scrambled": "fmoeebr ueaucsvf sffrunho oidet",
+      "task": "Evaluate the mathematical operation in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "216",
+      "phrase": "sum of cubes of three four and five"
     },
     {
       "id": "geometry-2",
