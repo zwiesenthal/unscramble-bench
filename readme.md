@@ -14,12 +14,46 @@ comparison. No judge model, no partial credit.
 
 ## Results
 
-`high` reasoning config, 20-question version of
-[math-scramble-puzzles.json](questions/math-scramble-puzzles.json), one scored
-attempt per question, via [OpenRouter](https://openrouter.ai). "Failed API
-calls" counts requests that never produced a model answer — transport errors,
-rate limits, and provider error responses. These score zero but aren't the
-model's fault, so treat scores with many failed calls as lower bounds.
+Scores are one scored attempt per question via
+[OpenRouter](https://openrouter.ai). "Failed API calls" counts requests that
+never produced a model answer — transport errors, rate limits, and provider
+error responses. These score zero but aren't the model's fault, so treat scores
+with many failed calls as lower bounds. Models whose every request failed
+(unavailable/404, out-of-credit/402, or persistent provider errors) are omitted
+rather than listed as 0%.
+
+### `low` reasoning config — current 25-question set
+
+Combined across runs on the active 25-question
+[math-scramble-puzzles.json](questions/math-scramble-puzzles.json).
+
+| Model | Score | Correct | Failed API calls | Cost |
+| --- | ---: | ---: | ---: | ---: |
+| `openai/gpt-5.6-sol` | 60% | 15/25 | 0 | $1.57 |
+| `openai/gpt-5.5` | 48% | 12/25 | 0 | $1.71 |
+| `openai/gpt-5.6-terra` | 32% | 8/25 | 0 | $1.08 |
+| `anthropic/claude-opus-4.8` | 28% | 7/25 | 0 | $1.80 |
+| `nvidia/nemotron-3-ultra-550b-a55b:free` | 28% | 7/25 | 0 | $0.00 |
+| `openai/gpt-oss-120b:free` | 28% | 7/25 | 0 | $0.00 |
+| `moonshotai/kimi-k2.7-code` | 20% | 5/25 | 0 | $0.33 |
+| `z-ai/glm-5.2` | 20% | 5/25 | 0 | $0.26 |
+| `openai/gpt-5.6-luna` | 20% | 5/25 | 0 | $0.33 |
+| `openrouter/free` | 12% | 3/25 | 0 | $0.00 |
+| `nvidia/nemotron-3-super-120b-a12b:free` | 8% | 2/25 | 0 | $0.00 |
+| `openai/gpt-oss-20b:free` | 4% | 1/25 | 0 | $0.00 |
+| `poolside/laguna-m.1:free` | 4% | 1/25 | 0 | $0.00 |
+| `nvidia/nemotron-3-nano-30b-a3b:free` | 0% | 0/25 | 1 | $0.00 |
+| `nvidia/nemotron-nano-12b-v2-vl:free` | 0% | 0/25 | 2 | $0.00 |
+
+Several `low`-config misses on stronger models were empty-content responses
+(reasoning tokens but no final message), so these are lower bounds; the
+`high`-config runs below saw far fewer of those.
+
+### `high` reasoning config — previous 20-question set
+
+Older run on the 20-question version of the file (before it grew to 25
+numeric-answer questions and the prompt was tightened). Kept for reference; not
+directly comparable to the table above.
 
 | Model | Score | Correct | Failed API calls | Cost |
 | --- | ---: | ---: | ---: | ---: |
@@ -69,8 +103,7 @@ model's fault, so treat scores with many failed calls as lower bounds.
 One caveat on the top row: GPT-5.5 alone got targeted reruns of its
 empty-content transport failures (the remaining misses returned reasoning
 tokens but no final message content), so its row is not perfectly comparable
-to the others. The active question file has since grown to 25 numeric-answer
-questions. Results from the earlier, easier plain word-unscramble task are
+to the others. Results from the earlier, easier plain word-unscramble task are
 archived in [original-scramble-run.csv](data/original-scramble-run.csv).
 
 ## Example question
