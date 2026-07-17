@@ -1,0 +1,41 @@
+{
+  "category": "math-scramble-hard",
+  "prompt_template": "Solve the math puzzle hidden behind these scrambled characters. It's not a cipher or a way to convert characters to numbers. Unscramble the characters into the intended English phrase, using every letter exactly once. Then solve the math phrase as written.\n\n{scrambled}\n\nPuzzle: {task}\n\nReturn exactly JSON with one key \"answer\", where the value is the answer as a string of digits.",
+  "questions": [
+    {
+      "id": "hard-1",
+      "scrambled": "hiehutdinulttde oorrnsex ti ef rt y",
+      "task": "Evaluate the mathematical operation in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "144",
+      "phrase": "euler totient of six hundred thirty"
+    },
+    {
+      "id": "hard-2",
+      "scrambled": "n bt hsendi itveyf sem rosuupoeiesenoovn dr fwivtrd",
+      "task": "Evaluate the mathematical operation in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "30",
+      "phrase": "number of positive divisors of seven hundred twenty"
+    },
+    {
+      "id": "hard-3",
+      "scrambled": "rn etntziibe reca ahur lr dooufrnie nons lodfgiam",
+      "task": "Evaluate the mathematical operation in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "24",
+      "phrase": "number of trailing zeros in one hundred factorial"
+    },
+    {
+      "id": "hard-4",
+      "scrambled": "b fewnna raedse tnuc h o multtinv s eeeevdeolf",
+      "task": "Evaluate the mathematical operation in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "5256",
+      "phrase": "sum of cubes of eleven and twelve and thirteen"
+    },
+    {
+      "id": "hard-5",
+      "scrambled": "a oifomtnt pbt nrf eystiunerwo",
+      "task": "Evaluate the mathematical operation in the unscrambled phrase. Write the answer using digits, not words.",
+      "answer": "627",
+      "phrase": "number of partitions of twenty"
+    }
+  ]
+}
