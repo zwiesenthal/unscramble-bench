@@ -1,26 +1,27 @@
-# unscramble-bench
+# Unscramble Bench
 
-A small, exact-answer LLM benchmark built around one idea: **chain two easy
-tasks and grade the composition.** Each math question hides a short math phrase
-behind scrambled letters. The model must first unscramble the letters into an
-English phrase ("least common multiple of twenty four and thirty six"), then
-evaluate that phrase and answer with digits. Each step looks easy in
-isolation, yet the best score to date is 85% — see
-[Known limitations](#known-limitations) for what that number does and doesn't
-establish.
+Exact-answer LLM benchmark where the model must solve a math question with scrambled characters.
 
-Every question has a single deterministic answer, so grading is exact string
-comparison. No judge model, no partial credit.
+## Example question
+
+```
+Solve the math puzzle hidden behind these scrambled characters. It's not a
+cipher or a way to convert characters to numbers. Unscramble the characters
+into the intended English phrase, using every letter exactly once. Then solve
+the math phrase as written. Write the answer using digits, not words.
+
+ocmtrutnrle oxftluotdosne hlspattiameny iwfiym
+```
+
+Hidden phrase: `least common multiple of twenty four and thirty six`. Expected
+answer: `72`.
 
 ## Results
 
 Scores are one scored attempt per question via
 [OpenRouter](https://openrouter.ai). "Failed API calls" counts requests that
 never produced a model answer — transport errors, rate limits, and provider
-error responses. These score zero but aren't the model's fault, so treat scores
-with many failed calls as lower bounds. Models whose every request failed
-(unavailable/404, out-of-credit/402, or persistent provider errors) are omitted
-rather than listed as 0%.
+error responses. These score zero but aren't necessarily a failure of the model so we can consider failed calls as lower bounds.
 
 ### `low` reasoning config — current 25-question set
 
@@ -38,7 +39,6 @@ Combined across runs on the active 25-question
 | `moonshotai/kimi-k2.7-code` | 20% | 5/25 | 0 | $0.33 |
 | `z-ai/glm-5.2` | 20% | 5/25 | 0 | $0.26 |
 | `openai/gpt-5.6-luna` | 20% | 5/25 | 0 | $0.33 |
-| `openrouter/free` | 12% | 3/25 | 0 | $0.00 |
 | `nvidia/nemotron-3-super-120b-a12b:free` | 8% | 2/25 | 0 | $0.00 |
 | `openai/gpt-oss-20b:free` | 4% | 1/25 | 0 | $0.00 |
 | `poolside/laguna-m.1:free` | 4% | 1/25 | 0 | $0.00 |
@@ -106,23 +106,6 @@ tokens but no final message content), so its row is not perfectly comparable
 to the others. Results from the earlier, easier plain word-unscramble task are
 archived in [original-scramble-run.csv](data/original-scramble-run.csv).
 
-## Example question
-
-```
-Solve the math puzzle hidden behind these scrambled characters. It's not a
-cipher or a way to convert characters to numbers. Unscramble the characters
-into the intended English phrase, using every letter exactly once. Then solve
-the math phrase as written.
-
-ocmtrutnrle oxftluotdosne hlspattiameny iwfiym
-
-Puzzle: Evaluate the mathematical operation in the unscrambled phrase. Write
-the answer using digits, not words.
-```
-
-Hidden phrase: `least common multiple of twenty four and thirty six`. Expected
-answer: `72`.
-
 ## Usage
 
 Requires Python 3.9+ and an [OpenRouter](https://openrouter.ai) API key in
@@ -150,74 +133,3 @@ reasoning traces and cost) under `runs/`.
 Useful flags: `--runs N` repeats every question N times, `--limit N` takes the
 first N questions, `--workers`, `--timeout`, and `--max-tokens` control the
 request fan-out.
-
-## Question file formats
-
-`main.py` reads a structured file: a top-level `questions` list where each
-question has an `answer` plus either its own `prompt` or fields that fill a
-top-level `prompt_template`:
-
-```json
-{
-  "prompt_template": "...{scrambled}...{task}...",
-  "questions": [
-    {"id": "arithmetic-3", "scrambled": "ene anurqsid", "task": "Evaluate...", "answer": "81"}
-  ]
-}
-```
-
-`word_unscramble.py` reads a compact scrambled-to-answer map:
-
-```json
-{
-  "obtua": "about"
-}
-```
-
-Grading: numeric answers must match exactly after whitespace/case
-normalization; multi-word phrase answers additionally accept any word order
-(`lurking lemons` == `lemons lurking`).
-
-## Repo layout
-
-- [main.py](main.py) — benchmark runner: question loading, OpenRouter calls
-  with retry/backoff, exact-match scoring, JSON reports.
-- [word_unscramble.py](word_unscramble.py) — thin wrapper running the plain
-  unscramble task through the same runner.
-- [models.py](models.py) — model groups (`frontier`, `cheap`, `free`).
-- [questions/](questions) — task files; `math-scramble-puzzles.json` is the
-  headline set.
-- [scripts/generate_scramble_questions.py](scripts/generate_scramble_questions.py)
-  — deterministic generator for the plain word-unscramble set. The math
-  questions are curated by hand; the loader verifies every scramble is a true
-  anagram of its hidden phrase (`--validate-only` runs this check offline).
-- [scripts/generate_ops_reconciliation.py](scripts/generate_ops_reconciliation.py)
-  — generator for a work-like extension: multi-rule back-office reconciliation
-  tasks with a reference solver as ground truth.
-- [tests/](tests) — unit tests for loading, scoring, and retry behavior
-  (`python3 -m unittest discover tests`).
-
-## Design notes
-
-1. Early word/phrase tasks had answer-order ambiguity, so the grader
-   normalizes phrases and accepts equivalent word orderings.
-2. Some early "failures" were really timeout artifacts, which flattered small
-   models. Harder but shorter deterministic tasks give a cleaner signal, and
-   API failures are now reported separately from wrong answers.
-3. Pure unscrambling saturates quickly (top models were at 93–100% on the
-   original task). The scrambled-math composition restored headroom, and the
-   same harness extends to realistic multi-rule work — see
-   `questions/ops-reconciliation.json` for expense/payroll/inventory-style
-   tasks with a reference solver as ground truth.
-
-## Known limitations
-
-- No ablation yet separating "can't unscramble" from "can't do the math" —
-  running the same questions with the phrase disclosed would isolate the
-  composition effect.
-- Single scored attempt per question and no provider pinning, so OpenRouter
-  routing and provider flakiness add noise; the failed-API-call column makes
-  that visible but doesn't remove it.
-- The leaderboard was compiled from local run reports that aren't committed
-  (`runs/` is gitignored), so the table isn't independently reproducible from
-  this repo alone.
