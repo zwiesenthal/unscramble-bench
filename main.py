@@ -3,6 +3,8 @@ from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from itertools import product
 import json
+import hashlib
+import math
 import os
 import re
 import sys
@@ -57,7 +59,9 @@ CONFIGS = {
 
 
 def load_questions(path):
-    data = json.loads(Path(path).read_text(encoding="utf-8"))
+    data = json.loads(Path(path).read_text(encoding="utf-8"),
+                      object_pairs_hook=unique_json_object, parse_constant=reject_json_constant,
+                      parse_float=finite_json_float)
     if not isinstance(data, dict) or not isinstance(data.get("questions"), list):
         raise ValueError(
             "structured question files must contain a top-level questions list; "
@@ -105,12 +109,32 @@ def load_questions(path):
                     f"an anagram of the phrase {phrase!r}"
                 )
 
-        questions.append({
+        scoring = item.get("scoring", data.get("scoring", "legacy"))
+        if scoring not in ("legacy", "json"):
+            raise ValueError(f"questions[{i}]: unknown scoring mode {scoring!r}")
+        system_prompt = item.get("system_prompt", data.get("system_prompt"))
+        if system_prompt is not None and not isinstance(system_prompt, str):
+            raise ValueError(f"questions[{i}]: system_prompt must be a string")
+        if not isinstance(prompt, str):
+            raise ValueError(f"questions[{i}]: prompt must be a string")
+        if scoring == "json":
+            # Reject NaN / Infinity in reference answers too.
+            json.dumps(item["answer"], allow_nan=False)
+        question = {
             "id": question_id,
             "scrambled": scrambled,
             "prompt": prompt,
-            "answer": str(item["answer"]),
-        })
+            "answer": item["answer"] if scoring == "json" else str(item["answer"]),
+            "scoring": scoring,
+        }
+        if system_prompt:
+            question["system_prompt"] = system_prompt
+        for key in ("family", "difficulty", "split", "seed", "version", "instance_hash"):
+            if key in item:
+                question[key] = item[key]
+        if scoring == "json" and "instance" in item:
+            question["instance"] = item["instance"]  # Grader-only; question_messages uses an allowlist.
+        questions.append(question)
 
     return questions
 
@@ -136,7 +160,42 @@ def is_correct(parsed, expected):
     return sorted(normalized_words(parsed)) == sorted(normalized_words(expected))
 
 
-def parse_model_answer(raw):
+def exact_json_equal(actual, expected):
+    """JSON object order is irrelevant; array order and scalar types are exact."""
+    if type(actual) is not type(expected):
+        return False
+    if isinstance(expected, dict):
+        return actual.keys() == expected.keys() and all(
+            exact_json_equal(actual[k], expected[k]) for k in expected
+        )
+    if isinstance(expected, list):
+        return len(actual) == len(expected) and all(
+            exact_json_equal(a, b) for a, b in zip(actual, expected)
+        )
+    return actual == expected
+
+
+def unique_json_object(pairs):
+    out = {}
+    for key, value in pairs:
+        if key in out:
+            raise ValueError(f"duplicate JSON key: {key!r}")
+        out[key] = value
+    return out
+
+
+def reject_json_constant(value):
+    raise ValueError(f"non-finite JSON number: {value}")
+
+
+def finite_json_float(value):
+    parsed = float(value)
+    if not math.isfinite(parsed):
+        raise ValueError(f"non-finite JSON number: {value}")
+    return parsed
+
+
+def parse_model_answer(raw, native=False):
     """Read the {"answer": ...} object returned by a model."""
     if raw is None:
         raise ValueError("empty response content")
@@ -146,12 +205,29 @@ def parse_model_answer(raw):
     if fence:
         text = fence.group(1).strip()
 
-    data = json.loads(text)
+    data = json.loads(text, object_pairs_hook=unique_json_object,
+                      parse_constant=reject_json_constant, parse_float=finite_json_float)
     if not isinstance(data, dict):
         raise ValueError("response JSON must be an object")
     if "answer" not in data:
         raise KeyError("answer")
-    return str(data["answer"])
+    if native and set(data) != {"answer"}:
+        raise ValueError("response JSON must have exactly one key: answer")
+    return data["answer"] if native else str(data["answer"])
+
+
+def question_messages(question):
+    """Only these two explicit fields are sent to a model; never the answer key."""
+    messages = []
+    if question.get("system_prompt"):
+        messages.append({"role": "system", "content": question["system_prompt"]})
+    messages.append({"role": "user", "content": question["prompt"]})
+    return messages
+
+
+def prompt_hash(question):
+    payload = json.dumps(question_messages(question), sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(payload.encode()).hexdigest()
 
 
 def retry_delay_seconds(attempt_index):
@@ -266,9 +342,7 @@ def run_attempt(session, model, config, run, question, timeout, max_tokens):
             "max_tokens": max_tokens or options["max_tokens"],
             "reasoning": options["reasoning"],
             "response_format": {"type": "json_object"},
-            "messages": [
-                {"role": "user", "content": question["prompt"]},
-            ],
+            "messages": question_messages(question),
         }
 
         for attempt_index in range(MAX_API_RETRIES + 1):
@@ -342,11 +416,24 @@ def score_attempt(model, config, run, question, response, latency, error, api_er
                 error = content_error
             else:
                 try:
-                    parsed = parse_model_answer(raw)
-                except (KeyError, TypeError, ValueError, json.JSONDecodeError) as exc:
+                    parsed = parse_model_answer(raw, native=question.get("scoring") == "json")
+                except (KeyError, TypeError, ValueError, RecursionError) as exc:
                     error = f"parse error: {exc}"
 
-    correct = is_correct(parsed, question["answer"])
+    scoring = question.get("scoring", "legacy")
+    correct = (exact_json_equal(parsed, question["answer"]) if scoring == "json"
+               else is_correct(parsed, question["answer"]))
+    # Even a null expected answer must never turn a parse/API failure into a pass.
+    correct = bool(correct and not error and not api_error)
+    fields = {}
+    if scoring == "json" and isinstance(question["answer"], dict):
+        fields = {k: bool(not error and not api_error and isinstance(parsed, dict) and k in parsed
+                          and exact_json_equal(parsed[k], v))
+                  for k, v in question["answer"].items()}
+    diagnostics = {}
+    if scoring == "json" and not error and not api_error:
+        from puzzles.assessment import diagnose
+        diagnostics = diagnose(question, parsed)
 
     return {
         "model": model,
@@ -355,6 +442,15 @@ def score_attempt(model, config, run, question, response, latency, error, api_er
         "run": run,
         "problem_id": question["id"],
         "prompt": question["prompt"],
+        "system_prompt": question.get("system_prompt"),
+        "prompt_hash": prompt_hash(question),
+        "scoring": scoring,
+        "family": question.get("family"),
+        "difficulty": question.get("difficulty"),
+        "split": question.get("split"),
+        "seed": question.get("seed"),
+        "version": question.get("version"),
+        "instance_hash": question.get("instance_hash"),
         "expected_answer": question["answer"],
         "raw_response": raw,
         "parsed_answer": parsed,
@@ -362,6 +458,8 @@ def score_attempt(model, config, run, question, response, latency, error, api_er
         "response_message": response_message,
         "response_choice": response_choice,
         "correct": correct,
+        "fields_correct": fields,
+        "diagnostics": diagnostics,
         "latency_seconds": round(latency, 3),
         "cost": cost,
         "usage": usage,
@@ -377,8 +475,14 @@ def aggregate(rows):
         score["correct"] += row["correct"]
         score["total"] += 1
         score["failed_api_calls"] += bool(row.get("api_error"))
+        score["response_errors"] += bool(row.get("error")) and not row.get("api_error", False)
+        contract = row.get("diagnostics", {}).get("contract_satisfied")
+        if type(contract) is bool:
+            score["assessed_contract_attempts"] += 1
+            score["contract_violations"] += not contract
         if row["cost"] is not None:
             score["cost"] += row["cost"]
+            score["cost_reported_attempts"] += 1
 
     return [
         {
@@ -388,10 +492,28 @@ def aggregate(rows):
             "total": score["total"],
             "percent": round(100 * score["correct"] / score["total"], 2),
             "failed_api_calls": score["failed_api_calls"],
-            "cost": round(score["cost"], 6),
+            "response_errors": score["response_errors"],
+            "assessed_contract_attempts": score["assessed_contract_attempts"],
+            "contract_violations": score["contract_violations"],
+            "non_api_attempts": score["total"] - score["failed_api_calls"],
+            "percent_excluding_api_failures": (
+                round(100 * score["correct"] / (score["total"] - score["failed_api_calls"]), 2)
+                if score["total"] > score["failed_api_calls"] else None
+            ),
+            "cost": round(score["cost"], 6) if score["cost_reported_attempts"] == score["total"] else None,
+            "known_cost": round(score["cost"], 6),
+            "cost_missing_attempts": score["total"] - score["cost_reported_attempts"],
         }
         for (model, config), score in scores.items()
     ]
+
+
+def aggregate_families(rows):
+    groups = defaultdict(list)
+    for row in rows:
+        groups[row.get("family"), row.get("difficulty")].append(row)
+    return [{"family": family, "difficulty": difficulty, **score}
+            for (family, difficulty), group in groups.items() for score in aggregate(group)]
 
 
 def run_timestamp():
@@ -419,6 +541,8 @@ def parse_args(
     )
     parser.add_argument("--configs", default="all")
     parser.add_argument("--limit", type=int)
+    parser.add_argument("--families", help="comma-separated family names to select before --limit")
+    parser.add_argument("--difficulty", choices=["hard", "extreme"])
     parser.add_argument("--timeout", type=float, default=120)
     parser.add_argument("--workers", type=int, default=32)
     parser.add_argument("--max-tokens", type=int)
@@ -468,6 +592,15 @@ def run_benchmark(args, questions):
         )
         return 1
 
+    if args.families:
+        names = set(args.families.split(","))
+        unknown = names - {q.get("family") for q in questions}
+        if unknown:
+            print(f"Error: unknown families: {', '.join(sorted(unknown))}", file=sys.stderr)
+            return 1
+        questions = [q for q in questions if q.get("family") in names]
+    if args.difficulty:
+        questions = [q for q in questions if q.get("difficulty") == args.difficulty]
     questions = questions[: args.limit]
 
     if args.validate_only:
@@ -532,6 +665,7 @@ def run_benchmark(args, questions):
 
     aggregates = aggregate(rows)
     total_cost = round(sum(row["cost"] or 0 for row in rows), 6)
+    missing_costs = sum(row["cost"] is None for row in rows)
 
     results = {
         "metadata": {
@@ -539,13 +673,18 @@ def run_benchmark(args, questions):
             "openrouter_url": OPENROUTER_URL,
             "args": vars(args),
             "question_file": args.questions,
+            "question_file_sha256": hashlib.sha256(Path(args.questions).read_bytes()).hexdigest(),
+            "tools_allowed": False,
             "total_questions": len(questions),
             "models": models,
             "configs": configs,
             "runs": args.runs,
-            "cost": total_cost,
+            "cost": total_cost if not missing_costs else None,
+            "known_cost": total_cost,
+            "cost_missing_attempts": missing_costs,
         },
         "aggregates": aggregates,
+        "by_family": aggregate_families(rows),
         "results": rows,
     }
 
@@ -554,13 +693,14 @@ def run_benchmark(args, questions):
     output.write_text(json.dumps(results, indent=2) + "\n", encoding="utf-8")
 
     print(f"\nSaved results to {output}")
-    print(f"Total cost=${total_cost:.6f}")
+    print(f"Known reported cost=${total_cost:.6f}; attempts with unknown cost={missing_costs}")
     for score in results["aggregates"]:
+        cost_text = f"${score['cost']:.6f}" if score["cost"] is not None else "unknown"
         print(
             f"- {score['model']} [{score['config']}]: "
             f"{score['correct']}/{score['total']} ({score['percent']}%), "
             f"failed API calls={score['failed_api_calls']}, "
-            f"cost=${score['cost']:.6f}"
+            f"cost={cost_text}"
         )
     return 0
 
@@ -572,7 +712,11 @@ def main(argv=None):
         default_questions=DEFAULT_QUESTIONS,
         default_out_prefix="scramble-results",
     )
-    questions = load_questions(args.questions)
+    try:
+        questions = load_questions(args.questions)
+    except (OSError, ValueError) as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 1
     return run_benchmark(args, questions)
 
 

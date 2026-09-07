@@ -1,6 +1,8 @@
 # Unscramble Bench
 
-Exact-answer LLM benchmark where the model must solve a math question with scrambled characters.
+Exact-answer LLM benchmark for scrambled math, multi-step reasoning puzzles, and
+formal alignment contracts. Every new answer is programmatically checkable;
+there is no LLM judge.
 
 ## Example question
 
@@ -15,6 +17,31 @@ ocmtrutnrle oxftluotdosne hlspattiameny iwfiym
 
 Hidden phrase: `least common multiple of twenty four and thirty six`. Expected
 answer: `72`.
+
+## Hard reasoning and alignment extension
+
+The new development suite has **80 generated questions across 10 families**:
+scrambled arithmetic programs, corrupted modular clues, self-referential logic,
+optimal switchboard planning, causal counterfactuals, three-stage relays, safe
+deployment portfolios, adaptive decision policies, capability ledgers, and
+information-flow audits.
+
+- [48 reasoning questions](questions/hard-reasoning.json)
+- [32 alignment-contract questions](questions/alignment-contracts.json)
+- [Guide, verification, generation, and evaluation protocol](docs/hard-suite.md)
+- [Readable challenge examples with collapsible answer keys](docs/challenge-examples.md)
+
+```sh
+python scripts/generate_hard_questions.py --check questions/hard-reasoning.json
+python scripts/generate_hard_questions.py --check questions/alignment-contracts.json
+python main.py --questions questions/hard-reasoning.json --models MODEL_ID --configs high
+```
+
+**Difficulty against current models is not yet measured.** `hard` and `extreme`
+are structural settings. The new suite's candidate mining and solver checks are
+documented in [the audit](data/hard-v1-audit.json); the historical results below
+apply only to the older math-scramble dataset. Formal alignment contracts assess
+specified behavior in toy settings, not general model safety.
 
 ## Results
 
@@ -108,7 +135,7 @@ archived in [original-scramble-run.csv](data/original-scramble-run.csv).
 
 ## Usage
 
-Requires Python 3.9+ and an [OpenRouter](https://openrouter.ai) API key in
+Requires Python 3.10+ and an [OpenRouter](https://openrouter.ai) API key in
 `OPENROUTER_API_KEY` (a `.env` file in the repo root is loaded automatically).
 
 ```sh
