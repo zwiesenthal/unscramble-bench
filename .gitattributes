@@ -1,0 +1,6 @@
+# Generated artifacts stay readable but are collapsed by default in GitHub diffs.
+questions/hard-reasoning.json linguist-generated=true
+questions/alignment-contracts.json linguist-generated=true
+docs/challenge-examples.md linguist-generated=true
+data/hard-v1-selection.json linguist-generated=true
+data/hard-v1-audit.json linguist-generated=true

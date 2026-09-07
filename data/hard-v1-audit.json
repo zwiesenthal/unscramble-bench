@@ -1,0 +1,918 @@
+{
+  "version": "hard-v1",
+  "updated_at": "2026-09-07T21:13:16.463627+00:00",
+  "python_version": "3.12.13",
+  "status": "complete",
+  "model_evaluations": 0,
+  "model_difficulty": "unmeasured: no model API credential was available during development",
+  "public_development_questions": {
+    "reasoning": 48,
+    "alignment_contracts": 32,
+    "total": 80
+  },
+  "current_generator_candidate_pool": 8406,
+  "family_selection": {
+    "anagram": {
+      "hard": {
+        "successful_candidates": 150,
+        "selected": [
+          {
+            "seed": 110,
+            "metrics": {
+              "nonlinear_steps": 8,
+              "distinct_values": 10,
+              "total_value_digits": 30
+            },
+            "instance_hash": "752d5c16a122adb8c73bc0d83755d8183b1e15053ed54e94bb9309e2ac29e76a"
+          },
+          {
+            "seed": 156,
+            "metrics": {
+              "nonlinear_steps": 8,
+              "distinct_values": 10,
+              "total_value_digits": 30
+            },
+            "instance_hash": "b15e2c0fa106444647244242accabe52a7221b0f877e24057051dc836d307b83"
+          },
+          {
+            "seed": 161,
+            "metrics": {
+              "nonlinear_steps": 8,
+              "distinct_values": 10,
+              "total_value_digits": 30
+            },
+            "instance_hash": "233aa80da14a7f86d297a3e354d9a3dc2000e93aecb166e56c736ef86b59a8cb"
+          },
+          {
+            "seed": 187,
+            "metrics": {
+              "nonlinear_steps": 8,
+              "distinct_values": 10,
+              "total_value_digits": 30
+            },
+            "instance_hash": "e8c49bb42d62637c215d73f50a2926c704210116f88d72bf1f6da9e33dbc7990"
+          }
+        ]
+      },
+      "extreme": {
+        "successful_candidates": 150,
+        "selected": [
+          {
+            "seed": 110,
+            "metrics": {
+              "nonlinear_steps": 14,
+              "distinct_values": 16,
+              "total_value_digits": 45
+            },
+            "instance_hash": "d4dba1cd5daf70052cbaae21fc0dd7454a1536fe69b29e2f0e7a88b13fe6ed2b"
+          },
+          {
+            "seed": 132,
+            "metrics": {
+              "nonlinear_steps": 14,
+              "distinct_values": 16,
+              "total_value_digits": 45
+            },
+            "instance_hash": "eeb82450ada22175a7b1767cf229c8892dbd8909921dcd30ab7a9153040c4315"
+          },
+          {
+            "seed": 157,
+            "metrics": {
+              "nonlinear_steps": 14,
+              "distinct_values": 16,
+              "total_value_digits": 45
+            },
+            "instance_hash": "12d883cb3e3c8cfc19b92bac0f30154aeb1654f9e94eb3cd18b90194dda76f07"
+          },
+          {
+            "seed": 126,
+            "metrics": {
+              "nonlinear_steps": 14,
+              "distinct_values": 16,
+              "total_value_digits": 44
+            },
+            "instance_hash": "050fef22a12f8b550fc6870ca769ff2fce0bf2aa94b59bcd56bc76957287b478"
+          }
+        ]
+      }
+    },
+    "residues": {
+      "hard": {
+        "successful_candidates": 150,
+        "selected": [
+          {
+            "seed": 196,
+            "metrics": {
+              "near_miss_secrets": 125,
+              "secret_digits": 7
+            },
+            "instance_hash": "7c14003b2bbc2490273e22718eacf4581139c1a7b2e6a89cb42f1da1e1877411"
+          },
+          {
+            "seed": 205,
+            "metrics": {
+              "near_miss_secrets": 112,
+              "secret_digits": 7
+            },
+            "instance_hash": "d179f41ba557de585724eba3b99483d47d2452b15e7c75837d4b8a18e6bb1a94"
+          },
+          {
+            "seed": 149,
+            "metrics": {
+              "near_miss_secrets": 96,
+              "secret_digits": 7
+            },
+            "instance_hash": "1ff0ddf41b2d1b11227e8e99c604f36cc3acbb3ec73e5e1bc59db624a46dc995"
+          },
+          {
+            "seed": 173,
+            "metrics": {
+              "near_miss_secrets": 73,
+              "secret_digits": 7
+            },
+            "instance_hash": "f91be399769147b68ec298d7d05caadd71b9fa45defe969887b7d8bcd84957aa"
+          }
+        ]
+      },
+      "extreme": {
+        "successful_candidates": 150,
+        "selected": [
+          {
+            "seed": 130,
+            "metrics": {
+              "near_miss_secrets": 51,
+              "secret_digits": 9
+            },
+            "instance_hash": "42c8f7183f1aa93c691dff108a81f574596dd5da4fd05fa39b18e658ae93b5b4"
+          },
+          {
+            "seed": 142,
+            "metrics": {
+              "near_miss_secrets": 51,
+              "secret_digits": 9
+            },
+            "instance_hash": "641553546b46854758171823c6d8f9009d99c5740d301ec9bdce4dadc8e16cb7"
+          },
+          {
+            "seed": 214,
+            "metrics": {
+              "near_miss_secrets": 51,
+              "secret_digits": 9
+            },
+            "instance_hash": "430eb06e58b4756d5b0ff597225783321e567194c0418ba9340b04bd3b88aeac"
+          },
+          {
+            "seed": 234,
+            "metrics": {
+              "near_miss_secrets": 51,
+              "secret_digits": 9
+            },
+            "instance_hash": "731d2914ee114ccf02b6c5aa530cd1074672e6a3d642ccb1b57be27831177e26"
+          }
+        ]
+      }
+    },
+    "switchboard": {
+      "hard": {
+        "successful_candidates": 150,
+        "selected": [
+          {
+            "seed": 107,
+            "metrics": {
+              "shortest_moves": 17,
+              "reachable_states": 1674,
+              "shortest_solutions": 268915
+            },
+            "instance_hash": "1a58172872c9ca71de3baaaae1b124d40f7f25fb811ee5b32f1557d60ec3598f"
+          },
+          {
+            "seed": 213,
+            "metrics": {
+              "shortest_moves": 15,
+              "reachable_states": 1728,
+              "shortest_solutions": 242256
+            },
+            "instance_hash": "d9dcee70503f9396a31b58cdef0f4c66e73239834f355c89b449718c98e9af04"
+          },
+          {
+            "seed": 226,
+            "metrics": {
+              "shortest_moves": 15,
+              "reachable_states": 1319,
+              "shortest_solutions": 38074
+            },
+            "instance_hash": "dc57d448f26340ecc6dcbc89daa0ec900997b7dce3c65b5cddc9e88cb3dae03d"
+          },
+          {
+            "seed": 141,
+            "metrics": {
+              "shortest_moves": 15,
+              "reachable_states": 1127,
+              "shortest_solutions": 114832
+            },
+            "instance_hash": "1d2cbfc98b3b9f3bc3eb8bee20731c139885d985c53dbd64152e47995ac94171"
+          }
+        ]
+      },
+      "extreme": {
+        "successful_candidates": 150,
+        "selected": [
+          {
+            "seed": 157,
+            "metrics": {
+              "shortest_moves": 24,
+              "reachable_states": 3620,
+              "shortest_solutions": 675781394
+            },
+            "instance_hash": "9eb946b56b3dd332cc383ccd4bcb31a7aeffbe75d0c025ca805dc9e2eaebc38a"
+          },
+          {
+            "seed": 112,
+            "metrics": {
+              "shortest_moves": 19,
+              "reachable_states": 13823,
+              "shortest_solutions": 201885164
+            },
+            "instance_hash": "dfe38e774d647801f3bc3dd55dc476d8d9822c5acbc3f3edcfa0e03d4b3720d2"
+          },
+          {
+            "seed": 172,
+            "metrics": {
+              "shortest_moves": 19,
+              "reachable_states": 11519,
+              "shortest_solutions": 223496694
+            },
+            "instance_hash": "1a7261c52bcd0188f8404ff48f7108fd543e770eedda5c1e2fd442b66190ebb0"
+          },
+          {
+            "seed": 207,
+            "metrics": {
+              "shortest_moves": 18,
+              "reachable_states": 13820,
+              "shortest_solutions": 50787255
+            },
+            "instance_hash": "57b22ec0c96fa30fc6cf409f4a6f9444609108eb9d6dd1d32f96f59e4a2a1951"
+          }
+        ]
+      }
+    },
+    "causal": {
+      "hard": {
+        "successful_candidates": 150,
+        "selected": [
+          {
+            "seed": 194,
+            "metrics": {
+              "counterfactual_denominator": 94,
+              "compatible_worlds": 94,
+              "distinct_probabilities": 3
+            },
+            "instance_hash": "cc7a52d1a01226f7e154b25ff5f5d7e7ff265c757c86c860e33190cff5fb0c35"
+          },
+          {
+            "seed": 224,
+            "metrics": {
+              "counterfactual_denominator": 81,
+              "compatible_worlds": 81,
+              "distinct_probabilities": 3
+            },
+            "instance_hash": "b3656e6f12411cb70d0b09068edde7df7ccb789f7b22e468075081c22dd498a5"
+          },
+          {
+            "seed": 112,
+            "metrics": {
+              "counterfactual_denominator": 79,
+              "compatible_worlds": 79,
+              "distinct_probabilities": 3
+            },
+            "instance_hash": "50e10180fd36021d28e88ff3d44661177d153857cdc10c6c660465214db2480b"
+          },
+          {
+            "seed": 146,
+            "metrics": {
+              "counterfactual_denominator": 79,
+              "compatible_worlds": 79,
+              "distinct_probabilities": 3
+            },
+            "instance_hash": "68af4dff60ec7a296232fc5f2e5afcf6e6b5a048f911b1ef6671fce3e1fab4cf"
+          }
+        ]
+      },
+      "extreme": {
+        "successful_candidates": 150,
+        "selected": [
+          {
+            "seed": 235,
+            "metrics": {
+              "counterfactual_denominator": 398,
+              "compatible_worlds": 796,
+              "distinct_probabilities": 3
+            },
+            "instance_hash": "3df616200ae87b543897d0fa7e1b4fb9a0a6d684f06b6028db43b248f5bc2462"
+          },
+          {
+            "seed": 134,
+            "metrics": {
+              "counterfactual_denominator": 355,
+              "compatible_worlds": 710,
+              "distinct_probabilities": 3
+            },
+            "instance_hash": "b769022af1224b251347f34b18eab2164c79fd4fb17d714486a31b4233d14a96"
+          },
+          {
+            "seed": 118,
+            "metrics": {
+              "counterfactual_denominator": 348,
+              "compatible_worlds": 348,
+              "distinct_probabilities": 3
+            },
+            "instance_hash": "058190eafb0b945fa5cb9296a3a528cee82ae9b9be05c3223107a7dda0c59c3c"
+          },
+          {
+            "seed": 159,
+            "metrics": {
+              "counterfactual_denominator": 335,
+              "compatible_worlds": 335,
+              "distinct_probabilities": 3
+            },
+            "instance_hash": "9f299cdb4cc60ad0d27ee5e33815ba89bd5377058062b41597e3fd566e5e2d28"
+          }
+        ]
+      }
+    },
+    "relay": {
+      "hard": {
+        "successful_candidates": 150,
+        "selected": [
+          {
+            "seed": 134,
+            "metrics": {
+              "shortest_moves": 17,
+              "counterfactual_denominator": 61,
+              "shortest_solutions": 63650
+            },
+            "instance_hash": "1bf80bf0c9c626bb4cbb47268a88a6589f45bca1701593b54f517c6bd4acdac7"
+          },
+          {
+            "seed": 157,
+            "metrics": {
+              "shortest_moves": 16,
+              "counterfactual_denominator": 38,
+              "shortest_solutions": 78057
+            },
+            "instance_hash": "bf700d7472c0c90dbd8e6b92c6930bb10c6dca96561f9b858e5e3a94f5f87460"
+          },
+          {
+            "seed": 116,
+            "metrics": {
+              "shortest_moves": 16,
+              "counterfactual_denominator": 25,
+              "shortest_solutions": 1501342
+            },
+            "instance_hash": "f5652aa52ab09e98f8dad25ffed761dd655fc1025309d7f02d28cbd17fc3b68f"
+          },
+          {
+            "seed": 166,
+            "metrics": {
+              "shortest_moves": 15,
+              "counterfactual_denominator": 26,
+              "shortest_solutions": 33600
+            },
+            "instance_hash": "662dd23836c0efe09b51ab1022ab04bf3bed4852cfc800e8748d13478588f923"
+          }
+        ]
+      },
+      "extreme": {
+        "successful_candidates": 150,
+        "selected": [
+          {
+            "seed": 207,
+            "metrics": {
+              "shortest_moves": 20,
+              "counterfactual_denominator": 32,
+              "shortest_solutions": 3271639497
+            },
+            "instance_hash": "7e6438de4e154c1aca8cf48479092f2fcd8671b0ec7158379bc05763ea2b07b6"
+          },
+          {
+            "seed": 101,
+            "metrics": {
+              "shortest_moves": 19,
+              "counterfactual_denominator": 333,
+              "shortest_solutions": 11850644
+            },
+            "instance_hash": "49927dd2f699574dd078c5c06f1bc1986a1515214d4d4e08a27e093bb56476bf"
+          },
+          {
+            "seed": 120,
+            "metrics": {
+              "shortest_moves": 19,
+              "counterfactual_denominator": 23,
+              "shortest_solutions": 336174468
+            },
+            "instance_hash": "a1996b3933b10a33bb08751b0cd12739269f74f8f6731155a08ad3055c317bcb"
+          },
+          {
+            "seed": 153,
+            "metrics": {
+              "shortest_moves": 18,
+              "counterfactual_denominator": 74,
+              "shortest_solutions": 11974416
+            },
+            "instance_hash": "7c3e33cf91690ad5bd840eac6848f70a10cf833f0b11b59cc9b272ad9d4c0986"
+          }
+        ]
+      }
+    },
+    "contracts": {
+      "hard": {
+        "successful_candidates": 150,
+        "selected": [
+          {
+            "seed": 245,
+            "metrics": {
+              "greedy_regret": 75,
+              "proxy_violates_contract": 1,
+              "prefixes_explored": 2195
+            },
+            "instance_hash": "36781e36af18b9f6c8ea6c87af11e1458a13338de79c7dd33c182ccee7686a61"
+          },
+          {
+            "seed": 120,
+            "metrics": {
+              "greedy_regret": 68,
+              "proxy_violates_contract": 1,
+              "prefixes_explored": 1002
+            },
+            "instance_hash": "d1c16432ae2b2f98ddc0a1a9e24244a8507d6de066563beb5272e9203083d758"
+          },
+          {
+            "seed": 173,
+            "metrics": {
+              "greedy_regret": 67,
+              "proxy_violates_contract": 1,
+              "prefixes_explored": 346
+            },
+            "instance_hash": "f3ea594991b6cd0b7625ad02b949aea848a07da8ee1729b48af4bc39452b1aba"
+          },
+          {
+            "seed": 105,
+            "metrics": {
+              "greedy_regret": 65,
+              "proxy_violates_contract": 1,
+              "prefixes_explored": 1022
+            },
+            "instance_hash": "69d755ef0e7d10e553a32cb0d5c306ca9a3b7c72566e6b8b0736e367e3bdf989"
+          }
+        ]
+      },
+      "extreme": {
+        "successful_candidates": 150,
+        "selected": [
+          {
+            "seed": 220,
+            "metrics": {
+              "greedy_regret": 114,
+              "proxy_violates_contract": 1,
+              "prefixes_explored": 10093
+            },
+            "instance_hash": "61b33095a787580469f7bdcad433f00adbb21d24eb44e90193a12c1a4533166e"
+          },
+          {
+            "seed": 187,
+            "metrics": {
+              "greedy_regret": 96,
+              "proxy_violates_contract": 1,
+              "prefixes_explored": 817
+            },
+            "instance_hash": "dc068f2ac663f80ca9314b7dba0158da25f6bda29276e2c731d0c35e55466d23"
+          },
+          {
+            "seed": 244,
+            "metrics": {
+              "greedy_regret": 85,
+              "proxy_violates_contract": 1,
+              "prefixes_explored": 4301
+            },
+            "instance_hash": "1609304f5a387a68b6814ba8cb718584c560ac1b0cd6c87c4e034a8b5e8c1eb0"
+          },
+          {
+            "seed": 164,
+            "metrics": {
+              "greedy_regret": 84,
+              "proxy_violates_contract": 1,
+              "prefixes_explored": 2828
+            },
+            "instance_hash": "7fbac154528b240f451e488b257d3482ae834b34c75c529f44efb3b20631b095"
+          }
+        ]
+      }
+    },
+    "policy": {
+      "hard": {
+        "successful_candidates": 150,
+        "selected": [
+          {
+            "seed": 150,
+            "metrics": {
+              "adaptive_depth": 3,
+              "distinct_terminal_actions": 4,
+              "utility_denominator": 59
+            },
+            "instance_hash": "91bcfcfa8a66d3fe7fb638716b28507004a7060dc302d71b7da458279cecc418"
+          },
+          {
+            "seed": 217,
+            "metrics": {
+              "adaptive_depth": 3,
+              "distinct_terminal_actions": 4,
+              "utility_denominator": 54
+            },
+            "instance_hash": "5ca23ec993ac9eb0ee650666430432384aced6df8ed98099ec934a4e7f8cce0f"
+          },
+          {
+            "seed": 147,
+            "metrics": {
+              "adaptive_depth": 3,
+              "distinct_terminal_actions": 4,
+              "utility_denominator": 51
+            },
+            "instance_hash": "0162fc928afc20f51843ec4b5dcc5a2920fcdb5c88ec3ab8ace15b2b4856264b"
+          },
+          {
+            "seed": 180,
+            "metrics": {
+              "adaptive_depth": 3,
+              "distinct_terminal_actions": 4,
+              "utility_denominator": 51
+            },
+            "instance_hash": "32f1cfa6d338132a8b9f9997bae7c277f8ea931ada8d93e866ae200dbadcda3f"
+          }
+        ]
+      },
+      "extreme": {
+        "successful_candidates": 150,
+        "selected": [
+          {
+            "seed": 157,
+            "metrics": {
+              "adaptive_depth": 4,
+              "distinct_terminal_actions": 5,
+              "utility_denominator": 53
+            },
+            "instance_hash": "101b35e3e2a0e20cce2723e7b208e689e423df45527c0ea5747487263ff09cf2"
+          },
+          {
+            "seed": 235,
+            "metrics": {
+              "adaptive_depth": 4,
+              "distinct_terminal_actions": 5,
+              "utility_denominator": 52
+            },
+            "instance_hash": "224b25ca3355ed940e7ead5dbb792b1665e402d334455ff97ca7632d7b34d4d4"
+          },
+          {
+            "seed": 102,
+            "metrics": {
+              "adaptive_depth": 4,
+              "distinct_terminal_actions": 5,
+              "utility_denominator": 22
+            },
+            "instance_hash": "850718d6ae532da16bf9b9c13c0a635f0b1b96adde11fef6d185644c8c9c9443"
+          },
+          {
+            "seed": 206,
+            "metrics": {
+              "adaptive_depth": 4,
+              "distinct_terminal_actions": 5,
+              "utility_denominator": 7
+            },
+            "instance_hash": "467d50742e9eac650d549e1518494c365e68d4c91a94acf3ad1c069c5fa9f3d6"
+          }
+        ]
+      }
+    },
+    "ledger": {
+      "hard": {
+        "successful_candidates": 150,
+        "selected": [
+          {
+            "seed": 202,
+            "metrics": {
+              "rejected_rows": 23,
+              "successful_uses": 5,
+              "exhausted_tokens": 0
+            },
+            "instance_hash": "3f3272b6403d205b8cb0cc31515d46d6866883c7e56356afad7d56000604e8c3"
+          },
+          {
+            "seed": 166,
+            "metrics": {
+              "rejected_rows": 22,
+              "successful_uses": 8,
+              "exhausted_tokens": 0
+            },
+            "instance_hash": "18c92177bb3f8c4eeb02695abf182a890d64f1fc85bbc87c55d257dd4998f3c5"
+          },
+          {
+            "seed": 102,
+            "metrics": {
+              "rejected_rows": 21,
+              "successful_uses": 8,
+              "exhausted_tokens": 1
+            },
+            "instance_hash": "e537721841cd816f0dc77f533dfb3e299c356a3c2fbc995c723ea4626e91199b"
+          },
+          {
+            "seed": 104,
+            "metrics": {
+              "rejected_rows": 21,
+              "successful_uses": 8,
+              "exhausted_tokens": 0
+            },
+            "instance_hash": "5d11bc3aaed65c3e85d78c5e1329b1793fe33d6c4c23e2eb02c9b5d488996bfa"
+          }
+        ]
+      },
+      "extreme": {
+        "successful_candidates": 150,
+        "selected": [
+          {
+            "seed": 139,
+            "metrics": {
+              "rejected_rows": 45,
+              "successful_uses": 7,
+              "exhausted_tokens": 0
+            },
+            "instance_hash": "ce919bc52d977482838c1326b6e6f8ed9ca1b0c9a47aed9b5793fcffa1049a8f"
+          },
+          {
+            "seed": 157,
+            "metrics": {
+              "rejected_rows": 43,
+              "successful_uses": 15,
+              "exhausted_tokens": 1
+            },
+            "instance_hash": "ebb809b7b79ea1b343c6edbe181368c67adcdbb68390ce6d0a084b2246f67bcd"
+          },
+          {
+            "seed": 220,
+            "metrics": {
+              "rejected_rows": 42,
+              "successful_uses": 16,
+              "exhausted_tokens": 2
+            },
+            "instance_hash": "9e2a5513821acf9b5f2f2eeb25c68ece3846ca3398e46517470522eb24e45803"
+          },
+          {
+            "seed": 193,
+            "metrics": {
+              "rejected_rows": 41,
+              "successful_uses": 16,
+              "exhausted_tokens": 2
+            },
+            "instance_hash": "ca3bbf665b357cfd2854eee4834e0ab9932c4d534012e0c8a84b53bc52d1f01e"
+          }
+        ]
+      }
+    },
+    "noninterference": {
+      "hard": {
+        "successful_candidates": 150,
+        "selected": [
+          {
+            "seed": 216,
+            "metrics": {
+              "latest_first_leak_public": 7,
+              "largest_first_leak_secret": 61,
+              "safe_programs": 3
+            },
+            "instance_hash": "945d4cc9f96a962fe5a0ae845bf3cc308b8c18d6a46d3c4d0dad547a8b8ba7a0"
+          },
+          {
+            "seed": 140,
+            "metrics": {
+              "latest_first_leak_public": 7,
+              "largest_first_leak_secret": 61,
+              "safe_programs": 2
+            },
+            "instance_hash": "2477105706c01d78c8ff198604c3bf3a62c6ddac5e23747903526c7bfa64d9ab"
+          },
+          {
+            "seed": 192,
+            "metrics": {
+              "latest_first_leak_public": 7,
+              "largest_first_leak_secret": 60,
+              "safe_programs": 3
+            },
+            "instance_hash": "e759304620695d9ca82963f1d45db7e2706b6d7fff92b5460c9635e44bc00668"
+          },
+          {
+            "seed": 150,
+            "metrics": {
+              "latest_first_leak_public": 7,
+              "largest_first_leak_secret": 58,
+              "safe_programs": 4
+            },
+            "instance_hash": "460124ddcc899dab845adb39c4bed661ea675fa04dfd0e6f395a8938ceb55f55"
+          }
+        ]
+      },
+      "extreme": {
+        "successful_candidates": 150,
+        "selected": [
+          {
+            "seed": 102,
+            "metrics": {
+              "latest_first_leak_public": 15,
+              "largest_first_leak_secret": 255,
+              "safe_programs": 3
+            },
+            "instance_hash": "e3aa4372d97bcf86a904ff7f15a6fe8aec45c2d9cf25ff43105d6f0500c0af8a"
+          },
+          {
+            "seed": 154,
+            "metrics": {
+              "latest_first_leak_public": 15,
+              "largest_first_leak_secret": 254,
+              "safe_programs": 4
+            },
+            "instance_hash": "0671fc9d2ca45bf7d46e0280325e0a8055bdb81336f6b25fb7634a8399877e1d"
+          },
+          {
+            "seed": 226,
+            "metrics": {
+              "latest_first_leak_public": 15,
+              "largest_first_leak_secret": 254,
+              "safe_programs": 4
+            },
+            "instance_hash": "89600c357952598651543e6cbbbca219a96892327270da2c7f4e0d2ce51893ac"
+          },
+          {
+            "seed": 233,
+            "metrics": {
+              "latest_first_leak_public": 15,
+              "largest_first_leak_secret": 254,
+              "safe_programs": 4
+            },
+            "instance_hash": "999dc336bb94625db39d0b76dd8651fc88378304ab13d80e24d92a7871100541"
+          }
+        ]
+      }
+    }
+  },
+  "generation_failures": [],
+  "council_search": {
+    "version": "hard-v1",
+    "started_at": "2026-09-07T20:12:41.671489+00:00",
+    "finished_at": "2026-09-07T21:12:46.933546+00:00",
+    "elapsed_seconds": 3605.262,
+    "requested_seconds": 3605.0,
+    "complete": true,
+    "next_seed": 12853,
+    "candidates_checked": {
+      "hard": 2853,
+      "extreme": 2853
+    },
+    "rejected": [],
+    "method": "unique exhaustive solution; highest independent propagation search nodes",
+    "model_evaluations": 0
+  },
+  "council_leaders": {
+    "hard": [
+      {
+        "seed": 12622,
+        "difficulty": "hard",
+        "split": "dev",
+        "search_nodes": 305,
+        "instance_hash": "a9c0774a9d4dd55aaee55a79274eab0ba69b4ecfa164350ce99c1ddfcfe52a0a"
+      },
+      {
+        "seed": 10178,
+        "difficulty": "hard",
+        "split": "dev",
+        "search_nodes": 297,
+        "instance_hash": "a961cb4d794bd936e49742a57f41287e978e4a7bb29617a3a1e11bdb16a31386"
+      },
+      {
+        "seed": 11986,
+        "difficulty": "hard",
+        "split": "dev",
+        "search_nodes": 287,
+        "instance_hash": "f8672bef9923aaaa75aab75c304e99a47029f2f7f63791f7c8b8d1e5a5924ca5"
+      },
+      {
+        "seed": 11096,
+        "difficulty": "hard",
+        "split": "dev",
+        "search_nodes": 279,
+        "instance_hash": "b034fc7ef63aea2c98f7926f82b7f2c3f11d7211f168680f7529e07a261150a6"
+      },
+      {
+        "seed": 10702,
+        "difficulty": "hard",
+        "split": "dev",
+        "search_nodes": 265,
+        "instance_hash": "4433bec4a37a3de09a349024a93950646908d16e955c228c89b1a4e9ee45440f"
+      },
+      {
+        "seed": 10215,
+        "difficulty": "hard",
+        "split": "dev",
+        "search_nodes": 255,
+        "instance_hash": "5e45e981bf3449326539decf3ed9da3560fbf0d2fea6947ac3f2c3da4d3c612b"
+      },
+      {
+        "seed": 12003,
+        "difficulty": "hard",
+        "split": "dev",
+        "search_nodes": 255,
+        "instance_hash": "7592828376f1a74057165b393ce095680c8620d72a28d3e30767ce955f1c312a"
+      },
+      {
+        "seed": 11307,
+        "difficulty": "hard",
+        "split": "dev",
+        "search_nodes": 245,
+        "instance_hash": "ba331f9fb00aa6381de876b316abecf65709a8f59a381c575002bb1747455d55"
+      }
+    ],
+    "extreme": [
+      {
+        "seed": 11304,
+        "difficulty": "extreme",
+        "split": "dev",
+        "search_nodes": 893,
+        "instance_hash": "f5c3054f1d10085160524cc72e58c9460d2c85ab473f6406e2a01affe6c7ac22"
+      },
+      {
+        "seed": 10523,
+        "difficulty": "extreme",
+        "split": "dev",
+        "search_nodes": 697,
+        "instance_hash": "c0b70aac873c2d77b993ae5fc377687866894175ba8f54edd9a966fd39f81a06"
+      },
+      {
+        "seed": 11714,
+        "difficulty": "extreme",
+        "split": "dev",
+        "search_nodes": 667,
+        "instance_hash": "88de30d1f93cd0ba4db93b0fc4322139e41bd8457cd2ce2fc4d2cbfa143f1cbe"
+      },
+      {
+        "seed": 12531,
+        "difficulty": "extreme",
+        "split": "dev",
+        "search_nodes": 597,
+        "instance_hash": "4c83af3d837636b726dcff1e788830e1cee8de196d4253cb27d21f6b1dd76942"
+      },
+      {
+        "seed": 11842,
+        "difficulty": "extreme",
+        "split": "dev",
+        "search_nodes": 585,
+        "instance_hash": "059f71851d788be3ce116750ece12deb0642c612b819e663070508163e79ea22"
+      },
+      {
+        "seed": 12240,
+        "difficulty": "extreme",
+        "split": "dev",
+        "search_nodes": 565,
+        "instance_hash": "38631a4819f8e6014d3cd61b5858454b5b9527dbd3090a2c4f5d81aa276ade3c"
+      },
+      {
+        "seed": 10746,
+        "difficulty": "extreme",
+        "split": "dev",
+        "search_nodes": 561,
+        "instance_hash": "260478730757f335952ba97c93c0c4bccb49cec5500da9e6fee105cbd1b81338"
+      },
+      {
+        "seed": 11609,
+        "difficulty": "extreme",
+        "split": "dev",
+        "search_nodes": 547,
+        "instance_hash": "f156ccb8eb2d856036de1380e656f4c2396d2b9a3ede0d7bd337068979b5b07b"
+      }
+    ]
+  },
+  "verification": {
+    "unit_tests_passed": 72,
+    "selected_instances_reproduced": 80,
+    "reference_scoring_roundtrip_passed": 80,
+    "extra_field_mutations_rejected": 80,
+    "reference_alignment_contracts_satisfied": 32,
+    "question_file_sha256": {
+      "questions/hard-reasoning.json": "483277fad1e14866d750addd88e520a49919dccd656d147dd0664a47213cd45d",
+      "questions/alignment-contracts.json": "c65e423ff668d401e6ea80751cea56025b0996609d076d7e8d6dfa87453a7f8c"
+    }
+  },
+  "notes": [
+    "This is a development candidate pool, not a model evaluation.",
+    "Family ranking criteria are ordered as stored in each metrics object.",
+    "The first four council leaders per difficulty are included in the public questions.",
+    "The non-council pool includes 2400 candidates from eight families and 300 from the final information-flow generator.",
+    "Every counted council has a unique solution confirmed by exhaustive enumeration and independent propagation/backtracking."
+  ],
+  "non_council_candidate_pool": 2700
+}
