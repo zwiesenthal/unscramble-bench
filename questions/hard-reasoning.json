@@ -156,104 +156,104 @@
       }
     },
     {
-      "id": "liars-hard-a961cb4d794bd936",
+      "id": "liars-hard-a9c0774a9d4dd55a",
       "version": "hard-v1",
       "family": "liars",
       "difficulty": "hard",
       "split": "dev",
-      "seed": 10178,
+      "seed": 12622,
       "scoring": "json",
-      "instance_hash": "a961cb4d794bd936e49742a57f41287e978e4a7bb29617a3a1e11bdb16a31386",
+      "instance_hash": "a9c0774a9d4dd55aaee55a79274eab0ba69b4ecfa164350ce99c1ddfcfe52a0a",
       "instance": {
         "n": 14,
         "statements": [
           {
-            "mask": 226,
-            "modulus": 3,
-            "residue": 2,
+            "mask": 11352,
+            "modulus": 2,
+            "residue": 1,
+            "negate": false
+          },
+          {
+            "mask": 4952,
+            "modulus": 2,
+            "residue": 1,
             "negate": true
           },
           {
-            "mask": 14368,
+            "mask": 2467,
+            "modulus": 2,
+            "residue": 1,
+            "negate": true
+          },
+          {
+            "mask": 1684,
+            "modulus": 3,
+            "residue": 0,
+            "negate": false
+          },
+          {
+            "mask": 5254,
+            "modulus": 2,
+            "residue": 1,
+            "negate": true
+          },
+          {
+            "mask": 350,
             "modulus": 2,
             "residue": 0,
             "negate": true
           },
           {
-            "mask": 10521,
+            "mask": 13449,
+            "modulus": 3,
+            "residue": 1,
+            "negate": true
+          },
+          {
+            "mask": 1141,
             "modulus": 2,
             "residue": 0,
             "negate": false
           },
           {
-            "mask": 5255,
+            "mask": 9904,
             "modulus": 3,
             "residue": 2,
             "negate": true
           },
           {
-            "mask": 652,
+            "mask": 10378,
             "modulus": 3,
-            "residue": 1,
+            "residue": 2,
             "negate": false
           },
           {
-            "mask": 326,
+            "mask": 14497,
+            "modulus": 3,
+            "residue": 2,
+            "negate": false
+          },
+          {
+            "mask": 8352,
+            "modulus": 2,
+            "residue": 0,
+            "negate": false
+          },
+          {
+            "mask": 543,
+            "modulus": 2,
+            "residue": 0,
+            "negate": false
+          },
+          {
+            "mask": 6275,
             "modulus": 2,
             "residue": 0,
             "negate": true
-          },
-          {
-            "mask": 8584,
-            "modulus": 2,
-            "residue": 1,
-            "negate": false
-          },
-          {
-            "mask": 121,
-            "modulus": 2,
-            "residue": 1,
-            "negate": false
-          },
-          {
-            "mask": 5125,
-            "modulus": 3,
-            "residue": 2,
-            "negate": false
-          },
-          {
-            "mask": 11306,
-            "modulus": 2,
-            "residue": 1,
-            "negate": false
-          },
-          {
-            "mask": 12564,
-            "modulus": 2,
-            "residue": 1,
-            "negate": false
-          },
-          {
-            "mask": 8346,
-            "modulus": 3,
-            "residue": 2,
-            "negate": true
-          },
-          {
-            "mask": 2097,
-            "modulus": 2,
-            "residue": 0,
-            "negate": true
-          },
-          {
-            "mask": 3584,
-            "modulus": 3,
-            "residue": 2,
-            "negate": false
           }
         ]
       },
-      "prompt": "The Council of Mirrors\nEvery statement below is either true or false. Its truth value must agree with the claim it makes about the OTHER statements. A false statement means its entire claim is false. Modulo uses the least nonnegative remainder; NOT negates only the equality. There is exactly one consistent assignment. Return the numbers of all true statements in increasing order (S1 is 1).\n\n| Statement | Claim |\n| --- | --- |\n| S1 | Among {S2, S6, S7, S8}, the count of true statements modulo 3 is NOT 2. |\n| S2 | Among {S6, S12, S13, S14}, the count of true statements modulo 2 is NOT 0. |\n| S3 | Among {S1, S4, S5, S9, S12, S14}, the count of true statements modulo 2 is 0. |\n| S4 | Among {S1, S2, S3, S8, S11, S13}, the count of true statements modulo 3 is NOT 2. |\n| S5 | Among {S3, S4, S8, S10}, the count of true statements modulo 3 is 1. |\n| S6 | Among {S2, S3, S7, S9}, the count of true statements modulo 2 is NOT 0. |\n| S7 | Among {S4, S8, S9, S14}, the count of true statements modulo 2 is 1. |\n| S8 | Among {S1, S4, S5, S6, S7}, the count of true statements modulo 2 is 1. |\n| S9 | Among {S1, S3, S11, S13}, the count of true statements modulo 3 is 2. |\n| S10 | Among {S2, S4, S6, S11, S12, S14}, the count of true statements modulo 2 is 1. |\n| S11 | Among {S3, S5, S9, S13, S14}, the count of true statements modulo 2 is 1. |\n| S12 | Among {S2, S4, S5, S8, S14}, the count of true statements modulo 3 is NOT 2. |\n| S13 | Among {S1, S5, S6, S12}, the count of true statements modulo 2 is NOT 0. |\n| S14 | Among {S10, S11, S12}, the count of true statements modulo 3 is 2. |\n\n\nReturn only JSON with exactly one outer key \"answer\". Its value must have this shape: {\"true\": [1, 4, ...]}. Use JSON integers for integer fields, not strings or decimals. Array order matters; object key order does not.",
+      "prompt": "The Council of Mirrors\nEvery statement below is either true or false. Its truth value must agree with the claim it makes about the OTHER statements. A false statement means its entire claim is false. Modulo uses the least nonnegative remainder; NOT negates only the equality. There is exactly one consistent assignment. Return the numbers of all true statements in increasing order (S1 is 1).\n\n| Statement | Claim |\n| --- | --- |\n| S1 | Among {S4, S5, S7, S11, S12, S14}, the count of true statements modulo 2 is 1. |\n| S2 | Among {S4, S5, S7, S9, S10, S13}, the count of true statements modulo 2 is NOT 1. |\n| S3 | Among {S1, S2, S6, S8, S9, S12}, the count of true statements modulo 2 is NOT 1. |\n| S4 | Among {S3, S5, S8, S10, S11}, the count of true statements modulo 3 is 0. |\n| S5 | Among {S2, S3, S8, S11, S13}, the count of true statements modulo 2 is NOT 1. |\n| S6 | Among {S2, S3, S4, S5, S7, S9}, the count of true statements modulo 2 is NOT 0. |\n| S7 | Among {S1, S4, S8, S11, S13, S14}, the count of true statements modulo 3 is NOT 1. |\n| S8 | Among {S1, S3, S5, S6, S7, S11}, the count of true statements modulo 2 is 0. |\n| S9 | Among {S5, S6, S8, S10, S11, S14}, the count of true statements modulo 3 is NOT 2. |\n| S10 | Among {S2, S4, S8, S12, S14}, the count of true statements modulo 3 is 2. |\n| S11 | Among {S1, S6, S8, S12, S13, S14}, the count of true statements modulo 3 is 2. |\n| S12 | Among {S6, S8, S14}, the count of true statements modulo 2 is 0. |\n| S13 | Among {S1, S2, S3, S4, S5, S10}, the count of true statements modulo 2 is 0. |\n| S14 | Among {S1, S2, S8, S12, S13}, the count of true statements modulo 2 is NOT 0. |\n\n\nReturn only JSON with exactly one outer key \"answer\". Its value must have this shape: {\"true\": [1, 4, ...]}. Use JSON integers for integer fields, not strings or decimals. Array order matters; object key order does not.",
       "answer": {
         "true": [
           1,
@@ -262,6 +262,8 @@
           4,
           6,
           7,
+          9,
+          10,
           11
         ]
       }
@@ -1026,111 +1028,112 @@
       }
     },
     {
-      "id": "liars-hard-b034fc7ef63aea2c",
+      "id": "liars-hard-a961cb4d794bd936",
       "version": "hard-v1",
       "family": "liars",
       "difficulty": "hard",
       "split": "dev",
-      "seed": 11096,
+      "seed": 10178,
       "scoring": "json",
-      "instance_hash": "b034fc7ef63aea2c98f7926f82b7f2c3f11d7211f168680f7529e07a261150a6",
+      "instance_hash": "a961cb4d794bd936e49742a57f41287e978e4a7bb29617a3a1e11bdb16a31386",
       "instance": {
         "n": 14,
         "statements": [
           {
-            "mask": 9290,
-            "modulus": 2,
-            "residue": 0,
-            "negate": true
-          },
-          {
-            "mask": 6545,
-            "modulus": 3,
-            "residue": 0,
-            "negate": true
-          },
-          {
-            "mask": 168,
-            "modulus": 3,
-            "residue": 0,
-            "negate": false
-          },
-          {
-            "mask": 2644,
+            "mask": 226,
             "modulus": 3,
             "residue": 2,
             "negate": true
           },
           {
-            "mask": 3489,
+            "mask": 14368,
             "modulus": 2,
             "residue": 0,
             "negate": true
           },
           {
-            "mask": 5136,
+            "mask": 10521,
             "modulus": 2,
-            "residue": 1,
+            "residue": 0,
+            "negate": false
+          },
+          {
+            "mask": 5255,
+            "modulus": 3,
+            "residue": 2,
             "negate": true
           },
           {
-            "mask": 4627,
-            "modulus": 2,
-            "residue": 0,
-            "negate": false
-          },
-          {
-            "mask": 15370,
-            "modulus": 2,
-            "residue": 0,
-            "negate": false
-          },
-          {
-            "mask": 4168,
+            "mask": 652,
             "modulus": 3,
-            "residue": 2,
+            "residue": 1,
             "negate": false
           },
           {
-            "mask": 1288,
+            "mask": 326,
+            "modulus": 2,
+            "residue": 0,
+            "negate": true
+          },
+          {
+            "mask": 8584,
             "modulus": 2,
             "residue": 1,
             "negate": false
           },
           {
-            "mask": 10920,
-            "modulus": 2,
-            "residue": 0,
-            "negate": false
-          },
-          {
-            "mask": 9666,
+            "mask": 121,
             "modulus": 2,
             "residue": 1,
             "negate": false
           },
           {
-            "mask": 8324,
+            "mask": 5125,
             "modulus": 3,
             "residue": 2,
             "negate": false
           },
           {
-            "mask": 2142,
+            "mask": 11306,
+            "modulus": 2,
+            "residue": 1,
+            "negate": false
+          },
+          {
+            "mask": 12564,
+            "modulus": 2,
+            "residue": 1,
+            "negate": false
+          },
+          {
+            "mask": 8346,
+            "modulus": 3,
+            "residue": 2,
+            "negate": true
+          },
+          {
+            "mask": 2097,
             "modulus": 2,
             "residue": 0,
+            "negate": true
+          },
+          {
+            "mask": 3584,
+            "modulus": 3,
+            "residue": 2,
             "negate": false
           }
         ]
       },
-      "prompt": "The Council of Mirrors\nEvery statement below is either true or false. Its truth value must agree with the claim it makes about the OTHER statements. A false statement means its entire claim is false. Modulo uses the least nonnegative remainder; NOT negates only the equality. There is exactly one consistent assignment. Return the numbers of all true statements in increasing order (S1 is 1).\n\n| Statement | Claim |\n| --- | --- |\n| S1 | Among {S2, S4, S7, S11, S14}, the count of true statements modulo 2 is NOT 0. |\n| S2 | Among {S1, S5, S8, S9, S12, S13}, the count of true statements modulo 3 is NOT 0. |\n| S3 | Among {S4, S6, S8}, the count of true statements modulo 3 is 0. |\n| S4 | Among {S3, S5, S7, S10, S12}, the count of true statements modulo 3 is NOT 2. |\n| S5 | Among {S1, S6, S8, S9, S11, S12}, the count of true statements modulo 2 is NOT 0. |\n| S6 | Among {S5, S11, S13}, the count of true statements modulo 2 is NOT 1. |\n| S7 | Among {S1, S2, S5, S10, S13}, the count of true statements modulo 2 is 0. |\n| S8 | Among {S2, S4, S11, S12, S13, S14}, the count of true statements modulo 2 is 0. |\n| S9 | Among {S4, S7, S13}, the count of true statements modulo 3 is 2. |\n| S10 | Among {S4, S9, S11}, the count of true statements modulo 2 is 1. |\n| S11 | Among {S4, S6, S8, S10, S12, S14}, the count of true statements modulo 2 is 0. |\n| S12 | Among {S2, S7, S8, S9, S11, S14}, the count of true statements modulo 2 is 1. |\n| S13 | Among {S3, S8, S14}, the count of true statements modulo 3 is 2. |\n| S14 | Among {S2, S3, S4, S5, S7, S12}, the count of true statements modulo 2 is 0. |\n\n\nReturn only JSON with exactly one outer key \"answer\". Its value must have this shape: {\"true\": [1, 4, ...]}. Use JSON integers for integer fields, not strings or decimals. Array order matters; object key order does not.",
+      "prompt": "The Council of Mirrors\nEvery statement below is either true or false. Its truth value must agree with the claim it makes about the OTHER statements. A false statement means its entire claim is false. Modulo uses the least nonnegative remainder; NOT negates only the equality. There is exactly one consistent assignment. Return the numbers of all true statements in increasing order (S1 is 1).\n\n| Statement | Claim |\n| --- | --- |\n| S1 | Among {S2, S6, S7, S8}, the count of true statements modulo 3 is NOT 2. |\n| S2 | Among {S6, S12, S13, S14}, the count of true statements modulo 2 is NOT 0. |\n| S3 | Among {S1, S4, S5, S9, S12, S14}, the count of true statements modulo 2 is 0. |\n| S4 | Among {S1, S2, S3, S8, S11, S13}, the count of true statements modulo 3 is NOT 2. |\n| S5 | Among {S3, S4, S8, S10}, the count of true statements modulo 3 is 1. |\n| S6 | Among {S2, S3, S7, S9}, the count of true statements modulo 2 is NOT 0. |\n| S7 | Among {S4, S8, S9, S14}, the count of true statements modulo 2 is 1. |\n| S8 | Among {S1, S4, S5, S6, S7}, the count of true statements modulo 2 is 1. |\n| S9 | Among {S1, S3, S11, S13}, the count of true statements modulo 3 is 2. |\n| S10 | Among {S2, S4, S6, S11, S12, S14}, the count of true statements modulo 2 is 1. |\n| S11 | Among {S3, S5, S9, S13, S14}, the count of true statements modulo 2 is 1. |\n| S12 | Among {S2, S4, S5, S8, S14}, the count of true statements modulo 3 is NOT 2. |\n| S13 | Among {S1, S5, S6, S12}, the count of true statements modulo 2 is NOT 0. |\n| S14 | Among {S10, S11, S12}, the count of true statements modulo 3 is 2. |\n\n\nReturn only JSON with exactly one outer key \"answer\". Its value must have this shape: {\"true\": [1, 4, ...]}. Use JSON integers for integer fields, not strings or decimals. Array order matters; object key order does not.",
       "answer": {
         "true": [
           1,
           2,
+          3,
           4,
-          5,
           6,
+          7,
           11
         ]
       }
@@ -1890,115 +1893,111 @@
       }
     },
     {
-      "id": "liars-hard-4433bec4a37a3de0",
+      "id": "liars-hard-f8672bef9923aaaa",
       "version": "hard-v1",
       "family": "liars",
       "difficulty": "hard",
       "split": "dev",
-      "seed": 10702,
+      "seed": 11986,
       "scoring": "json",
-      "instance_hash": "4433bec4a37a3de09a349024a93950646908d16e955c228c89b1a4e9ee45440f",
+      "instance_hash": "f8672bef9923aaaa75aab75c304e99a47029f2f7f63791f7c8b8d1e5a5924ca5",
       "instance": {
         "n": 14,
         "statements": [
           {
-            "mask": 8624,
+            "mask": 5708,
+            "modulus": 2,
+            "residue": 1,
+            "negate": true
+          },
+          {
+            "mask": 4628,
+            "modulus": 2,
+            "residue": 0,
+            "negate": false
+          },
+          {
+            "mask": 10626,
+            "modulus": 3,
+            "residue": 1,
+            "negate": true
+          },
+          {
+            "mask": 2754,
+            "modulus": 3,
+            "residue": 2,
+            "negate": true
+          },
+          {
+            "mask": 3648,
+            "modulus": 2,
+            "residue": 0,
+            "negate": false
+          },
+          {
+            "mask": 12809,
+            "modulus": 2,
+            "residue": 1,
+            "negate": false
+          },
+          {
+            "mask": 1201,
+            "modulus": 3,
+            "residue": 1,
+            "negate": true
+          },
+          {
+            "mask": 13120,
             "modulus": 2,
             "residue": 0,
             "negate": true
           },
           {
-            "mask": 11020,
+            "mask": 10311,
+            "modulus": 2,
+            "residue": 0,
+            "negate": true
+          },
+          {
+            "mask": 1105,
             "modulus": 3,
             "residue": 1,
             "negate": false
           },
           {
-            "mask": 4784,
+            "mask": 298,
+            "modulus": 2,
+            "residue": 1,
+            "negate": true
+          },
+          {
+            "mask": 410,
             "modulus": 3,
             "residue": 2,
             "negate": false
           },
           {
-            "mask": 14338,
+            "mask": 301,
             "modulus": 2,
-            "residue": 1,
+            "residue": 0,
             "negate": true
           },
           {
-            "mask": 14433,
-            "modulus": 2,
-            "residue": 1,
-            "negate": true
-          },
-          {
-            "mask": 9601,
+            "mask": 3076,
             "modulus": 3,
-            "residue": 0,
+            "residue": 2,
             "negate": false
-          },
-          {
-            "mask": 1667,
-            "modulus": 2,
-            "residue": 1,
-            "negate": false
-          },
-          {
-            "mask": 1564,
-            "modulus": 2,
-            "residue": 1,
-            "negate": true
-          },
-          {
-            "mask": 538,
-            "modulus": 2,
-            "residue": 0,
-            "negate": false
-          },
-          {
-            "mask": 5268,
-            "modulus": 2,
-            "residue": 0,
-            "negate": true
-          },
-          {
-            "mask": 78,
-            "modulus": 2,
-            "residue": 1,
-            "negate": true
-          },
-          {
-            "mask": 331,
-            "modulus": 2,
-            "residue": 0,
-            "negate": true
-          },
-          {
-            "mask": 67,
-            "modulus": 2,
-            "residue": 1,
-            "negate": true
-          },
-          {
-            "mask": 688,
-            "modulus": 2,
-            "residue": 1,
-            "negate": true
           }
         ]
       },
-      "prompt": "The Council of Mirrors\nEvery statement below is either true or false. Its truth value must agree with the claim it makes about the OTHER statements. A false statement means its entire claim is false. Modulo uses the least nonnegative remainder; NOT negates only the equality. There is exactly one consistent assignment. Return the numbers of all true statements in increasing order (S1 is 1).\n\n| Statement | Claim |\n| --- | --- |\n| S1 | Among {S5, S6, S8, S9, S14}, the count of true statements modulo 2 is NOT 0. |\n| S2 | Among {S3, S4, S9, S10, S12, S14}, the count of true statements modulo 3 is 1. |\n| S3 | Among {S5, S6, S8, S10, S13}, the count of true statements modulo 3 is 2. |\n| S4 | Among {S2, S12, S13, S14}, the count of true statements modulo 2 is NOT 1. |\n| S5 | Among {S1, S6, S7, S12, S13, S14}, the count of true statements modulo 2 is NOT 1. |\n| S6 | Among {S1, S8, S9, S11, S14}, the count of true statements modulo 3 is 0. |\n| S7 | Among {S1, S2, S8, S10, S11}, the count of true statements modulo 2 is 1. |\n| S8 | Among {S3, S4, S5, S10, S11}, the count of true statements modulo 2 is NOT 1. |\n| S9 | Among {S2, S4, S5, S10}, the count of true statements modulo 2 is 0. |\n| S10 | Among {S3, S5, S8, S11, S13}, the count of true statements modulo 2 is NOT 0. |\n| S11 | Among {S2, S3, S4, S7}, the count of true statements modulo 2 is NOT 1. |\n| S12 | Among {S1, S2, S4, S7, S9}, the count of true statements modulo 2 is NOT 0. |\n| S13 | Among {S1, S2, S7}, the count of true statements modulo 2 is NOT 1. |\n| S14 | Among {S5, S6, S8, S10}, the count of true statements modulo 2 is NOT 1. |\n\n\nReturn only JSON with exactly one outer key \"answer\". Its value must have this shape: {\"true\": [1, 4, ...]}. Use JSON integers for integer fields, not strings or decimals. Array order matters; object key order does not.",
+      "prompt": "The Council of Mirrors\nEvery statement below is either true or false. Its truth value must agree with the claim it makes about the OTHER statements. A false statement means its entire claim is false. Modulo uses the least nonnegative remainder; NOT negates only the equality. There is exactly one consistent assignment. Return the numbers of all true statements in increasing order (S1 is 1).\n\n| Statement | Claim |\n| --- | --- |\n| S1 | Among {S3, S4, S7, S10, S11, S13}, the count of true statements modulo 2 is NOT 1. |\n| S2 | Among {S3, S5, S10, S13}, the count of true statements modulo 2 is 0. |\n| S3 | Among {S2, S8, S9, S12, S14}, the count of true statements modulo 3 is NOT 1. |\n| S4 | Among {S2, S7, S8, S10, S12}, the count of true statements modulo 3 is NOT 2. |\n| S5 | Among {S7, S10, S11, S12}, the count of true statements modulo 2 is 0. |\n| S6 | Among {S1, S4, S10, S13, S14}, the count of true statements modulo 2 is 1. |\n| S7 | Among {S1, S5, S6, S8, S11}, the count of true statements modulo 3 is NOT 1. |\n| S8 | Among {S7, S9, S10, S13, S14}, the count of true statements modulo 2 is NOT 0. |\n| S9 | Among {S1, S2, S3, S7, S12, S14}, the count of true statements modulo 2 is NOT 0. |\n| S10 | Among {S1, S5, S7, S11}, the count of true statements modulo 3 is 1. |\n| S11 | Among {S2, S4, S6, S9}, the count of true statements modulo 2 is NOT 1. |\n| S12 | Among {S2, S4, S5, S8, S9}, the count of true statements modulo 3 is 2. |\n| S13 | Among {S1, S3, S4, S6, S9}, the count of true statements modulo 2 is NOT 0. |\n| S14 | Among {S3, S11, S12}, the count of true statements modulo 3 is 2. |\n\n\nReturn only JSON with exactly one outer key \"answer\". Its value must have this shape: {\"true\": [1, 4, ...]}. Use JSON integers for integer fields, not strings or decimals. Array order matters; object key order does not.",
       "answer": {
         "true": [
           1,
           3,
           4,
-          8,
-          9,
           10,
-          11,
-          12,
-          14
+          13
         ]
       }
     },
@@ -2757,115 +2756,112 @@
       }
     },
     {
-      "id": "liars-hard-5e45e981bf344932",
+      "id": "liars-hard-b034fc7ef63aea2c",
       "version": "hard-v1",
       "family": "liars",
       "difficulty": "hard",
       "split": "dev",
-      "seed": 10215,
+      "seed": 11096,
       "scoring": "json",
-      "instance_hash": "5e45e981bf3449326539decf3ed9da3560fbf0d2fea6947ac3f2c3da4d3c612b",
+      "instance_hash": "b034fc7ef63aea2c98f7926f82b7f2c3f11d7211f168680f7529e07a261150a6",
       "instance": {
         "n": 14,
         "statements": [
           {
-            "mask": 4874,
+            "mask": 9290,
             "modulus": 2,
+            "residue": 0,
+            "negate": true
+          },
+          {
+            "mask": 6545,
+            "modulus": 3,
+            "residue": 0,
+            "negate": true
+          },
+          {
+            "mask": 168,
+            "modulus": 3,
             "residue": 0,
             "negate": false
           },
           {
-            "mask": 4680,
-            "modulus": 2,
-            "residue": 1,
-            "negate": false
-          },
-          {
-            "mask": 6264,
-            "modulus": 3,
-            "residue": 1,
-            "negate": false
-          },
-          {
-            "mask": 2529,
-            "modulus": 3,
-            "residue": 1,
-            "negate": false
-          },
-          {
-            "mask": 71,
-            "modulus": 2,
-            "residue": 1,
-            "negate": true
-          },
-          {
-            "mask": 5390,
+            "mask": 2644,
             "modulus": 3,
             "residue": 2,
             "negate": true
           },
           {
-            "mask": 15361,
+            "mask": 3489,
             "modulus": 2,
             "residue": 0,
             "negate": true
           },
           {
-            "mask": 9242,
+            "mask": 5136,
             "modulus": 2,
-            "residue": 0,
-            "negate": true
-          },
-          {
-            "mask": 4697,
-            "modulus": 3,
             "residue": 1,
             "negate": true
           },
           {
-            "mask": 1065,
-            "modulus": 2,
-            "residue": 1,
-            "negate": false
-          },
-          {
-            "mask": 310,
+            "mask": 4627,
             "modulus": 2,
             "residue": 0,
             "negate": false
           },
           {
-            "mask": 4468,
+            "mask": 15370,
+            "modulus": 2,
+            "residue": 0,
+            "negate": false
+          },
+          {
+            "mask": 4168,
             "modulus": 3,
             "residue": 2,
-            "negate": true
+            "negate": false
           },
           {
-            "mask": 1037,
+            "mask": 1288,
+            "modulus": 2,
+            "residue": 1,
+            "negate": false
+          },
+          {
+            "mask": 10920,
             "modulus": 2,
             "residue": 0,
-            "negate": true
+            "negate": false
           },
           {
-            "mask": 2738,
+            "mask": 9666,
+            "modulus": 2,
+            "residue": 1,
+            "negate": false
+          },
+          {
+            "mask": 8324,
+            "modulus": 3,
+            "residue": 2,
+            "negate": false
+          },
+          {
+            "mask": 2142,
             "modulus": 2,
             "residue": 0,
             "negate": false
           }
         ]
       },
-      "prompt": "The Council of Mirrors\nEvery statement below is either true or false. Its truth value must agree with the claim it makes about the OTHER statements. A false statement means its entire claim is false. Modulo uses the least nonnegative remainder; NOT negates only the equality. There is exactly one consistent assignment. Return the numbers of all true statements in increasing order (S1 is 1).\n\n| Statement | Claim |\n| --- | --- |\n| S1 | Among {S2, S4, S9, S10, S13}, the count of true statements modulo 2 is 0. |\n| S2 | Among {S4, S7, S10, S13}, the count of true statements modulo 2 is 1. |\n| S3 | Among {S4, S5, S6, S7, S12, S13}, the count of true statements modulo 3 is 1. |\n| S4 | Among {S1, S6, S7, S8, S9, S12}, the count of true statements modulo 3 is 1. |\n| S5 | Among {S1, S2, S3, S7}, the count of true statements modulo 2 is NOT 1. |\n| S6 | Among {S2, S3, S4, S9, S11, S13}, the count of true statements modulo 3 is NOT 2. |\n| S7 | Among {S1, S11, S12, S13, S14}, the count of true statements modulo 2 is NOT 0. |\n| S8 | Among {S2, S4, S5, S11, S14}, the count of true statements modulo 2 is NOT 0. |\n| S9 | Among {S1, S4, S5, S7, S10, S13}, the count of true statements modulo 3 is NOT 1. |\n| S10 | Among {S1, S4, S6, S11}, the count of true statements modulo 2 is 1. |\n| S11 | Among {S2, S3, S5, S6, S9}, the count of true statements modulo 2 is 0. |\n| S12 | Among {S3, S5, S6, S7, S9, S13}, the count of true statements modulo 3 is NOT 2. |\n| S13 | Among {S1, S3, S4, S11}, the count of true statements modulo 2 is NOT 0. |\n| S14 | Among {S2, S5, S6, S8, S10, S12}, the count of true statements modulo 2 is 0. |\n\n\nReturn only JSON with exactly one outer key \"answer\". Its value must have this shape: {\"true\": [1, 4, ...]}. Use JSON integers for integer fields, not strings or decimals. Array order matters; object key order does not.",
+      "prompt": "The Council of Mirrors\nEvery statement below is either true or false. Its truth value must agree with the claim it makes about the OTHER statements. A false statement means its entire claim is false. Modulo uses the least nonnegative remainder; NOT negates only the equality. There is exactly one consistent assignment. Return the numbers of all true statements in increasing order (S1 is 1).\n\n| Statement | Claim |\n| --- | --- |\n| S1 | Among {S2, S4, S7, S11, S14}, the count of true statements modulo 2 is NOT 0. |\n| S2 | Among {S1, S5, S8, S9, S12, S13}, the count of true statements modulo 3 is NOT 0. |\n| S3 | Among {S4, S6, S8}, the count of true statements modulo 3 is 0. |\n| S4 | Among {S3, S5, S7, S10, S12}, the count of true statements modulo 3 is NOT 2. |\n| S5 | Among {S1, S6, S8, S9, S11, S12}, the count of true statements modulo 2 is NOT 0. |\n| S6 | Among {S5, S11, S13}, the count of true statements modulo 2 is NOT 1. |\n| S7 | Among {S1, S2, S5, S10, S13}, the count of true statements modulo 2 is 0. |\n| S8 | Among {S2, S4, S11, S12, S13, S14}, the count of true statements modulo 2 is 0. |\n| S9 | Among {S4, S7, S13}, the count of true statements modulo 3 is 2. |\n| S10 | Among {S4, S9, S11}, the count of true statements modulo 2 is 1. |\n| S11 | Among {S4, S6, S8, S10, S12, S14}, the count of true statements modulo 2 is 0. |\n| S12 | Among {S2, S7, S8, S9, S11, S14}, the count of true statements modulo 2 is 1. |\n| S13 | Among {S3, S8, S14}, the count of true statements modulo 3 is 2. |\n| S14 | Among {S2, S3, S4, S5, S7, S12}, the count of true statements modulo 2 is 0. |\n\n\nReturn only JSON with exactly one outer key \"answer\". Its value must have this shape: {\"true\": [1, 4, ...]}. Use JSON integers for integer fields, not strings or decimals. Array order matters; object key order does not.",
       "answer": {
         "true": [
           1,
-          3,
+          2,
           4,
+          5,
           6,
-          7,
-          9,
-          10,
-          13,
-          14
+          11
         ]
       }
     },
@@ -3658,138 +3654,140 @@
       }
     },
     {
-      "id": "liars-extreme-c0b70aac873c2d77",
+      "id": "liars-extreme-f5c3054f1d100851",
       "version": "hard-v1",
       "family": "liars",
       "difficulty": "extreme",
       "split": "dev",
-      "seed": 10523,
+      "seed": 11304,
       "scoring": "json",
-      "instance_hash": "c0b70aac873c2d77b993ae5fc377687866894175ba8f54edd9a966fd39f81a06",
+      "instance_hash": "f5c3054f1d10085160524cc72e58c9460d2c85ab473f6406e2a01affe6c7ac22",
       "instance": {
         "n": 18,
         "statements": [
           {
-            "mask": 70658,
-            "modulus": 2,
-            "residue": 0,
-            "negate": true
-          },
-          {
-            "mask": 204832,
+            "mask": 1924,
             "modulus": 3,
-            "residue": 0,
+            "residue": 1,
             "negate": true
           },
           {
-            "mask": 82048,
+            "mask": 119808,
             "modulus": 2,
             "residue": 1,
             "negate": true
           },
           {
-            "mask": 16551,
+            "mask": 51490,
             "modulus": 2,
             "residue": 1,
             "negate": false
           },
           {
-            "mask": 133704,
-            "modulus": 2,
-            "residue": 0,
-            "negate": false
-          },
-          {
-            "mask": 98560,
+            "mask": 2130,
             "modulus": 3,
-            "residue": 0,
+            "residue": 1,
             "negate": true
           },
           {
-            "mask": 17668,
+            "mask": 1216,
             "modulus": 3,
             "residue": 2,
             "negate": true
           },
           {
-            "mask": 38981,
-            "modulus": 2,
-            "residue": 1,
-            "negate": false
-          },
-          {
-            "mask": 13368,
+            "mask": 214272,
             "modulus": 3,
-            "residue": 1,
+            "residue": 0,
             "negate": false
           },
           {
-            "mask": 133258,
+            "mask": 197136,
             "modulus": 3,
-            "residue": 1,
-            "negate": true
-          },
-          {
-            "mask": 16675,
-            "modulus": 2,
-            "residue": 1,
+            "residue": 0,
             "negate": false
           },
           {
-            "mask": 139465,
+            "mask": 131841,
             "modulus": 2,
             "residue": 0,
             "negate": true
           },
           {
-            "mask": 82054,
+            "mask": 90273,
+            "modulus": 2,
+            "residue": 1,
+            "negate": false
+          },
+          {
+            "mask": 164144,
+            "modulus": 2,
+            "residue": 1,
+            "negate": false
+          },
+          {
+            "mask": 49704,
             "modulus": 3,
             "residue": 2,
+            "negate": true
+          },
+          {
+            "mask": 102752,
+            "modulus": 2,
+            "residue": 0,
             "negate": false
           },
           {
-            "mask": 4468,
+            "mask": 18482,
             "modulus": 3,
             "residue": 1,
-            "negate": true
+            "negate": false
           },
           {
-            "mask": 167980,
-            "modulus": 2,
-            "residue": 0,
-            "negate": true
-          },
-          {
-            "mask": 141378,
+            "mask": 131140,
             "modulus": 2,
             "residue": 1,
-            "negate": false
+            "negate": true
           },
           {
-            "mask": 4156,
+            "mask": 2215,
             "modulus": 2,
             "residue": 0,
-            "negate": false
+            "negate": true
           },
           {
-            "mask": 10283,
+            "mask": 12800,
+            "modulus": 2,
+            "residue": 0,
+            "negate": true
+          },
+          {
+            "mask": 683,
+            "modulus": 3,
+            "residue": 0,
+            "negate": true
+          },
+          {
+            "mask": 41028,
             "modulus": 2,
             "residue": 0,
             "negate": true
           }
         ]
       },
-      "prompt": "The Council of Mirrors\nEvery statement below is either true or false. Its truth value must agree with the claim it makes about the OTHER statements. A false statement means its entire claim is false. Modulo uses the least nonnegative remainder; NOT negates only the equality. There is exactly one consistent assignment. Return the numbers of all true statements in increasing order (S1 is 1).\n\n| Statement | Claim |\n| --- | --- |\n| S1 | Among {S2, S11, S13, S17}, the count of true statements modulo 2 is NOT 0. |\n| S2 | Among {S6, S14, S17, S18}, the count of true statements modulo 3 is NOT 0. |\n| S3 | Among {S8, S15, S17}, the count of true statements modulo 2 is NOT 1. |\n| S4 | Among {S1, S2, S3, S6, S8, S15}, the count of true statements modulo 2 is 1. |\n| S5 | Among {S4, S7, S10, S12, S18}, the count of true statements modulo 2 is 0. |\n| S6 | Among {S9, S16, S17}, the count of true statements modulo 3 is NOT 0. |\n| S7 | Among {S3, S9, S11, S15}, the count of true statements modulo 3 is NOT 2. |\n| S8 | Among {S1, S3, S7, S12, S13, S16}, the count of true statements modulo 2 is 1. |\n| S9 | Among {S4, S5, S6, S11, S13, S14}, the count of true statements modulo 3 is 1. |\n| S10 | Among {S2, S4, S8, S12, S18}, the count of true statements modulo 3 is NOT 1. |\n| S11 | Among {S1, S2, S6, S9, S15}, the count of true statements modulo 2 is 1. |\n| S12 | Among {S1, S4, S7, S8, S14, S18}, the count of true statements modulo 2 is NOT 0. |\n| S13 | Among {S2, S3, S8, S15, S17}, the count of true statements modulo 3 is 2. |\n| S14 | Among {S3, S5, S6, S7, S9, S13}, the count of true statements modulo 3 is NOT 1. |\n| S15 | Among {S3, S4, S6, S13, S16, S18}, the count of true statements modulo 2 is NOT 0. |\n| S16 | Among {S2, S7, S12, S14, S18}, the count of true statements modulo 2 is 1. |\n| S17 | Among {S3, S4, S5, S6, S13}, the count of true statements modulo 2 is 0. |\n| S18 | Among {S1, S2, S4, S6, S12, S14}, the count of true statements modulo 2 is NOT 0. |\n\n\nReturn only JSON with exactly one outer key \"answer\". Its value must have this shape: {\"true\": [1, 4, ...]}. Use JSON integers for integer fields, not strings or decimals. Array order matters; object key order does not.",
+      "prompt": "The Council of Mirrors\nEvery statement below is either true or false. Its truth value must agree with the claim it makes about the OTHER statements. A false statement means its entire claim is false. Modulo uses the least nonnegative remainder; NOT negates only the equality. There is exactly one consistent assignment. Return the numbers of all true statements in increasing order (S1 is 1).\n\n| Statement | Claim |\n| --- | --- |\n| S1 | Among {S3, S8, S9, S10, S11}, the count of true statements modulo 3 is NOT 1. |\n| S2 | Among {S11, S13, S15, S16, S17}, the count of true statements modulo 2 is NOT 1. |\n| S3 | Among {S2, S6, S9, S12, S15, S16}, the count of true statements modulo 2 is 1. |\n| S4 | Among {S2, S5, S7, S12}, the count of true statements modulo 3 is NOT 1. |\n| S5 | Among {S7, S8, S11}, the count of true statements modulo 3 is NOT 2. |\n| S6 | Among {S9, S11, S15, S17, S18}, the count of true statements modulo 3 is 0. |\n| S7 | Among {S5, S10, S17, S18}, the count of true statements modulo 3 is 0. |\n| S8 | Among {S1, S9, S10, S18}, the count of true statements modulo 2 is NOT 0. |\n| S9 | Among {S1, S6, S8, S14, S15, S17}, the count of true statements modulo 2 is 1. |\n| S10 | Among {S5, S6, S9, S16, S18}, the count of true statements modulo 2 is 1. |\n| S11 | Among {S4, S6, S10, S15, S16}, the count of true statements modulo 3 is NOT 2. |\n| S12 | Among {S6, S7, S9, S13, S16, S17}, the count of true statements modulo 2 is 0. |\n| S13 | Among {S2, S5, S6, S12, S15}, the count of true statements modulo 3 is 1. |\n| S14 | Among {S3, S7, S18}, the count of true statements modulo 2 is NOT 1. |\n| S15 | Among {S1, S2, S3, S6, S8, S12}, the count of true statements modulo 2 is NOT 0. |\n| S16 | Among {S10, S13, S14}, the count of true statements modulo 2 is NOT 0. |\n| S17 | Among {S1, S2, S4, S6, S8, S10}, the count of true statements modulo 3 is NOT 0. |\n| S18 | Among {S3, S7, S14, S16}, the count of true statements modulo 2 is NOT 0. |\n\n\nReturn only JSON with exactly one outer key \"answer\". Its value must have this shape: {\"true\": [1, 4, ...]}. Use JSON integers for integer fields, not strings or decimals. Array order matters; object key order does not.",
       "answer": {
         "true": [
           1,
+          3,
+          4,
           5,
-          6,
-          7,
+          8,
+          9,
           12,
           14,
           16,
-          17
+          18
         ]
       }
     },
@@ -4822,140 +4820,138 @@
       }
     },
     {
-      "id": "liars-extreme-260478730757f335",
+      "id": "liars-extreme-c0b70aac873c2d77",
       "version": "hard-v1",
       "family": "liars",
       "difficulty": "extreme",
       "split": "dev",
-      "seed": 10746,
+      "seed": 10523,
       "scoring": "json",
-      "instance_hash": "260478730757f335952ba97c93c0c4bccb49cec5500da9e6fee105cbd1b81338",
+      "instance_hash": "c0b70aac873c2d77b993ae5fc377687866894175ba8f54edd9a966fd39f81a06",
       "instance": {
         "n": 18,
         "statements": [
           {
-            "mask": 164936,
-            "modulus": 2,
-            "residue": 0,
-            "negate": false
-          },
-          {
-            "mask": 28936,
-            "modulus": 3,
-            "residue": 1,
-            "negate": false
-          },
-          {
-            "mask": 22658,
-            "modulus": 2,
-            "residue": 0,
-            "negate": false
-          },
-          {
-            "mask": 122884,
-            "modulus": 3,
-            "residue": 1,
-            "negate": true
-          },
-          {
-            "mask": 40320,
-            "modulus": 2,
-            "residue": 1,
-            "negate": false
-          },
-          {
-            "mask": 2060,
-            "modulus": 2,
-            "residue": 1,
-            "negate": true
-          },
-          {
-            "mask": 19236,
-            "modulus": 3,
-            "residue": 2,
-            "negate": false
-          },
-          {
-            "mask": 867,
+            "mask": 70658,
             "modulus": 2,
             "residue": 0,
             "negate": true
           },
           {
-            "mask": 141505,
-            "modulus": 2,
-            "residue": 0,
-            "negate": false
-          },
-          {
-            "mask": 143522,
+            "mask": 204832,
             "modulus": 3,
             "residue": 0,
             "negate": true
           },
           {
-            "mask": 4288,
+            "mask": 82048,
+            "modulus": 2,
+            "residue": 1,
+            "negate": true
+          },
+          {
+            "mask": 16551,
+            "modulus": 2,
+            "residue": 1,
+            "negate": false
+          },
+          {
+            "mask": 133704,
+            "modulus": 2,
+            "residue": 0,
+            "negate": false
+          },
+          {
+            "mask": 98560,
+            "modulus": 3,
+            "residue": 0,
+            "negate": true
+          },
+          {
+            "mask": 17668,
             "modulus": 3,
             "residue": 2,
             "negate": true
           },
           {
-            "mask": 143892,
+            "mask": 38981,
+            "modulus": 2,
+            "residue": 1,
+            "negate": false
+          },
+          {
+            "mask": 13368,
+            "modulus": 3,
+            "residue": 1,
+            "negate": false
+          },
+          {
+            "mask": 133258,
+            "modulus": 3,
+            "residue": 1,
+            "negate": true
+          },
+          {
+            "mask": 16675,
+            "modulus": 2,
+            "residue": 1,
+            "negate": false
+          },
+          {
+            "mask": 139465,
             "modulus": 2,
             "residue": 0,
             "negate": true
           },
           {
-            "mask": 16968,
+            "mask": 82054,
             "modulus": 3,
             "residue": 2,
             "negate": false
           },
           {
-            "mask": 16697,
+            "mask": 4468,
             "modulus": 3,
             "residue": 1,
-            "negate": false
+            "negate": true
           },
           {
-            "mask": 45073,
-            "modulus": 2,
-            "residue": 1,
-            "negate": false
-          },
-          {
-            "mask": 134432,
+            "mask": 167980,
             "modulus": 2,
             "residue": 0,
             "negate": true
           },
           {
-            "mask": 2000,
-            "modulus": 3,
-            "residue": 2,
-            "negate": true
+            "mask": 141378,
+            "modulus": 2,
+            "residue": 1,
+            "negate": false
           },
           {
-            "mask": 98852,
-            "modulus": 3,
-            "residue": 1,
+            "mask": 4156,
+            "modulus": 2,
+            "residue": 0,
+            "negate": false
+          },
+          {
+            "mask": 10283,
+            "modulus": 2,
+            "residue": 0,
             "negate": true
           }
         ]
       },
-      "prompt": "The Council of Mirrors\nEvery statement below is either true or false. Its truth value must agree with the claim it makes about the OTHER statements. A false statement means its entire claim is false. Modulo uses the least nonnegative remainder; NOT negates only the equality. There is exactly one consistent assignment. Return the numbers of all true statements in increasing order (S1 is 1).\n\n| Statement | Claim |\n| --- | --- |\n| S1 | Among {S4, S7, S11, S16, S18}, the count of true statements modulo 2 is 0. |\n| S2 | Among {S4, S9, S13, S14, S15}, the count of true statements modulo 3 is 1. |\n| S3 | Among {S2, S8, S12, S13, S15}, the count of true statements modulo 2 is 0. |\n| S4 | Among {S3, S14, S15, S16, S17}, the count of true statements modulo 3 is NOT 1. |\n| S5 | Among {S8, S9, S11, S12, S13, S16}, the count of true statements modulo 2 is 1. |\n| S6 | Among {S3, S4, S12}, the count of true statements modulo 2 is NOT 1. |\n| S7 | Among {S3, S6, S9, S10, S12, S15}, the count of true statements modulo 3 is 2. |\n| S8 | Among {S1, S2, S6, S7, S9, S10}, the count of true statements modulo 2 is NOT 0. |\n| S9 | Among {S1, S7, S8, S12, S14, S18}, the count of true statements modulo 2 is 0. |\n| S10 | Among {S2, S6, S8, S13, S14, S18}, the count of true statements modulo 3 is NOT 0. |\n| S11 | Among {S7, S8, S13}, the count of true statements modulo 3 is NOT 2. |\n| S12 | Among {S3, S5, S10, S13, S14, S18}, the count of true statements modulo 2 is NOT 0. |\n| S13 | Among {S4, S7, S10, S15}, the count of true statements modulo 3 is 2. |\n| S14 | Among {S1, S4, S5, S6, S9, S15}, the count of true statements modulo 3 is 1. |\n| S15 | Among {S1, S5, S13, S14, S16}, the count of true statements modulo 2 is 1. |\n| S16 | Among {S6, S9, S11, S12, S18}, the count of true statements modulo 2 is NOT 0. |\n| S17 | Among {S5, S7, S8, S9, S10, S11}, the count of true statements modulo 3 is NOT 2. |\n| S18 | Among {S3, S6, S10, S16, S17}, the count of true statements modulo 3 is NOT 1. |\n\n\nReturn only JSON with exactly one outer key \"answer\". Its value must have this shape: {\"true\": [1, 4, ...]}. Use JSON integers for integer fields, not strings or decimals. Array order matters; object key order does not.",
+      "prompt": "The Council of Mirrors\nEvery statement below is either true or false. Its truth value must agree with the claim it makes about the OTHER statements. A false statement means its entire claim is false. Modulo uses the least nonnegative remainder; NOT negates only the equality. There is exactly one consistent assignment. Return the numbers of all true statements in increasing order (S1 is 1).\n\n| Statement | Claim |\n| --- | --- |\n| S1 | Among {S2, S11, S13, S17}, the count of true statements modulo 2 is NOT 0. |\n| S2 | Among {S6, S14, S17, S18}, the count of true statements modulo 3 is NOT 0. |\n| S3 | Among {S8, S15, S17}, the count of true statements modulo 2 is NOT 1. |\n| S4 | Among {S1, S2, S3, S6, S8, S15}, the count of true statements modulo 2 is 1. |\n| S5 | Among {S4, S7, S10, S12, S18}, the count of true statements modulo 2 is 0. |\n| S6 | Among {S9, S16, S17}, the count of true statements modulo 3 is NOT 0. |\n| S7 | Among {S3, S9, S11, S15}, the count of true statements modulo 3 is NOT 2. |\n| S8 | Among {S1, S3, S7, S12, S13, S16}, the count of true statements modulo 2 is 1. |\n| S9 | Among {S4, S5, S6, S11, S13, S14}, the count of true statements modulo 3 is 1. |\n| S10 | Among {S2, S4, S8, S12, S18}, the count of true statements modulo 3 is NOT 1. |\n| S11 | Among {S1, S2, S6, S9, S15}, the count of true statements modulo 2 is 1. |\n| S12 | Among {S1, S4, S7, S8, S14, S18}, the count of true statements modulo 2 is NOT 0. |\n| S13 | Among {S2, S3, S8, S15, S17}, the count of true statements modulo 3 is 2. |\n| S14 | Among {S3, S5, S6, S7, S9, S13}, the count of true statements modulo 3 is NOT 1. |\n| S15 | Among {S3, S4, S6, S13, S16, S18}, the count of true statements modulo 2 is NOT 0. |\n| S16 | Among {S2, S7, S12, S14, S18}, the count of true statements modulo 2 is 1. |\n| S17 | Among {S3, S4, S5, S6, S13}, the count of true statements modulo 2 is 0. |\n| S18 | Among {S1, S2, S4, S6, S12, S14}, the count of true statements modulo 2 is NOT 0. |\n\n\nReturn only JSON with exactly one outer key \"answer\". Its value must have this shape: {\"true\": [1, 4, ...]}. Use JSON integers for integer fields, not strings or decimals. Array order matters; object key order does not.",
       "answer": {
         "true": [
-          3,
-          4,
+          1,
+          5,
           6,
-          8,
-          9,
-          10,
-          13,
+          7,
+          12,
+          14,
           16,
-          17,
-          18
+          17
         ]
       }
     },
@@ -5977,137 +5973,137 @@
       }
     },
     {
-      "id": "liars-extreme-9787bf0cbeb76e20",
+      "id": "liars-extreme-88de30d1f93cd0ba",
       "version": "hard-v1",
       "family": "liars",
       "difficulty": "extreme",
       "split": "dev",
-      "seed": 10700,
+      "seed": 11714,
       "scoring": "json",
-      "instance_hash": "9787bf0cbeb76e20f225ff231084d5787ad7e5d04969d4cefbdc4050b2e83b07",
+      "instance_hash": "88de30d1f93cd0ba4db93b0fc4322139e41bd8457cd2ce2fc4d2cbfa143f1cbe",
       "instance": {
         "n": 18,
         "statements": [
           {
-            "mask": 348,
+            "mask": 132290,
             "modulus": 2,
             "residue": 1,
             "negate": false
           },
           {
-            "mask": 98433,
+            "mask": 19120,
+            "modulus": 2,
+            "residue": 1,
+            "negate": false
+          },
+          {
+            "mask": 73986,
             "modulus": 3,
             "residue": 1,
             "negate": false
           },
           {
-            "mask": 13184,
+            "mask": 6976,
             "modulus": 3,
-            "residue": 2,
-            "negate": true
-          },
-          {
-            "mask": 149585,
-            "modulus": 3,
-            "residue": 2,
+            "residue": 1,
             "negate": false
           },
           {
-            "mask": 131148,
-            "modulus": 2,
+            "mask": 35342,
+            "modulus": 3,
             "residue": 0,
-            "negate": false
+            "negate": true
           },
           {
-            "mask": 81921,
+            "mask": 84160,
             "modulus": 2,
             "residue": 1,
             "negate": true
           },
           {
-            "mask": 134290,
-            "modulus": 3,
-            "residue": 1,
-            "negate": true
-          },
-          {
-            "mask": 18699,
-            "modulus": 2,
-            "residue": 1,
-            "negate": true
-          },
-          {
-            "mask": 4624,
-            "modulus": 2,
-            "residue": 0,
-            "negate": false
-          },
-          {
-            "mask": 124960,
-            "modulus": 3,
-            "residue": 1,
-            "negate": true
-          },
-          {
-            "mask": 12544,
-            "modulus": 3,
-            "residue": 1,
-            "negate": false
-          },
-          {
-            "mask": 152068,
-            "modulus": 3,
-            "residue": 1,
-            "negate": false
-          },
-          {
-            "mask": 43058,
+            "mask": 148736,
             "modulus": 3,
             "residue": 2,
             "negate": false
           },
           {
-            "mask": 197130,
-            "modulus": 2,
-            "residue": 1,
-            "negate": false
-          },
-          {
-            "mask": 132274,
-            "modulus": 2,
-            "residue": 0,
-            "negate": false
-          },
-          {
-            "mask": 3602,
+            "mask": 169000,
             "modulus": 3,
             "residue": 0,
             "negate": true
           },
           {
-            "mask": 1073,
+            "mask": 5255,
             "modulus": 3,
+            "residue": 2,
+            "negate": true
+          },
+          {
+            "mask": 14376,
+            "modulus": 2,
+            "residue": 1,
+            "negate": false
+          },
+          {
+            "mask": 41544,
+            "modulus": 2,
             "residue": 0,
             "negate": false
           },
           {
-            "mask": 10420,
+            "mask": 4877,
             "modulus": 2,
             "residue": 1,
             "negate": true
+          },
+          {
+            "mask": 90112,
+            "modulus": 2,
+            "residue": 1,
+            "negate": true
+          },
+          {
+            "mask": 131782,
+            "modulus": 3,
+            "residue": 1,
+            "negate": true
+          },
+          {
+            "mask": 67969,
+            "modulus": 3,
+            "residue": 1,
+            "negate": false
+          },
+          {
+            "mask": 9610,
+            "modulus": 2,
+            "residue": 1,
+            "negate": false
+          },
+          {
+            "mask": 190976,
+            "modulus": 2,
+            "residue": 0,
+            "negate": true
+          },
+          {
+            "mask": 39432,
+            "modulus": 2,
+            "residue": 1,
+            "negate": false
           }
         ]
       },
-      "prompt": "The Council of Mirrors\nEvery statement below is either true or false. Its truth value must agree with the claim it makes about the OTHER statements. A false statement means its entire claim is false. Modulo uses the least nonnegative remainder; NOT negates only the equality. There is exactly one consistent assignment. Return the numbers of all true statements in increasing order (S1 is 1).\n\n| Statement | Claim |\n| --- | --- |\n| S1 | Among {S3, S4, S5, S7, S9}, the count of true statements modulo 2 is 1. |\n| S2 | Among {S1, S8, S16, S17}, the count of true statements modulo 3 is 1. |\n| S3 | Among {S8, S9, S10, S13, S14}, the count of true statements modulo 3 is NOT 2. |\n| S4 | Among {S1, S5, S7, S12, S15, S18}, the count of true statements modulo 3 is 2. |\n| S5 | Among {S3, S4, S7, S18}, the count of true statements modulo 2 is 0. |\n| S6 | Among {S1, S15, S17}, the count of true statements modulo 2 is NOT 1. |\n| S7 | Among {S2, S5, S8, S11, S12, S18}, the count of true statements modulo 3 is NOT 1. |\n| S8 | Among {S1, S2, S4, S9, S12, S15}, the count of true statements modulo 2 is NOT 1. |\n| S9 | Among {S5, S10, S13}, the count of true statements modulo 2 is 0. |\n| S10 | Among {S6, S12, S14, S15, S16, S17}, the count of true statements modulo 3 is NOT 1. |\n| S11 | Among {S9, S13, S14}, the count of true statements modulo 3 is 1. |\n| S12 | Among {S3, S10, S13, S15, S18}, the count of true statements modulo 3 is 1. |\n| S13 | Among {S2, S5, S6, S12, S14, S16}, the count of true statements modulo 3 is 2. |\n| S14 | Among {S2, S4, S10, S17, S18}, the count of true statements modulo 2 is 1. |\n| S15 | Among {S2, S5, S6, S8, S11, S18}, the count of true statements modulo 2 is 0. |\n| S16 | Among {S2, S5, S10, S11, S12}, the count of true statements modulo 3 is NOT 0. |\n| S17 | Among {S1, S5, S6, S11}, the count of true statements modulo 3 is 0. |\n| S18 | Among {S3, S5, S6, S8, S12, S14}, the count of true statements modulo 2 is NOT 1. |\n\n\nReturn only JSON with exactly one outer key \"answer\". Its value must have this shape: {\"true\": [1, 4, ...]}. Use JSON integers for integer fields, not strings or decimals. Array order matters; object key order does not.",
+      "prompt": "The Council of Mirrors\nEvery statement below is either true or false. Its truth value must agree with the claim it makes about the OTHER statements. A false statement means its entire claim is false. Modulo uses the least nonnegative remainder; NOT negates only the equality. There is exactly one consistent assignment. Return the numbers of all true statements in increasing order (S1 is 1).\n\n| Statement | Claim |\n| --- | --- |\n| S1 | Among {S2, S7, S8, S11, S18}, the count of true statements modulo 2 is 1. |\n| S2 | Among {S5, S6, S8, S10, S12, S15}, the count of true statements modulo 2 is 1. |\n| S3 | Among {S2, S9, S14, S17}, the count of true statements modulo 3 is 1. |\n| S4 | Among {S7, S9, S10, S12, S13}, the count of true statements modulo 3 is 1. |\n| S5 | Among {S2, S3, S4, S10, S12, S16}, the count of true statements modulo 3 is NOT 0. |\n| S6 | Among {S7, S8, S12, S15, S17}, the count of true statements modulo 2 is NOT 1. |\n| S7 | Among {S9, S11, S15, S18}, the count of true statements modulo 3 is 2. |\n| S8 | Among {S4, S6, S11, S13, S16, S18}, the count of true statements modulo 3 is NOT 0. |\n| S9 | Among {S1, S2, S3, S8, S11, S13}, the count of true statements modulo 3 is NOT 2. |\n| S10 | Among {S4, S6, S12, S13, S14}, the count of true statements modulo 2 is 1. |\n| S11 | Among {S4, S7, S10, S14, S16}, the count of true statements modulo 2 is 0. |\n| S12 | Among {S1, S3, S4, S9, S10, S13}, the count of true statements modulo 2 is NOT 1. |\n| S13 | Among {S14, S15, S17}, the count of true statements modulo 2 is NOT 1. |\n| S14 | Among {S2, S3, S7, S8, S10, S18}, the count of true statements modulo 3 is NOT 1. |\n| S15 | Among {S1, S8, S9, S12, S17}, the count of true statements modulo 3 is 1. |\n| S16 | Among {S2, S4, S8, S9, S11, S14}, the count of true statements modulo 2 is 1. |\n| S17 | Among {S10, S12, S14, S15, S16, S18}, the count of true statements modulo 2 is NOT 0. |\n| S18 | Among {S4, S10, S12, S13, S16}, the count of true statements modulo 2 is 1. |\n\n\nReturn only JSON with exactly one outer key \"answer\". Its value must have this shape: {\"true\": [1, 4, ...]}. Use JSON integers for integer fields, not strings or decimals. Array order matters; object key order does not.",
       "answer": {
         "true": [
-          1,
           3,
-          7,
-          9,
-          10,
+          4,
+          5,
+          6,
+          8,
           12,
-          13,
+          14,
           16,
           18
         ]
@@ -7131,139 +7127,139 @@
       }
     },
     {
-      "id": "liars-extreme-2b5e2ed586f92dba",
+      "id": "liars-extreme-4c83af3d837636b7",
       "version": "hard-v1",
       "family": "liars",
       "difficulty": "extreme",
       "split": "dev",
-      "seed": 10503,
+      "seed": 12531,
       "scoring": "json",
-      "instance_hash": "2b5e2ed586f92dba5157b66316cc2dcd43081cff108c97c900d3a6e06606d6ec",
+      "instance_hash": "4c83af3d837636b726dcff1e788830e1cee8de196d4253cb27d21f6b1dd76942",
       "instance": {
         "n": 18,
         "statements": [
           {
-            "mask": 45324,
-            "modulus": 2,
-            "residue": 1,
-            "negate": false
-          },
-          {
-            "mask": 74640,
+            "mask": 71200,
             "modulus": 3,
             "residue": 1,
             "negate": false
           },
           {
-            "mask": 44192,
-            "modulus": 3,
-            "residue": 1,
-            "negate": true
-          },
-          {
-            "mask": 104464,
+            "mask": 100384,
             "modulus": 2,
             "residue": 1,
-            "negate": true
-          },
-          {
-            "mask": 168520,
-            "modulus": 2,
-            "residue": 0,
             "negate": false
           },
           {
-            "mask": 1155,
-            "modulus": 2,
-            "residue": 0,
-            "negate": false
-          },
-          {
-            "mask": 22528,
-            "modulus": 3,
-            "residue": 1,
-            "negate": true
-          },
-          {
-            "mask": 65570,
-            "modulus": 2,
-            "residue": 0,
-            "negate": true
-          },
-          {
-            "mask": 1064,
-            "modulus": 2,
-            "residue": 1,
-            "negate": true
-          },
-          {
-            "mask": 104516,
-            "modulus": 3,
-            "residue": 2,
-            "negate": false
-          },
-          {
-            "mask": 57388,
-            "modulus": 2,
-            "residue": 0,
-            "negate": false
-          },
-          {
-            "mask": 147564,
-            "modulus": 3,
-            "residue": 0,
-            "negate": true
-          },
-          {
-            "mask": 76036,
-            "modulus": 2,
-            "residue": 1,
-            "negate": true
-          },
-          {
-            "mask": 34272,
+            "mask": 75522,
             "modulus": 3,
             "residue": 2,
             "negate": true
           },
           {
-            "mask": 4644,
+            "mask": 98436,
+            "modulus": 2,
+            "residue": 1,
+            "negate": false
+          },
+          {
+            "mask": 9764,
+            "modulus": 2,
+            "residue": 0,
+            "negate": true
+          },
+          {
+            "mask": 8834,
+            "modulus": 2,
+            "residue": 0,
+            "negate": true
+          },
+          {
+            "mask": 88322,
+            "modulus": 3,
+            "residue": 1,
+            "negate": false
+          },
+          {
+            "mask": 2051,
+            "modulus": 3,
+            "residue": 2,
+            "negate": true
+          },
+          {
+            "mask": 204898,
+            "modulus": 2,
+            "residue": 1,
+            "negate": false
+          },
+          {
+            "mask": 135431,
+            "modulus": 2,
+            "residue": 1,
+            "negate": false
+          },
+          {
+            "mask": 114754,
+            "modulus": 3,
+            "residue": 2,
+            "negate": true
+          },
+          {
+            "mask": 16968,
+            "modulus": 3,
+            "residue": 2,
+            "negate": true
+          },
+          {
+            "mask": 24660,
+            "modulus": 2,
+            "residue": 1,
+            "negate": false
+          },
+          {
+            "mask": 233552,
+            "modulus": 2,
+            "residue": 1,
+            "negate": true
+          },
+          {
+            "mask": 133320,
             "modulus": 3,
             "residue": 2,
             "negate": false
           },
           {
-            "mask": 140304,
+            "mask": 14884,
             "modulus": 3,
             "residue": 2,
-            "negate": true
+            "negate": false
           },
           {
-            "mask": 12948,
-            "modulus": 3,
+            "mask": 20768,
+            "modulus": 2,
             "residue": 0,
             "negate": true
           },
           {
-            "mask": 65676,
-            "modulus": 3,
-            "residue": 0,
-            "negate": true
+            "mask": 17989,
+            "modulus": 2,
+            "residue": 1,
+            "negate": false
           }
         ]
       },
-      "prompt": "The Council of Mirrors\nEvery statement below is either true or false. Its truth value must agree with the claim it makes about the OTHER statements. A false statement means its entire claim is false. Modulo uses the least nonnegative remainder; NOT negates only the equality. There is exactly one consistent assignment. Return the numbers of all true statements in increasing order (S1 is 1).\n\n| Statement | Claim |\n| --- | --- |\n| S1 | Among {S3, S4, S9, S13, S14, S16}, the count of true statements modulo 2 is 1. |\n| S2 | Among {S5, S8, S9, S10, S14, S17}, the count of true statements modulo 3 is 1. |\n| S3 | Among {S6, S8, S11, S12, S14, S16}, the count of true statements modulo 3 is NOT 1. |\n| S4 | Among {S5, S12, S13, S16, S17}, the count of true statements modulo 2 is NOT 1. |\n| S5 | Among {S4, S7, S10, S13, S16, S18}, the count of true statements modulo 2 is 0. |\n| S6 | Among {S1, S2, S8, S11}, the count of true statements modulo 2 is 0. |\n| S7 | Among {S12, S13, S15}, the count of true statements modulo 3 is NOT 1. |\n| S8 | Among {S2, S6, S17}, the count of true statements modulo 2 is NOT 0. |\n| S9 | Among {S4, S6, S11}, the count of true statements modulo 2 is NOT 1. |\n| S10 | Among {S3, S7, S12, S13, S16, S17}, the count of true statements modulo 3 is 2. |\n| S11 | Among {S3, S4, S6, S14, S15, S16}, the count of true statements modulo 2 is 0. |\n| S12 | Among {S3, S4, S6, S7, S15, S18}, the count of true statements modulo 3 is NOT 0. |\n| S13 | Among {S3, S9, S12, S14, S17}, the count of true statements modulo 2 is NOT 1. |\n| S14 | Among {S6, S7, S8, S9, S11, S16}, the count of true statements modulo 3 is NOT 2. |\n| S15 | Among {S3, S6, S10, S13}, the count of true statements modulo 3 is 2. |\n| S16 | Among {S5, S11, S14, S18}, the count of true statements modulo 3 is NOT 2. |\n| S17 | Among {S3, S5, S8, S10, S13, S14}, the count of true statements modulo 3 is NOT 0. |\n| S18 | Among {S3, S4, S8, S17}, the count of true statements modulo 3 is NOT 0. |\n\n\nReturn only JSON with exactly one outer key \"answer\". Its value must have this shape: {\"true\": [1, 4, ...]}. Use JSON integers for integer fields, not strings or decimals. Array order matters; object key order does not.",
+      "prompt": "The Council of Mirrors\nEvery statement below is either true or false. Its truth value must agree with the claim it makes about the OTHER statements. A false statement means its entire claim is false. Modulo uses the least nonnegative remainder; NOT negates only the equality. There is exactly one consistent assignment. Return the numbers of all true statements in increasing order (S1 is 1).\n\n| Statement | Claim |\n| --- | --- |\n| S1 | Among {S6, S10, S11, S13, S17}, the count of true statements modulo 3 is 1. |\n| S2 | Among {S6, S12, S16, S17}, the count of true statements modulo 2 is 1. |\n| S3 | Among {S2, S9, S10, S11, S14, S17}, the count of true statements modulo 3 is NOT 2. |\n| S4 | Among {S3, S8, S16, S17}, the count of true statements modulo 2 is 1. |\n| S5 | Among {S3, S6, S10, S11, S14}, the count of true statements modulo 2 is NOT 0. |\n| S6 | Among {S2, S8, S10, S14}, the count of true statements modulo 2 is NOT 0. |\n| S7 | Among {S2, S9, S12, S13, S15, S17}, the count of true statements modulo 3 is 1. |\n| S8 | Among {S1, S2, S12}, the count of true statements modulo 3 is NOT 2. |\n| S9 | Among {S2, S6, S7, S14, S17, S18}, the count of true statements modulo 2 is 1. |\n| S10 | Among {S1, S2, S3, S9, S13, S18}, the count of true statements modulo 2 is 1. |\n| S11 | Among {S2, S7, S15, S16, S17}, the count of true statements modulo 3 is NOT 2. |\n| S12 | Among {S4, S7, S10, S15}, the count of true statements modulo 3 is NOT 2. |\n| S13 | Among {S3, S5, S7, S14, S15}, the count of true statements modulo 2 is 1. |\n| S14 | Among {S5, S7, S13, S16, S17, S18}, the count of true statements modulo 2 is NOT 1. |\n| S15 | Among {S4, S7, S8, S12, S18}, the count of true statements modulo 3 is 2. |\n| S16 | Among {S3, S6, S10, S12, S13, S14}, the count of true statements modulo 3 is 2. |\n| S17 | Among {S6, S9, S13, S15}, the count of true statements modulo 2 is NOT 0. |\n| S18 | Among {S1, S3, S7, S10, S11, S15}, the count of true statements modulo 2 is 1. |\n\n\nReturn only JSON with exactly one outer key \"answer\". Its value must have this shape: {\"true\": [1, 4, ...]}. Use JSON integers for integer fields, not strings or decimals. Array order matters; object key order does not.",
       "answer": {
         "true": [
+          1,
           3,
-          5,
+          4,
+          6,
           7,
           8,
           9,
-          13,
-          14,
-          15,
-          17
+          16,
+          18
         ]
       }
     },

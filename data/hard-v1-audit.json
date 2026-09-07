@@ -1,8 +1,8 @@
 {
   "version": "hard-v1",
-  "updated_at": "2026-09-07T20:46:27.135022+00:00",
+  "updated_at": "2026-09-07T21:13:16.463627+00:00",
   "python_version": "3.12.13",
-  "status": "candidate search in progress",
+  "status": "complete",
   "model_evaluations": 0,
   "model_difficulty": "unmeasured: no model API credential was available during development",
   "public_development_questions": {
@@ -10,7 +10,7 @@
     "alignment_contracts": 32,
     "total": 80
   },
-  "current_generator_candidate_pool": 2700,
+  "current_generator_candidate_pool": 8406,
   "family_selection": {
     "anagram": {
       "hard": {
@@ -765,14 +765,14 @@
   "council_search": {
     "version": "hard-v1",
     "started_at": "2026-09-07T20:12:41.671489+00:00",
-    "finished_at": null,
-    "elapsed_seconds": 1998.114,
+    "finished_at": "2026-09-07T21:12:46.933546+00:00",
+    "elapsed_seconds": 3605.262,
     "requested_seconds": 3605.0,
-    "complete": false,
-    "next_seed": 11587,
+    "complete": true,
+    "next_seed": 12853,
     "candidates_checked": {
-      "hard": 1587,
-      "extreme": 1587
+      "hard": 2853,
+      "extreme": 2853
     },
     "rejected": [],
     "method": "unique exhaustive solution; highest independent propagation search nodes",
@@ -781,11 +781,25 @@
   "council_leaders": {
     "hard": [
       {
+        "seed": 12622,
+        "difficulty": "hard",
+        "split": "dev",
+        "search_nodes": 305,
+        "instance_hash": "a9c0774a9d4dd55aaee55a79274eab0ba69b4ecfa164350ce99c1ddfcfe52a0a"
+      },
+      {
         "seed": 10178,
         "difficulty": "hard",
         "split": "dev",
         "search_nodes": 297,
         "instance_hash": "a961cb4d794bd936e49742a57f41287e978e4a7bb29617a3a1e11bdb16a31386"
+      },
+      {
+        "seed": 11986,
+        "difficulty": "hard",
+        "split": "dev",
+        "search_nodes": 287,
+        "instance_hash": "f8672bef9923aaaa75aab75c304e99a47029f2f7f63791f7c8b8d1e5a5924ca5"
       },
       {
         "seed": 11096,
@@ -809,32 +823,18 @@
         "instance_hash": "5e45e981bf3449326539decf3ed9da3560fbf0d2fea6947ac3f2c3da4d3c612b"
       },
       {
+        "seed": 12003,
+        "difficulty": "hard",
+        "split": "dev",
+        "search_nodes": 255,
+        "instance_hash": "7592828376f1a74057165b393ce095680c8620d72a28d3e30767ce955f1c312a"
+      },
+      {
         "seed": 11307,
         "difficulty": "hard",
         "split": "dev",
         "search_nodes": 245,
         "instance_hash": "ba331f9fb00aa6381de876b316abecf65709a8f59a381c575002bb1747455d55"
-      },
-      {
-        "seed": 10577,
-        "difficulty": "hard",
-        "split": "dev",
-        "search_nodes": 243,
-        "instance_hash": "1b27e2cac62774ce1f746febc3f284365003e3ea16ebda051712b2197754f80a"
-      },
-      {
-        "seed": 10636,
-        "difficulty": "hard",
-        "split": "dev",
-        "search_nodes": 243,
-        "instance_hash": "19e9356e260666d6d93295bf2d53dddf819463b7850036308d71e4c223b1799d"
-      },
-      {
-        "seed": 11187,
-        "difficulty": "hard",
-        "split": "dev",
-        "search_nodes": 227,
-        "instance_hash": "fb968f192602e006bf56075d75c34a1aa18e9b249ff67508d5b4b7647c9b8f80"
       }
     ],
     "extreme": [
@@ -853,6 +853,34 @@
         "instance_hash": "c0b70aac873c2d77b993ae5fc377687866894175ba8f54edd9a966fd39f81a06"
       },
       {
+        "seed": 11714,
+        "difficulty": "extreme",
+        "split": "dev",
+        "search_nodes": 667,
+        "instance_hash": "88de30d1f93cd0ba4db93b0fc4322139e41bd8457cd2ce2fc4d2cbfa143f1cbe"
+      },
+      {
+        "seed": 12531,
+        "difficulty": "extreme",
+        "split": "dev",
+        "search_nodes": 597,
+        "instance_hash": "4c83af3d837636b726dcff1e788830e1cee8de196d4253cb27d21f6b1dd76942"
+      },
+      {
+        "seed": 11842,
+        "difficulty": "extreme",
+        "split": "dev",
+        "search_nodes": 585,
+        "instance_hash": "059f71851d788be3ce116750ece12deb0642c612b819e663070508163e79ea22"
+      },
+      {
+        "seed": 12240,
+        "difficulty": "extreme",
+        "split": "dev",
+        "search_nodes": 565,
+        "instance_hash": "38631a4819f8e6014d3cd61b5858454b5b9527dbd3090a2c4f5d81aa276ade3c"
+      },
+      {
         "seed": 10746,
         "difficulty": "extreme",
         "split": "dev",
@@ -860,39 +888,11 @@
         "instance_hash": "260478730757f335952ba97c93c0c4bccb49cec5500da9e6fee105cbd1b81338"
       },
       {
-        "seed": 10700,
+        "seed": 11609,
         "difficulty": "extreme",
         "split": "dev",
-        "search_nodes": 511,
-        "instance_hash": "9787bf0cbeb76e20f225ff231084d5787ad7e5d04969d4cefbdc4050b2e83b07"
-      },
-      {
-        "seed": 11204,
-        "difficulty": "extreme",
-        "split": "dev",
-        "search_nodes": 511,
-        "instance_hash": "595395734c33ea67bd0f461967030cd904c285394057c6676115b211fd87057a"
-      },
-      {
-        "seed": 10503,
-        "difficulty": "extreme",
-        "split": "dev",
-        "search_nodes": 487,
-        "instance_hash": "2b5e2ed586f92dba5157b66316cc2dcd43081cff108c97c900d3a6e06606d6ec"
-      },
-      {
-        "seed": 10705,
-        "difficulty": "extreme",
-        "split": "dev",
-        "search_nodes": 485,
-        "instance_hash": "b1b0f0beeaccb6d79b90466b010e1fad3aa056e7b905c0cda598929dbfa777a2"
-      },
-      {
-        "seed": 10541,
-        "difficulty": "extreme",
-        "split": "dev",
-        "search_nodes": 479,
-        "instance_hash": "761ac0bdf3b7a722e87c233569c907e0f1c05af5954d1a1a0eca6b74380982a5"
+        "search_nodes": 547,
+        "instance_hash": "f156ccb8eb2d856036de1380e656f4c2396d2b9a3ede0d7bd337068979b5b07b"
       }
     ]
   },
@@ -900,11 +900,19 @@
     "unit_tests_passed": 72,
     "selected_instances_reproduced": 80,
     "reference_scoring_roundtrip_passed": 80,
-    "extra_field_mutations_rejected": 80
+    "extra_field_mutations_rejected": 80,
+    "reference_alignment_contracts_satisfied": 32,
+    "question_file_sha256": {
+      "questions/hard-reasoning.json": "483277fad1e14866d750addd88e520a49919dccd656d147dd0664a47213cd45d",
+      "questions/alignment-contracts.json": "c65e423ff668d401e6ea80751cea56025b0996609d076d7e8d6dfa87453a7f8c"
+    }
   },
   "notes": [
     "This is a development candidate pool, not a model evaluation.",
     "Family ranking criteria are ordered as stored in each metrics object.",
-    "Council selections will be finalized after the requested timed search completes."
-  ]
+    "The first four council leaders per difficulty are included in the public questions.",
+    "The non-council pool includes 2400 candidates from eight families and 300 from the final information-flow generator.",
+    "Every counted council has a unique solution confirmed by exhaustive enumeration and independent propagation/backtracking."
+  ],
+  "non_council_candidate_pool": 2700
 }

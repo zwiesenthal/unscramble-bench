@@ -148,30 +148,30 @@ Return only JSON with exactly one outer key "answer". Its value must have this s
 
 ## The Council of Mirrors
 
-Family: `liars` · ID: `liars-extreme-c0b70aac873c2d77`
+Family: `liars` · ID: `liars-extreme-f5c3054f1d100851`
 
 Every statement below is either true or false. Its truth value must agree with the claim it makes about the OTHER statements. A false statement means its entire claim is false. Modulo uses the least nonnegative remainder; NOT negates only the equality. There is exactly one consistent assignment. Return the numbers of all true statements in increasing order (S1 is 1).
 
 | Statement | Claim |
 | --- | --- |
-| S1 | Among {S2, S11, S13, S17}, the count of true statements modulo 2 is NOT 0. |
-| S2 | Among {S6, S14, S17, S18}, the count of true statements modulo 3 is NOT 0. |
-| S3 | Among {S8, S15, S17}, the count of true statements modulo 2 is NOT 1. |
-| S4 | Among {S1, S2, S3, S6, S8, S15}, the count of true statements modulo 2 is 1. |
-| S5 | Among {S4, S7, S10, S12, S18}, the count of true statements modulo 2 is 0. |
-| S6 | Among {S9, S16, S17}, the count of true statements modulo 3 is NOT 0. |
-| S7 | Among {S3, S9, S11, S15}, the count of true statements modulo 3 is NOT 2. |
-| S8 | Among {S1, S3, S7, S12, S13, S16}, the count of true statements modulo 2 is 1. |
-| S9 | Among {S4, S5, S6, S11, S13, S14}, the count of true statements modulo 3 is 1. |
-| S10 | Among {S2, S4, S8, S12, S18}, the count of true statements modulo 3 is NOT 1. |
-| S11 | Among {S1, S2, S6, S9, S15}, the count of true statements modulo 2 is 1. |
-| S12 | Among {S1, S4, S7, S8, S14, S18}, the count of true statements modulo 2 is NOT 0. |
-| S13 | Among {S2, S3, S8, S15, S17}, the count of true statements modulo 3 is 2. |
-| S14 | Among {S3, S5, S6, S7, S9, S13}, the count of true statements modulo 3 is NOT 1. |
-| S15 | Among {S3, S4, S6, S13, S16, S18}, the count of true statements modulo 2 is NOT 0. |
-| S16 | Among {S2, S7, S12, S14, S18}, the count of true statements modulo 2 is 1. |
-| S17 | Among {S3, S4, S5, S6, S13}, the count of true statements modulo 2 is 0. |
-| S18 | Among {S1, S2, S4, S6, S12, S14}, the count of true statements modulo 2 is NOT 0. |
+| S1 | Among {S3, S8, S9, S10, S11}, the count of true statements modulo 3 is NOT 1. |
+| S2 | Among {S11, S13, S15, S16, S17}, the count of true statements modulo 2 is NOT 1. |
+| S3 | Among {S2, S6, S9, S12, S15, S16}, the count of true statements modulo 2 is 1. |
+| S4 | Among {S2, S5, S7, S12}, the count of true statements modulo 3 is NOT 1. |
+| S5 | Among {S7, S8, S11}, the count of true statements modulo 3 is NOT 2. |
+| S6 | Among {S9, S11, S15, S17, S18}, the count of true statements modulo 3 is 0. |
+| S7 | Among {S5, S10, S17, S18}, the count of true statements modulo 3 is 0. |
+| S8 | Among {S1, S9, S10, S18}, the count of true statements modulo 2 is NOT 0. |
+| S9 | Among {S1, S6, S8, S14, S15, S17}, the count of true statements modulo 2 is 1. |
+| S10 | Among {S5, S6, S9, S16, S18}, the count of true statements modulo 2 is 1. |
+| S11 | Among {S4, S6, S10, S15, S16}, the count of true statements modulo 3 is NOT 2. |
+| S12 | Among {S6, S7, S9, S13, S16, S17}, the count of true statements modulo 2 is 0. |
+| S13 | Among {S2, S5, S6, S12, S15}, the count of true statements modulo 3 is 1. |
+| S14 | Among {S3, S7, S18}, the count of true statements modulo 2 is NOT 1. |
+| S15 | Among {S1, S2, S3, S6, S8, S12}, the count of true statements modulo 2 is NOT 0. |
+| S16 | Among {S10, S13, S14}, the count of true statements modulo 2 is NOT 0. |
+| S17 | Among {S1, S2, S4, S6, S8, S10}, the count of true statements modulo 3 is NOT 0. |
+| S18 | Among {S3, S7, S14, S16}, the count of true statements modulo 2 is NOT 0. |
 
 
 Return only JSON with exactly one outer key "answer". Its value must have this shape: {"true": [1, 4, ...]}. Use JSON integers for integer fields, not strings or decimals. Array order matters; object key order does not.
@@ -184,13 +184,15 @@ Return only JSON with exactly one outer key "answer". Its value must have this s
   "answer": {
     "true": [
       1,
+      3,
+      4,
       5,
-      6,
-      7,
+      8,
+      9,
       12,
       14,
       16,
-      17
+      18
     ]
   }
 }
